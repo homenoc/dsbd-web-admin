@@ -1,0 +1,89 @@
+<div class="main">
+  <h2>ID: {{id}}</h2>
+  <h2>ServiceCode: {{serviceCode}}</h2>
+  <br>
+  <ng-container>
+  </ng-container>
+
+  <form class="form" [formGroup]="data">
+    <h1>AS</h1>
+    <mat-form-field class="large-width">
+      <mat-label>AS</mat-label>
+      <label>
+        <input matInput placeholder="59105" formControlName="as" required>
+      </label>
+    </mat-form-field>
+    <h1>Address</h1>
+    <mat-form-field class="large-width">
+      <mat-label>IPv4</mat-label>
+      <label>
+        <input matInput placeholder="x:x:x:x,x:x:x:x...." formControlName="ipv4" required>
+      </label>
+    </mat-form-field>
+    <br>
+    <mat-form-field class="large-width">
+      <mat-label>IPv6</mat-label>
+      <label>
+        <input matInput placeholder="Ex) x:x:x:x:x:x:x:x,x:x:x:x:x:x:x:x" formControlName="ipv6" required>
+      </label>
+    </mat-form-field>
+    <br>
+    <h1>Contract</h1>
+    <mat-form-field class="large-width">
+      <mat-label>Service</mat-label>
+      <label>
+        <input matInput placeholder="Ether over IP L3 Connection" value="" formControlName="service" required>
+      </label>
+    </mat-form-field>
+    <mat-form-field class="large-width">
+      <mat-label>UserName</mat-label>
+      <label>
+        <input matInput placeholder="Name" value="" formControlName="name" required>
+      </label>
+    </mat-form-field>
+    <mat-form-field class="large-width">
+      <mat-label>Fee</mat-label>
+      <label>
+        <input matInput placeholder="Free" value="" formControlName="fee" required>
+      </label>
+    </mat-form-field>
+    <mat-form-field class="large-width">
+      <mat-label>Assign IP Address</mat-label>
+      <label>
+        <input matInput placeholder="Assign to Our Organization" value="" formControlName="assign" required>
+      </label>
+    </mat-form-field>
+    <h3>Link Infomation</h3>
+    <mat-form-field class="large-width">
+      <mat-label>IPv4(Our organization)</mat-label>
+      <label>
+        <input matInput placeholder="x:x:x:x" value="" formControlName="linkV4Our" required>
+      </label>
+    </mat-form-field>
+    <mat-form-field class="large-width">
+      <mat-label>IPv4(Your organization)</mat-label>
+      <label>
+        <input matInput placeholder="x:x:x:x" value="" formControlName="linkV4Your" required>
+      </label>
+    </mat-form-field>
+    <mat-form-field class="large-width">
+      <mat-label>IPv6(Our organization)</mat-label>
+      <label>
+        <input matInput placeholder="x:x:x:x:x:x:x:x" value="" formControlName="linkV6Our" required>
+      </label>
+    </mat-form-field>
+    <mat-form-field class="large-width">
+      <mat-label>IPv6(Your organization)</mat-label>
+      <label>
+        <input matInput placeholder="x:x:x:x:x:x:x:x" value="" formControlName="linkV6Your" required>
+      </label>
+    </mat-form-field>
+  </form>
+  <br>
+  <br>
+  <button mat-raised-button (click)="registrationData()">Add / Update</button>
+  <br>
+  <br>
+  <br>
+  <br>
+</div>

@@ -1,0 +1,41 @@
+<ng-container *ngFor="let d of user">
+  <ng-container *ngIf=" d.isAdmin == false">
+    <mat-card class="card">
+      <mat-card-header>
+        <mat-card-title>{{d.id}}</mat-card-title>
+        <!--      <mat-card-subtitle>ID:{{d.id}}</mat-card-subtitle>-->
+      </mat-card-header>
+      <mat-card-content>
+        <mat-card-subtitle>
+          <mat-chip-list>
+            <ng-container *ngIf="d.release / 10 > 1">
+              <mat-chip color="primary" selected>Line opened</mat-chip>
+            </ng-container>
+            <ng-container *ngIf="d.release % 10 < 7">
+              <mat-chip color="warn" selected>in process</mat-chip>
+            </ng-container>
+          </mat-chip-list>
+        </mat-card-subtitle>
+        <ng-container *ngIf="d.release % 10 < 7">
+          <h2>Process</h2>
+          <ng-container *ngIf="d.release %10 == 1">
+            <p>question </p>
+          </ng-container>
+          <ng-container *ngIf="d.release %10 == 3">
+            <p>agreement</p>
+          </ng-container>
+          <ng-container *ngIf="d.release %10 == 5">
+            <p>contract1</p>
+          </ng-container>
+          <ng-container *ngIf="d.release %10 == 7">
+            <p>contract2</p>
+          </ng-container>
+        </ng-container>
+      </mat-card-content>
+      <mat-card-actions>
+              <button mat-button (click)="userPage(d.id)">User Page</button>
+        <!--      <button mat-button (click)  ="detailShiftNextMonth(d.id)">シフト(来月)</button>-->
+      </mat-card-actions>
+    </mat-card>
+  </ng-container>
+</ng-container>
