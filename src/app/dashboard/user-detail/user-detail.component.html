@@ -12,6 +12,30 @@
   </mat-form-field>
   <br>
   <button mat-raised-button (click)="pushRegisterStatus()">Status Update</button>
+  <br><br>
+  <form class="form">
+    <h3>Identification name</h3>
+    <mat-form-field class="large-width">
+      <mat-label>Identification name</mat-label>
+      <label>
+        <input matInput placeholder="" [formControl]="identificationName" required>
+      </label>
+    </mat-form-field>
+  </form>
+  <br>
+  <button mat-raised-button (click)="pushIdentificationName()">Update for identification Name</button>
+  <br><br>
+  <form class="form">
+    <h3>ServiceCode</h3>
+    <mat-form-field class="large-width">
+      <mat-label>Service</mat-label>
+      <label>
+        <input matInput placeholder="" [formControl]="serviceCode" required>
+      </label>
+    </mat-form-field>
+  </form>
+  <br>
+  <button mat-raised-button (click)="pageMove()">Update for identification Name</button>
   <br>
   <br>
   <ng-container *ngIf="question">
@@ -571,5 +595,6 @@
     </mat-accordion>
   </ng-container>
   <br>
-
+  <br>
+  <br>
 </div>

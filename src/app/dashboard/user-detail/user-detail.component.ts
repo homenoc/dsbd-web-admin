@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {DataService} from "../../service/data.service";
+import {FormControl} from "@angular/forms";
 
 
 @Component({
@@ -12,6 +13,7 @@ export class UserDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private dataService: DataService,
   ) {
   }
@@ -41,6 +43,8 @@ export class UserDetailComponent implements OnInit {
   };
   private dataStatus = 0;
   public registerStatus: number;
+  identificationName = new FormControl('');
+  serviceCode = new FormControl('');
 
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id');
@@ -105,4 +109,11 @@ export class UserDetailComponent implements OnInit {
     this.dataService.registrationStatus(this.id, tmp).then();
   }
 
+  pushIdentificationName() {
+    this.dataService.registrationIdentificationName(this.id, this.identificationName.value).then();
+  }
+
+  pageMove() {
+    this.router.navigate(['/dashboard/user/' + this.id + '/' + this.serviceCode.value]).then();
+  }
 }
