@@ -14,7 +14,7 @@ export class UserDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private dataService: DataService,
+    public dataService: DataService,
   ) {
   }
 
