@@ -37,7 +37,39 @@
   <br>
   <button mat-raised-button (click)="pageMove()">Move</button>
   <br><br>
-  <button mat-raised-button (click)="this.dataService.unlockAll(id)">Unlock all locks</button>
+  <table>
+    <tr>
+      <th rowspan="3">LockStatus</th>
+      <th>question</th>
+      <th>agreement</th>
+      <th>contract1</th>
+      <th>contract2</th>
+    </tr>
+    <tr>
+      <td>{{question.lock}}</td>
+      <td>{{agreement.lock}}</td>
+      <td>{{contract1.lock}}</td>
+      <td>{{contract2.lock}}</td>
+    </tr>
+    <tr>
+      <td>
+        <button mat-raised-button (click)="this.dataService.unlockSelect(id,'question')">Unlock</button>&nbsp;
+        <button mat-raised-button color="warn" (click)="this.dataService.lockSelect(id,'question')">Lock</button>
+      </td>
+      <td>
+        <button mat-raised-button (click)="this.dataService.unlockSelect(id,'term')">Unlock</button>&nbsp;
+        <button mat-raised-button color="warn" (click)="this.dataService.lockSelect(id,'term')">Lock</button>
+      </td>
+      <td>
+        <button mat-raised-button (click)="this.dataService.unlockSelect(id,'contract1')">Unlock</button>&nbsp;
+        <button mat-raised-button color="warn" (click)="this.dataService.lockSelect(id,'contract1')">Lock</button>
+      </td>
+      <td>
+        <button mat-raised-button (click)="this.dataService.unlockSelect(id,'contract2')">Unlock</button>&nbsp;
+        <button mat-raised-button color="warn" (click)="this.dataService.lockSelect(id,'contract2')">Lock</button>
+      </td>
+    </tr>
+  </table>
   <br>
   <br>
   <ng-container *ngIf="question">
@@ -56,25 +88,25 @@
             <th>1．What is the purpose of using our network service ?</th>
           </tr>
           <tr>
-            <td>{{question.base1}}</td>
+            <td>{{question.data1}}</td>
           </tr>
           <tr>
             <th>2. Do you want to allocate IP addresses?</th>
           </tr>
           <tr>
-            <td>{{question.base2}}</td>
+            <td>{{question.data2}}</td>
           </tr>
           <tr>
             <th>3. What is the expected traffic volume for this connection?</th>
           </tr>
           <tr>
-            <td>{{question.base3}}</td>
+            <td>{{question.data3}}</td>
           </tr>
           <tr>
             <th>4. If you have a website or SNS about network technology, please let us know.</th>
           </tr>
           <tr>
-            <td>{{question.base4}}</td>
+            <td>{{question.data4}}</td>
           </tr>
         </table>
       </mat-expansion-panel>
@@ -89,7 +121,7 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
       <ng-container *ngIf="agreement">
-        <p><b>Agree</b></p>
+        <p><b>{{agreement.agree}}</b></p>
       </ng-container>
     </mat-expansion-panel>
   </mat-accordion>

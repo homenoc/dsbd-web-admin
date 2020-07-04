@@ -64,25 +64,23 @@ export class DataService {
       });
   }
 
-  unlockAll(id: string) {
-    const data1 = this.afs.collection('user').doc(id).collection('personal').doc('question');
+  unlockSelect(id: string, name: string) {
+    const data1 = this.afs.collection('user').doc(id).collection('personal').doc(name);
     return data1.ref.set({lock: false}, {merge: true})
       .then(() => {
-        const data2 = this.afs.collection('user').doc(id).collection('personal').doc('term');
-        return data2.ref.set({lock: false}, {merge: true})
-          .then(() => {
-            const data3 = this.afs.collection('user').doc(id).collection('personal').doc('contract1');
-            return data3.ref.set({lock: false}, {merge: true})
-              .then(() => {
-                const data4 = this.afs.collection('user').doc(id).collection('personal').doc('contract2');
-                return data4.ref.set({lock: false}, {merge: true})
-                  .then(() => {
-                    this.commonService.openBar("OK", 3000);
-                  });
-              });
-          });
+        this.commonService.openBar("OK", 3000);
       });
   }
+
+  lockSelect(id: string, name: string) {
+    const data1 = this.afs.collection('user').doc(id).collection('personal').doc(name);
+    return data1.ref.set({lock: true}, {merge: true})
+      .then(() => {
+        this.commonService.openBar("OK", 3000);
+      });
+  }
+
+
 
   registrationIdentificationName(id: string, name: number) {
     const doc = {};

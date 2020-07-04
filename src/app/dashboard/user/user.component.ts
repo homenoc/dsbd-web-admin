@@ -5,6 +5,7 @@ import {Router} from "@angular/router";
 class dataStruct {
   id: string;
   name: string;
+  email: string;
   release: number;
   isAdmin = false;
 }
@@ -55,6 +56,7 @@ export class UserComponent implements OnInit {
         this.user.push({
           id: doc.docs[i].id,
           name: doc.docs[i].data().name,
+          email: doc.docs[i].data().email,
           release: status,
           isAdmin: admin,
         });
