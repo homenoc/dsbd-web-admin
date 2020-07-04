@@ -20,7 +20,7 @@ export class DataService {
     const data = this.afs.collection('user');
     return data.ref.get()
       .then((d) => {
-        // console.log(d.data)
+        // console.log(d.data())
         return d;
       });
   }
@@ -57,10 +57,30 @@ export class DataService {
     const data = this.afs.collection('user').doc(id);
     return data.ref.set(doc, {merge: true})
       .then(() => {
-        this.afs.collection('user').doc(id)
-          .collection('personal').doc('common').set({lock: false}, {merge: true}).then(() => {
-          this.commonService.openBar("OK", 3000);
-        })
+        // this.afs.collection('user').doc(id)
+        //   .collection('personal').doc('common').set({lock: false}, {merge: true}).then(() => {
+        this.commonService.openBar("OK", 3000);
+        // })
+      });
+  }
+
+  unlockAll(id: string) {
+    const data1 = this.afs.collection('user').doc(id).collection('personal').doc('question');
+    return data1.ref.set({lock: false}, {merge: true})
+      .then(() => {
+        const data2 = this.afs.collection('user').doc(id).collection('personal').doc('term');
+        return data2.ref.set({lock: false}, {merge: true})
+          .then(() => {
+            const data3 = this.afs.collection('user').doc(id).collection('personal').doc('contract1');
+            return data3.ref.set({lock: false}, {merge: true})
+              .then(() => {
+                const data4 = this.afs.collection('user').doc(id).collection('personal').doc('contract2');
+                return data4.ref.set({lock: false}, {merge: true})
+                  .then(() => {
+                    this.commonService.openBar("OK", 3000);
+                  });
+              });
+          });
       });
   }
 
@@ -71,10 +91,10 @@ export class DataService {
     const data = this.afs.collection('user').doc(id);
     return data.ref.set(doc, {merge: true})
       .then(() => {
-        this.afs.collection('user').doc(id)
-          .collection('personal').doc('common').set({lock: false}, {merge: true}).then(() => {
-          this.commonService.openBar("OK", 3000);
-        })
+        // this.afs.collection('user').doc(id)
+        //   .collection('personal').doc('common').set({lock: false}, {merge: true}).then(() => {
+        this.commonService.openBar("OK", 3000);
+        // })
       });
   }
 
@@ -83,10 +103,10 @@ export class DataService {
     const data = this.afs.collection('user').doc(id).collection('data').doc(serviceCode);
     return data.ref.set(doc, {merge: true})
       .then(() => {
-        this.afs.collection('user').doc(id)
-          .collection('data').doc(serviceCode).set({lock: false}, {merge: true}).then(() => {
-          this.commonService.openBar("OK", 3000);
-        })
+        // this.afs.collection('user').doc(id)
+        //   .collection('data').doc(serviceCode).set({lock: false}, {merge: true}).then(() => {
+        this.commonService.openBar("OK", 3000);
+        // })
       });
   }
 }

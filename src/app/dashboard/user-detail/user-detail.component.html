@@ -35,7 +35,9 @@
     </mat-form-field>
   </form>
   <br>
-  <button mat-raised-button (click)="pageMove()">Update for identification Name</button>
+  <button mat-raised-button (click)="pageMove()">Move</button>
+  <br><br>
+  <button mat-raised-button (click)="this.dataService.unlockAll(id)">Unlock all locks</button>
   <br>
   <br>
   <ng-container *ngIf="question">

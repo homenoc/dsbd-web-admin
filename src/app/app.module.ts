@@ -13,11 +13,13 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {DashboardModule} from "./dashboard/dashboard.module";
 import {RouterModule} from "@angular/router";
+import {NotFoundComponent} from './not-found/not-found.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
+    NotFoundComponent,
   ],
   imports: [
     DashboardModule,
