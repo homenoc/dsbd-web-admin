@@ -8,6 +8,7 @@ class dataStruct {
   email: string;
   release: number;
   isAdmin = false;
+  isTestUser = false;
 }
 
 @Component({
@@ -57,6 +58,7 @@ export class UserComponent implements OnInit {
           id: doc.docs[i].id,
           name: doc.docs[i].data().name,
           email: doc.docs[i].data().email,
+          isTestUser: doc.docs[i].data().test,
           release: status,
           isAdmin: admin,
         });

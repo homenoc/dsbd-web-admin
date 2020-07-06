@@ -41,8 +41,14 @@ export class UserDetailComponent implements OnInit {
     data400: false, data410: '', data411: '', data412: '', data413: '', data414: '', data415: '', data416: '', data417: '', data418: '',
     data420: '', data421: '', data422: '', data423: '', data424: '', data500: '', lock: false
   };
+  lock_question = false;
+  lock_agreement = false;
+  lock_contract1 = false;
+  lock_contract2 = false;
+
   private dataStatus = 0;
   public registerStatus: number;
+  public lockLoading = true;
   identificationName = new FormControl('');
   serviceCode = new FormControl('');
 
@@ -81,19 +87,26 @@ export class UserDetailComponent implements OnInit {
     this.dataService.getPersonalData(this.id).then(doc => {
       for (let i = 0; i < doc.size; i++) {
         console.log(doc.docs[i].data().data1)
+
         if (doc.docs[i].id == 'question') {
           this.question = doc.docs[i].data();
+          this.lock_question = doc.docs[i].data().lock;
         }
         if (doc.docs[i].id == 'term') {
           this.agreement = doc.docs[i].data();
+          this.lock_agreement = doc.docs[i].data().lock;
         }
         if (doc.docs[i].id == 'contract1') {
           this.contract1 = doc.docs[i].data();
+          this.lock_contract1 = doc.docs[i].data().lock;
         }
         if (doc.docs[i].id == 'contract2') {
           this.contract2 = doc.docs[i].data();
+          this.lock_contract2 = doc.docs[i].data().lock;
         }
       }
+      this.lockLoading = false;
+      console.log(this.contract2.lock)
     })
   }
 

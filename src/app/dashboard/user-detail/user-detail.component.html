@@ -37,7 +37,7 @@
   <br>
   <button mat-raised-button (click)="pageMove()">Move</button>
   <br><br>
-  <table>
+  <table *ngIf="!lockLoading">
     <tr>
       <th rowspan="3">LockStatus</th>
       <th>question</th>
@@ -46,10 +46,14 @@
       <th>contract2</th>
     </tr>
     <tr>
-      <td>{{question.lock}}</td>
-      <td>{{agreement.lock}}</td>
-      <td>{{contract1.lock}}</td>
-      <td>{{contract2.lock}}</td>
+<!--      <td>{{question.lock}}</td>-->
+<!--      <td>{{agreement.lock}}</td>-->
+<!--      <td>{{contract1.lock}}</td>-->
+<!--      <td>{{contract2.lock}}</td>-->
+      <td>{{lock_question}}</td>
+      <td>{{lock_agreement}}</td>
+      <td>{{lock_contract1}}</td>
+      <td>{{lock_contract2}}</td>
     </tr>
     <tr>
       <td>

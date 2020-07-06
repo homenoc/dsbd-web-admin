@@ -1,0 +1,29 @@
+.main {
+  //text-align: center;
+  //left: 50%;
+}
+
+.login-card {
+  max-width: 400px;
+  text-align: center;
+  width: 80%;
+  margin: 10px auto;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-title {
+  font-weight: bold;
+  font-size: 22px;
+  color: #3f51b5;
+}
+
+.button {
+  text-align: center;
+  margin: 10px auto;
+  width: 80%;
+  max-width: 400px;
+}

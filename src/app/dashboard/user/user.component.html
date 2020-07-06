@@ -14,10 +14,12 @@
                 <ng-container *ngIf="d.release / 10 > 1">
                   <mat-chip color="primary" selected>Line opened</mat-chip>
                 </ng-container>
+                <ng-container *ngIf="d.isTestUser">
+                  <mat-chip>Test User</mat-chip>
+                </ng-container>
               </mat-chip-list>
             </mat-card-subtitle>
             <ng-container *ngIf="d.release % 10 < 7">
-              <h2>Process</h2>
               <ng-container *ngIf="d.release %10 == 1">
                 <p>question </p>
               </ng-container>
@@ -48,6 +50,7 @@
           <mat-card-header>
             <mat-card-title>{{d.id}}</mat-card-title>
             <mat-card-subtitle>{{d.name}}</mat-card-subtitle>
+            <mat-card-subtitle>{{d.email}}</mat-card-subtitle>
           </mat-card-header>
           <mat-card-content>
             <mat-card-subtitle>
@@ -58,7 +61,6 @@
               </mat-chip-list>
             </mat-card-subtitle>
             <ng-container *ngIf="d.release % 10 < 7">
-              <h2>Process</h2>
               <ng-container *ngIf="d.release %10 == 1">
                 <p>question </p>
               </ng-container>

@@ -23,6 +23,26 @@ export class AuthService {
       .subscribe(user => this.user = user);
   }
 
+  loginWithMail(email: any, pass: any) {
+    this.afAuth.signInWithEmailAndPassword(email, pass)
+      .then(r => {
+        console.log('ID: ' + r.user.uid);
+        const data = this.afs.collection('user').doc(r.user.uid)
+        data.ref.get().then((doc) => {
+          console.log('data: ' + doc.data())
+          console.log('Admin: ' + doc.data().admin);
+          if (doc.data().admin) {
+            this.loginProcess(r.user.uid);
+          } else {
+            this.logOut(false);
+          }
+        }).catch((error) => {
+          this.commonService.openBar('Error: Not User Registered', 2000);
+          this.logOut(true);
+        })
+      })
+      .catch(error => this.loginFailedProcess(error));
+  }
 
   loginWithGoogle() {
     this.afAuth.signInWithPopup(new auth.GoogleAuthProvider())
@@ -30,9 +50,8 @@ export class AuthService {
         console.log('ID: ' + r.user.uid);
         const data = this.afs.collection('user').doc(r.user.uid)
         data.ref.get().then((doc) => {
-          console.log(doc.data())
-          console.log(doc)
-          console.log(doc.data().admin);
+          console.log('data: ' + doc.data())
+          console.log('Admin: ' + doc.data().admin);
           if (doc.data().admin) {
             this.loginProcess(r.user.uid);
           } else {
