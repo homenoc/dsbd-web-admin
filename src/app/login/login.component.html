@@ -12,10 +12,10 @@
       <mat-form-field>
         <mat-label>Password</mat-label>
         <input matInput [type]="hide ? 'password' : 'text'" [formControl]="password" required>
-        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
-                [attr.aria-pressed]="hide">
-          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-        </button>
+<!--        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"-->
+<!--                [attr.aria-pressed]="hide">-->
+<!--          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>-->
+<!--        </button>-->
       </mat-form-field>
       <button type="submit" mat-raised-button color="primary" [disabled]="loginForm.invalid">Login</button>
     </form>
