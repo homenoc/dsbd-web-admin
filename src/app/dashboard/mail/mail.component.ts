@@ -72,8 +72,8 @@ export class MailComponent implements OnInit {
     doc['contract2'] = this.dataJP.value.contract2;
     doc['contact'] = this.dataJP.value.contact;
     doc['subject'] = this.dataJP.value.subject;
-    doc['open'] = this.dataEN.value.subject;
-    doc['openAirmail'] = this.dataEN.value.subject;
+    doc['open'] = this.dataJP.value.open;
+    doc['openAirmail'] = this.dataJP.value.openAirmail;
 
     this.dataService.registrationJPMailData(doc).then();
   }
@@ -86,8 +86,8 @@ export class MailComponent implements OnInit {
     doc['contract2'] = this.dataEN.value.contract2;
     doc['contact'] = this.dataEN.value.contact;
     doc['subject'] = this.dataEN.value.subject;
-    doc['open'] = this.dataEN.value.subject;
-    doc['openAirmail'] = this.dataEN.value.subject;
+    doc['open'] = this.dataEN.value.open;
+    doc['openAirmail'] = this.dataEN.value.openAirmail;
 
 
     this.dataService.registrationENMailData(doc).then();
