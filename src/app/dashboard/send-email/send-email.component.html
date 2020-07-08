@@ -13,7 +13,7 @@
     <mat-form-field class="large-width">
       <mat-label>pass</mat-label>
       <label>
-        <input matInput placeholder="text ....." formControlName="pass" required>
+        <input matInput [type]="true ? 'password' : 'text'" placeholder="text ....." formControlName="pass" required>
       </label>
     </mat-form-field>
   </form>
