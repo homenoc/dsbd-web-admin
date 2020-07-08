@@ -1,17 +1,23 @@
 <div class="main">
   <h2>ID: {{id}}</h2>
-  <h3>{{status}}</h3>
+  <h3>{{statusData}}</h3>
   <mat-form-field appearance="fill">
     <mat-label>Choose an option</mat-label>
     <mat-select [(ngModel)]="registerStatus">
+      <mat-option value=0>None</mat-option>
       <mat-option value=1>question</mat-option>
-      <mat-option value=3>agreement</mat-option>
-      <mat-option value=5>contact1</mat-option>
-      <mat-option value=7>contact2</mat-option>
+      <mat-option value=2>agreement</mat-option>
+      <mat-option value=3>contact1</mat-option>
+      <mat-option value=4>contact2</mat-option>
+      <mat-option value=5>(Send Mail Only) Open(WebPage)</mat-option>
+      <mat-option value=6>(Send Mail Only) Open(AirMail)</mat-option>
+      <mat-option value=7>(Send Mail Only) Free</mat-option>
+
     </mat-select>
   </mat-form-field>
   <br>
   <button mat-raised-button (click)="pushRegisterStatus()">Status Update</button>
+  <button mat-raised-button (click)="pageMailMove()">SendMail</button>
   <br><br>
   <form class="form">
     <h3>Identification name</h3>
@@ -46,10 +52,10 @@
       <th>contract2</th>
     </tr>
     <tr>
-<!--      <td>{{question.lock}}</td>-->
-<!--      <td>{{agreement.lock}}</td>-->
-<!--      <td>{{contract1.lock}}</td>-->
-<!--      <td>{{contract2.lock}}</td>-->
+      <!--      <td>{{question.lock}}</td>-->
+      <!--      <td>{{agreement.lock}}</td>-->
+      <!--      <td>{{contract1.lock}}</td>-->
+      <!--      <td>{{contract2.lock}}</td>-->
       <td>{{lock_question}}</td>
       <td>{{lock_agreement}}</td>
       <td>{{lock_contract1}}</td>

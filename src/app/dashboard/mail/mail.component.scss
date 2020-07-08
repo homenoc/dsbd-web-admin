@@ -30,10 +30,6 @@
   p {
     white-space: pre-wrap;
   }
-
-  button {
-    margin-left: 10px;
-  }
 }
 
 .show-box {
@@ -48,6 +44,45 @@
   white-space: pre-wrap;
 }
 
+.form {
+  margin-left: 10px;
+  min-width: 150px;
+  max-width: 600px;
+  width: 100%;
+
+  .mat-radio-button {
+    margin-bottom: 2px;
+    margin-right: 10px;
+  }
+
+  .mat-checkbox {
+    margin: 0 10px;
+  }
+}
+
+.full-width {
+  width: 90%;
+}
+
 .large-width {
   width: 80%;
+}
+
+.small-width {
+  width: 30%;
+}
+
+.button {
+  text-align: center;
+  margin: 10px auto;
+  width: 80%;
+  max-width: 400px;
+}
+
+.default {
+  margin: 10px;
+}
+
+.radio {
+  margin-right: 10px;
 }

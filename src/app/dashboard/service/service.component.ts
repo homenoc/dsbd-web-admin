@@ -100,7 +100,7 @@ export class ServiceComponent implements OnInit {
 
     this.dataService.registrationServiceData(this.id, this.serviceCode, doc).then(() => {
         if (this.new) {
-          this.dataService.registrationStatus(this.id, status).then()
+          this.dataService.registrationStatus(this.id, status,false).then()
         }
       }
     )

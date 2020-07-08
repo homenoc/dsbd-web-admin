@@ -19,7 +19,10 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatChipsModule} from "@angular/material/chips";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatSelectModule} from "@angular/material/select";
-import { ServiceComponent } from './service/service.component';
+import {ServiceComponent} from './service/service.component';
+import {MailComponent} from './mail/mail.component';
+import {SendEmailComponent} from './send-email/send-email.component';
+import {HttpClientModule} from "@angular/common/http";
 
 
 @NgModule({
@@ -28,8 +31,11 @@ import { ServiceComponent } from './service/service.component';
     UserComponent,
     UserDetailComponent,
     ServiceComponent,
+    MailComponent,
+    SendEmailComponent,
   ],
   imports: [
+    HttpClientModule,
     CommonModule,
     DashboardRoutingModule,
     MatSidenavModule,

@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {DataService} from "../../service/data.service";
 import {FormControl} from "@angular/forms";
+import {CommonService} from "../../service/common.service";
 
 
 @Component({
@@ -15,11 +16,12 @@ export class UserDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     public dataService: DataService,
+    private commonService: CommonService,
   ) {
   }
 
   public id: string;
-  public status = 'None';
+  public statusData = 'None';
   public question: { data1: '', data2: '', data3: '', data4: '', lock: false, };
   public agreement: { agree: false, lock: false };
   public contract1: {
@@ -49,72 +51,77 @@ export class UserDetailComponent implements OnInit {
   private dataStatus = 0;
   public registerStatus: number;
   public lockLoading = true;
+  public status = 0;
   identificationName = new FormControl('');
   serviceCode = new FormControl('');
+  mail: string;
 
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id');
     this.dataService.getUser(this.id).then(doc => {
       console.log('data: ' + doc.data());
-      if (doc.data().status % 10 == 1) {
-        this.status = 'question';
+
+      this.mail = doc.data().email;
+
+      if (doc.data().name !== undefined) {
+        this.identificationName.setValue(doc.data().name);
       }
-      if (doc.data().status % 10 == 2) {
-        this.status = 'question=>check';
+
+      if (doc.data().status % 10 === 0) {
+        this.statusData = 'None';
       }
-      if (doc.data().status % 10 == 3) {
-        this.status = 'question=>check=>agreement';
+      if (doc.data().status % 10 === 1) {
+        this.statusData = 'question';
       }
-      if (doc.data().status % 10 == 4) {
-        this.status = 'question=>check=>agreement=>check';
+      if (doc.data().status % 10 === 2) {
+        this.statusData = 'question=>agreement';
       }
-      if (doc.data().status % 10 == 5) {
-        this.status = 'question=>check=>agreement=>check=>contract1';
+      if (doc.data().status % 10 === 3) {
+        this.statusData = 'question=>agreement=>contract1';
       }
-      if (doc.data().status % 10 == 6) {
-        this.status = 'question=>check=>agreement=>check=>contract1=>check';
-      }
-      if (doc.data().status % 10 == 7) {
-        this.status = 'question=>check=>agreement=>check=>contract1=>check=>contract2';
-      }
-      if (doc.data().status % 10 == 8) {
-        this.status = 'question=>check=>agreement=>check=>contract1=>check=>contract2=>check';
+      if (doc.data().status % 10 === 4) {
+        this.statusData = 'question=>agreement=>contract1=>contract2';
       }
       console.log('status: ' + doc.data().status);
       console.log('dataStatus: ' + doc.data().status / 10);
       this.dataStatus = doc.data().status / 10;
+      this.status = doc.data().status;
     })
     this.dataService.getPersonalData(this.id).then(doc => {
       for (let i = 0; i < doc.size; i++) {
-        console.log(doc.docs[i].data().data1)
+        console.log(doc.docs[i].data().data1);
 
-        if (doc.docs[i].id == 'question') {
+        if (doc.docs[i].id === 'question') {
           this.question = doc.docs[i].data();
           this.lock_question = doc.docs[i].data().lock;
         }
-        if (doc.docs[i].id == 'term') {
+        if (doc.docs[i].id === 'term') {
           this.agreement = doc.docs[i].data();
           this.lock_agreement = doc.docs[i].data().lock;
         }
-        if (doc.docs[i].id == 'contract1') {
+        if (doc.docs[i].id === 'contract1') {
           this.contract1 = doc.docs[i].data();
           this.lock_contract1 = doc.docs[i].data().lock;
         }
-        if (doc.docs[i].id == 'contract2') {
+        if (doc.docs[i].id === 'contract2') {
           this.contract2 = doc.docs[i].data();
           this.lock_contract2 = doc.docs[i].data().lock;
         }
       }
       this.lockLoading = false;
-      console.log(this.contract2.lock)
+      console.log(this.contract2.lock);
     })
   }
 
   pushRegisterStatus(): void {
-    console.log('d: ' + this.dataStatus + ' r: ' + this.registerStatus)
-    console.log('d: ' + Math.floor(this.dataStatus) + ' r: ' + this.registerStatus)
-    let tmp: number = parseInt(String(Math.floor(this.dataStatus) * 10)) + parseInt(String(this.registerStatus));
-    this.dataService.registrationStatus(this.id, tmp).then();
+    if (this.registerStatus < 5) {
+      console.log('d: ' + this.dataStatus + ' r: ' + this.registerStatus);
+      console.log('d: ' + Math.floor(this.dataStatus) + ' r: ' + this.registerStatus);
+      let tmp: number = parseInt(String(Math.floor(this.dataStatus) * 10)) + parseInt(String(this.registerStatus));
+      this.dataService.registrationStatus(this.id, tmp, false).then();
+    } else {
+      this.commonService.openBar('Only Send Mail!!', 3000);
+    }
   }
 
   pushIdentificationName() {
@@ -123,5 +130,9 @@ export class UserDetailComponent implements OnInit {
 
   pageMove() {
     this.router.navigate(['/dashboard/user/' + this.id + '/' + this.serviceCode.value]).then();
+  }
+
+  pageMailMove() {
+    this.router.navigate(['/dashboard/sendmail/' + this.mail + '/' + String(this.registerStatus)]).then();
   }
 }
