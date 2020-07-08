@@ -103,7 +103,7 @@ export class SendEmailComponent implements OnInit {
 
     this.http.post<any>(url, body, httpOptions)
       .toPromise()
-      .then();
+      .then(d => this.commonService.openBar(d, 3000));
   }
 
   sendTestMail() {
