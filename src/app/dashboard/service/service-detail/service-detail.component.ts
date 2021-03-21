@@ -241,6 +241,15 @@ export class ServiceDetailOpenProcess implements OnInit {
     this.connections.push(control);
   }
 
+  requestService() {
+    this.serviceService.update(this.data.service.ID, {
+      asn: this.asn.value,
+    }).then(() => {
+        this.commonService.openBar('OK', 5000);
+        location.reload();
+      }
+    );
+  }
 
   requestServiceOpen(open: boolean) {
     this.serviceService.update(this.data.service.ID, {
@@ -274,8 +283,36 @@ export class ServiceDetailOpenProcess implements OnInit {
     });
   }
 
+  requestConnection(index: number) {
+    const tmpConnection = this.connections.value[index];
+    console.log(tmpConnection);
+
+    this.connectionService.update(tmpConnection.ID, {
+      link_v4_our: tmpConnection.link_v4_our,
+      link_v4_your: tmpConnection.link_v4_your,
+      link_v6_our: tmpConnection.link_v6_our,
+      link_v6_your: tmpConnection.link_v6_your,
+      noc_id: tmpConnection.noc_id,
+      bgp_router_id: tmpConnection.bgp_router_id,
+      connection_template_id: tmpConnection.connection_template_id,
+      tunnel_endpoint_router_ip_id: tmpConnection.tunnel_endpoint_router_ip_id,
+      term_ip: tmpConnection.term_ip,
+    }).then(() => {
+      this.commonService.openBar('OK', 5000);
+      location.reload();
+    });
+  }
+
   requestIPOpen(id: string, ip: string, open: boolean) {
     this.ipService.updateIP(id, {ID: id, ip, open}).then(() => {
+        this.commonService.openBar('OK', 5000);
+        location.reload();
+      }
+    );
+  }
+
+  requestIP(id: string, ip: string) {
+    this.ipService.updateIP(id, {ID: id, ip}).then(() => {
         this.commonService.openBar('OK', 5000);
         location.reload();
       }

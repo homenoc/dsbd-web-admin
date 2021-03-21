@@ -15,13 +15,13 @@
           <button mat-raised-button color="primary" (click)="updateStatus(1)">サービス情報の追加</button>
         </ng-container>
         <ng-container *ngIf="group.status === 1">
-          <button mat-raised-button color="primary" (click)="updatePlusStatus()">審査承認(サービス)</button>
+          <button mat-raised-button color="primary" (click)="updateStatus(2)">審査承認(サービス)</button>
         </ng-container>
         <ng-container *ngIf="group.status === 2">
-          <button mat-raised-button color="primary" (click)="updatePlusStatus()">接続情報記入</button>
+          <button mat-raised-button color="primary" (click)="updateStatus(3)">接続情報記入</button>
         </ng-container>
         <ng-container *ngIf="group.status === 3">
-          <button mat-raised-button color="primary" (click)="updatePlusStatus()">開通作業</button>
+          <button mat-raised-button color="primary" (click)="updateStatus(4)">開通作業</button>
         </ng-container>
         <ng-container *ngIf="group.status === 4">
           <button mat-raised-button color="primary" (click)="updateStatus(0)">開通</button>

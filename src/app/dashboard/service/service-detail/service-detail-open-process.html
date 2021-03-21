@@ -1,6 +1,5 @@
 <div class="main">
   <h1 mat-dialog-title>サービス開通処理</h1>
-  <!--  <mat-dialog-content>-->
   <h2>{{serviceCode}}</h2>
   <table>
     <tr>
@@ -39,6 +38,8 @@
         <ng-container *ngIf="data.service.open">
           <button mat-raised-button color="warn" (click)="requestServiceOpen(false)">未開通</button>
         </ng-container>
+        &nbsp;
+        <button mat-raised-button (click)="requestService()">情報の更新</button>
       </td>
     </tr>
   </table>
@@ -87,6 +88,8 @@
               未開通
             </button>
           </ng-container>
+          &nbsp;
+          <button mat-raised-button (click)="requestIP(tmpIP.value.id,tmpIP.value.ip)">情報の更新</button>
         </td>
       </tr>
     </ng-container>
@@ -170,6 +173,8 @@
         <ng-container *ngIf="connection.value.open">
           <button mat-raised-button color="warn" (click)="requestConnectionOpen(i,false)">未開通</button>
         </ng-container>
+        &nbsp;
+        <button mat-raised-button (click)="requestConnection(i)">情報の更新</button>
         <br>
       </mat-expansion-panel>
     </mat-accordion>

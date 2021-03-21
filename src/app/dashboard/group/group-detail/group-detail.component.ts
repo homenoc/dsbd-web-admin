@@ -8,10 +8,17 @@ import {MatDatepickerInputEvent} from '@angular/material/datepicker';
 import {UserService} from '../../../service/user.service';
 import {ServiceService} from '../../../service/service.service';
 import {ConnectionService} from '../../../service/connection.service';
+import {MailTemplateService} from '../../../service/mail-template.service';
+import {environment} from '../../../../environments/environment';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 export interface DialogData {
   groups: any;
   id: number;
+  mail: {
+    toEmail: string;
+    templateID: number;
+  };
 }
 
 @Component({
@@ -87,19 +94,6 @@ export class GroupDetailComponent implements OnInit {
     });
   }
 
-  updatePlusStatus(): void {
-    let status = this.group.status;
-    status++;
-    console.log(status);
-    this.groupInput.patchValue({
-      ID: this.group.ID,
-      status,
-      pass: this.group.pass,
-      lock: this.group.lock,
-    });
-    this.update();
-  }
-
   updateStatus(status: number): void {
     this.groupInput.patchValue({
       ID: this.group.ID,
@@ -107,7 +101,19 @@ export class GroupDetailComponent implements OnInit {
       pass: this.group.pass,
       lock: this.group.lock,
     });
-    this.update();
+    this.update().then(d => {
+      if (d) {
+        if (status === 1) {
+          this.openMailDialog(1);
+        } else if (status === 3) {
+          this.openMailDialog(2);
+        } else if (status === 0) {
+          this.openMailDialog(3);
+        } else {
+          location.reload();
+        }
+      }
+    });
   }
 
   updateExpiredStatus(status: number): void {
@@ -126,15 +132,22 @@ export class GroupDetailComponent implements OnInit {
       pass,
       lock: this.group.lock,
     });
-    this.update();
+    this.update().then(d => {
+      if (d) {
+        this.openMailDialog(0);
+      }
+    });
   }
 
-  update(): void {
+  update(): Promise<boolean> {
     const json = JSON.stringify(this.groupInput.getRawValue());
     console.log(json);
-    this.groupService.update(this.id, json).then(response => {
+    return this.groupService.update(this.id, json).then(response => {
       this.commonService.openBar('OK', 5000);
-      location.reload();
+      return true;
+    }).catch(err => {
+      console.log(err);
+      return false;
     });
   }
 
@@ -155,6 +168,40 @@ export class GroupDetailComponent implements OnInit {
 
   servicePage(id): void {
     this.router.navigate(['/dashboard/service/' + id]).then();
+  }
+
+  openMailDialog(id: number) {
+
+    let email: string;
+    let count = 0;
+
+    for (const user of this.group.users) {
+      if (user.level === 1) {
+        count++;
+        email = user.email;
+      }
+    }
+
+    if (count > 1) {
+      this.commonService.openBar('ユーザ権限Levelが1のユーザが複数存在します。', 5000);
+    }
+
+    const dialogRef = this.dialog.open(GroupDetailMail, {
+      data: {
+        group: this.group,
+        id: this.id,
+        mail: {
+          templateID: id,
+          toEmail: email
+        }
+      },
+      height: '650px',
+      width: '900px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
   }
 
   createNetworkInfo() {
@@ -703,5 +750,86 @@ export class GroupDetailCreateConnection implements OnInit {
       this.router.navigate(['/dashboard']).then();
       location.reload();
     });
+  }
+}
+
+
+// connection情報の追加フィールド
+@Component({
+  // tslint:disable-next-line:component-selector
+  selector: 'group-detail-mail',
+  templateUrl: 'group-detail-mail.html',
+  styleUrls: ['./group-detail.component.scss']
+})
+// tslint:disable-next-line:component-class-suffix
+export class GroupDetailMail implements OnInit {
+
+  public mailInput = new FormGroup({
+    to_email: new FormControl(),
+    subject: new FormControl(),
+    contents: new FormControl(),
+  });
+
+  constructor(
+    public dialogRef: MatDialogRef<GroupDetailCreateService>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    private commonService: CommonService,
+    private mailTemplateService: MailTemplateService,
+    private http: HttpClient,
+    private router: Router
+  ) {
+  }
+
+  ngOnInit(): void {
+    this.mailInput.patchValue({
+      to_email: this.data.mail.toEmail,
+      subject: this.mailTemplateService.getSubject(this.data.mail.templateID),
+      contents: this.mailTemplateService.getContent(this.data.mail.templateID)
+    });
+    console.log(this.mailInput.value);
+  }
+
+  notSend() {
+    location.reload();
+  }
+
+  send() {
+    if (this.mailInput.value.to_email === '') {
+      this.commonService.openBar('送信先メールアドレスがありません。。', 5000);
+      return;
+    }
+
+    if (this.mailInput.value.subject === '') {
+      this.commonService.openBar('タイトルがありません。。', 5000);
+      return;
+    }
+
+    if (this.mailInput.value.contents === '') {
+      this.commonService.openBar('本文がありません。。', 5000);
+      return;
+    }
+
+    const body = {
+      to_mail: this.mailInput.value.to_email,
+      subject: this.mailInput.value.subject,
+      content: this.mailInput.value.contents,
+    };
+    console.log(body);
+
+    this.http.post(environment.api.url + environment.api.path + '/mail',
+      body, {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          ACCESS_TOKEN: sessionStorage.getItem('AccessToken'),
+        }),
+      }).toPromise().then(r => {
+      const response: any = r;
+      console.log(response);
+      location.reload();
+    }).catch(error => {
+      sessionStorage.setItem('error', JSON.stringify(error));
+      this.router.navigate(['/error']).then();
+    });
+
   }
 }
