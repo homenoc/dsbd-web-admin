@@ -1,0 +1,103 @@
+<div class="main">
+  <h1 mat-dialog-title>IPアドレス(追加/変更/削除)</h1>
+  <br>
+  <mat-form-field appearance="fill" [style.width.px]=500>
+    <mat-label>技術担当者の選択</mat-label>
+    <mat-select (selectionChange)="change($event)" required>
+      <ng-container *ngFor="let ip of this.ips">
+        <mat-option [value]="ip">
+          {{ip.ip}}<b>({{ip.name}})</b>
+        </mat-option>
+      </ng-container>
+      <mat-option [value]="0">なし<b>新規追加</b></mat-option>
+    </mat-select>
+  </mat-form-field>
+  <br>
+  <mat-card>
+    <form [formGroup]="ipStruct">
+      <mat-form-field appearance="fill" [style.width.px]=500>
+        <mat-label>ネットワーク名 (必須)</mat-label>
+        <input matInput [type]="hide ? 'name' : 'text'" formControlName="name">
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="fill" [style.width.px]=100>
+        <mat-label>IP Version</mat-label>
+        <mat-select formControlName="version" required>
+          <mat-option [value]="4"><b>IPv4</b></mat-option>
+          <mat-option [value]="6"><b>IPv6</b></mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="fill" [style.width.px]=400>
+        <mat-label>IPアドレス/Subnet (必須)</mat-label>
+        <input matInput [type]="hide ? 'ip' : 'text'" formControlName="ip">
+      </mat-form-field>
+      <br>
+    </form>
+    <mat-form-field appearance="fill">
+      <mat-label>接続開始日</mat-label>
+      <input matInput [matDatepicker]="dpStart" [formControl]="dateStartTemplate" (dateChange)="addEventStart($event)">
+      <mat-datepicker-toggle matSuffix [for]="dpStart"></mat-datepicker-toggle>
+      <mat-datepicker #dpStart></mat-datepicker>
+    </mat-form-field>
+    <br>
+    <p>接続終了日は未定の場合はここにチェックしてください。</p>
+    <section>
+      <mat-checkbox [(ngModel)]="dateEndUnlimited">接続終了日が未定</mat-checkbox>
+    </section>
+    <ng-container *ngIf="!dateEndUnlimited">
+      <mat-form-field appearance="fill">
+        <mat-label>接続終了日</mat-label>
+        <input matInput [matDatepicker]="dpEnd" [formControl]="dateEndTemplate" (dateChange)="addEventEnd($event)">
+        <mat-datepicker-toggle matSuffix [for]="dpEnd"></mat-datepicker-toggle>
+        <mat-datepicker #dpEnd></mat-datepicker>
+      </mat-form-field>
+    </ng-container>
+    <br>
+    <button mat-raised-button *ngIf="id !== 0" (click)="updateIP()">更新</button>
+    &nbsp;
+    <button mat-raised-button color="warn" *ngIf="id !== 0" (click)="deleteIP()">削除</button>
+    <br>
+  </mat-card>
+  <br>
+  <!--  <ng-container *ngIf="id !== 0">-->
+  <form [formGroup]="plan">
+    <div formArrayName="v4">
+      <div *ngFor="let option of planProcess.controls; let i = index">
+        <mat-form-field [style.width.px]=200>
+          <div [formGroupName]="i">
+            <input matInput placeholder="name" type="text" formControlName="name"/></div>
+        </mat-form-field>
+        &nbsp;&nbsp;&nbsp;
+        <mat-form-field [style.width.px]=40>
+          <div [formGroupName]="i">
+            <input matInput placeholder="直後" type="number" formControlName="after"/></div>
+        </mat-form-field>
+        &nbsp;&nbsp;&nbsp;
+        <mat-form-field [style.width.px]=40>
+          <div [formGroupName]="i">
+            <input matInput placeholder="半年後" type="number" formControlName="half_year"/>
+          </div>
+        </mat-form-field>
+        &nbsp;&nbsp;&nbsp;
+        <mat-form-field [style.width.px]=40>
+          <div [formGroupName]="i">
+            <input matInput placeholder="1年後" type="number" formControlName="one_year"/>
+          </div>
+        </mat-form-field>
+        &nbsp;&nbsp;&nbsp;
+        <button mat-raised-button color="warn" *ngIf="id === 0" (click)="removePlanOptionForm(i)">削除</button>
+        <button mat-raised-button color="warn" *ngIf="id !== 0" (click)="deletePlan(i)">削除</button>
+        <button mat-raised-button *ngIf="id !== 0" (click)="createPlan(i)">追加</button>
+        <button mat-raised-button *ngIf="id !== 0" (click)="updatePlan(i)">更新</button>
+      </div>
+    </div>
+    <br>
+    <button mat-raised-button color="primary" (click)="addPlanOptionForm()">追加</button>
+  </form>
+  <br>
+  <br>
+  <button mat-raised-button *ngIf="id === 0" (click)="createIP()">すべて登録</button>
+  <br>
+  <br>
+</div>

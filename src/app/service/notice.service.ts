@@ -78,8 +78,8 @@ export class NoticeService {
     });
   }
 
-  update(uid, data): Promise<any> {
-    return this.http.put(environment.api.url + environment.api.path + '/notice/' + uid,
+  update(id, data): Promise<any> {
+    return this.http.put(environment.api.url + environment.api.path + '/notice/' + id,
       data, {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',

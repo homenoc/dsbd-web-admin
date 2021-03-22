@@ -7,19 +7,22 @@
     <h2>      {{serviceCode}}    </h2>
     <br>
     <button mat-raised-button color="primary" (click)="openProcess()">開通/未開通処理</button>
+    <button mat-raised-button (click)="openIP()">IPアドレス(追加/編集)</button>
+    <button mat-raised-button (click)="openJPNICAdmin()">管理者連絡窓口(編集)</button>
+    <button mat-raised-button (click)="openJPNICTech()">技術連絡担当者(追加/編集)</button>
     <br>
     <br>
     <ng-container *ngIf="!service.add_allow">
-      <button mat-raised-button color="primary" (click)="requestServiceRequestAddAllow(true)">ユーザ側からの接続追加を許可</button>
+      <button mat-raised-button color="primary" (click)="requestServiceRequestAddAllow(true)">接続追加を許可</button>
     </ng-container>
     <ng-container *ngIf="service.add_allow">
-      <button mat-raised-button color="warn" (click)="requestServiceRequestAddAllow(false)">ユーザ側からの接続追加を拒否</button>
+      <button mat-raised-button color="warn" (click)="requestServiceRequestAddAllow(false)">接続追加を拒否</button>
     </ng-container>
     <ng-container *ngIf="service.lock">
-      <button mat-raised-button color="primary" (click)="requestServiceRequestLock(false)">ユーザ側からの編集を許可</button>
+      <button mat-raised-button color="primary" (click)="requestServiceRequestLock(false)">編集を許可</button>
     </ng-container>
     <ng-container *ngIf="!service.lock">
-      <button mat-raised-button color="warn" (click)="requestServiceRequestLock(true)">ユーザ側からの編集を拒否</button>
+      <button mat-raised-button color="warn" (click)="requestServiceRequestLock(true)">編集を拒否</button>
     </ng-container>
     <br>
     <br>
@@ -230,12 +233,12 @@
           </ng-container>
         </table>
         <br>
-        <table>
-          <tr>
-            <th colspan="4">技術連絡担当者</th>
-          </tr>
-          <ng-container *ngIf="service.jpnic_tech !== null">
-            <ng-container *ngFor="let tmpJPNICTech of service.jpnic_tech">
+        <ng-container *ngIf="service.jpnic_tech !== null">
+          <ng-container *ngFor="let tmpJPNICTech of service.jpnic_tech">
+            <table>
+              <tr>
+                <th colspan="4">技術連絡担当者</th>
+              </tr>
               <tr>
                 <th>ID</th>
                 <td colspan="3">{{tmpJPNICTech.ID}}</td>
@@ -293,9 +296,9 @@
                 <th>Country</th>
                 <td colspan="3">{{tmpJPNICTech.country}}</td>
               </tr>
-            </ng-container>
+            </table>
           </ng-container>
-        </table>
+        </ng-container>
         <br>
       </mat-tab>
       <mat-tab label="接続情報">

@@ -342,7 +342,7 @@ export class GroupDetailCreateService implements OnInit {
   }
 
   addEventEnd(event: MatDatepickerInputEvent<Date>) {
-    this.dateStart = event.value.getFullYear() + '-' + ('00' + (event.value.getMonth() + 1)).slice(-2) +
+    this.dateEnd = event.value.getFullYear() + '-' + ('00' + (event.value.getMonth() + 1)).slice(-2) +
       '-' + ('00' + (event.value.getDate())).slice(-2);
   }
 
@@ -447,7 +447,7 @@ export class GroupDetailCreateService implements OnInit {
     }
 
     if (this.needJPNIC || this.needGlobalAS) {
-      if (this.checkV4 && this.checkV6) {
+      if (!this.checkV4 && !this.checkV6) {
         this.commonService.openBar('v4とv6どちらか選択する必要があります。。', 5000);
         return;
       }

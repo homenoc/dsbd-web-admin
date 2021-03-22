@@ -235,7 +235,7 @@
               </mat-card-subtitle>
             </mat-card-content>
             <mat-card-actions>
-              <button mat-button (click)="servicePage(d.ID)">詳細</button>
+              <button mat-raised-button (click)="servicePage(d.ID)">詳細</button>
               <p>（開通/未開通処理を行いたい場合は詳細ボタンよりできます。）</p>
             </mat-card-actions>
             <ng-container *ngFor="let connection of d.connections">
