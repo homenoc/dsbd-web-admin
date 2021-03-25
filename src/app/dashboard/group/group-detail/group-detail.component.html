@@ -11,27 +11,27 @@
           <button mat-raised-button color="primary" (click)="updatePass(true)">審査承認(グループ)</button>
         </ng-container>
         <ng-container *ngIf="group.pass">
-        <ng-container *ngIf="group.status === 0">
-          <button mat-raised-button color="primary" (click)="updateStatus(1)">サービス情報の追加</button>
-        </ng-container>
-        <ng-container *ngIf="group.status === 1">
-          <button mat-raised-button color="primary" (click)="updateStatus(2)">審査承認(サービス)</button>
-        </ng-container>
-        <ng-container *ngIf="group.status === 2">
-          <button mat-raised-button color="primary" (click)="updateStatus(3)">接続情報記入</button>
-        </ng-container>
-        <ng-container *ngIf="group.status === 3">
-          <button mat-raised-button color="primary" (click)="updateStatus(4)">開通作業</button>
-        </ng-container>
-        <ng-container *ngIf="group.status === 4">
-          <button mat-raised-button color="primary" (click)="updateStatus(0)">開通</button>
-        </ng-container>
-        <ng-container *ngIf="group.lock">
-          <button mat-raised-button color="primary" (click)="requestLock(false)">ユーザ側からの変更を許可</button>
-        </ng-container>
-        <ng-container *ngIf="!group.lock">
-          <button mat-raised-button color="warn" (click)="requestLock(true)">ユーザ側からの変更を拒否</button>
-        </ng-container>
+          <ng-container *ngIf="group.status === 0">
+            <button mat-raised-button color="primary" (click)="updateStatus(1)">サービス情報の追加</button>
+          </ng-container>
+          <ng-container *ngIf="group.status === 1">
+            <button mat-raised-button color="primary" (click)="updateStatus(2)">審査承認(サービス)</button>
+          </ng-container>
+          <ng-container *ngIf="group.status === 2">
+            <button mat-raised-button color="primary" (click)="updateStatus(3)">接続情報記入</button>
+          </ng-container>
+          <ng-container *ngIf="group.status === 3">
+            <button mat-raised-button color="primary" (click)="updateStatus(4)">開通作業</button>
+          </ng-container>
+          <ng-container *ngIf="group.status === 4">
+            <button mat-raised-button color="primary" (click)="updateStatus(0)">開通</button>
+          </ng-container>
+          <ng-container *ngIf="group.lock">
+            <button mat-raised-button color="primary" (click)="requestLock(false)">ユーザ側からの変更を許可</button>
+          </ng-container>
+          <ng-container *ngIf="!group.lock">
+            <button mat-raised-button color="warn" (click)="requestLock(true)">ユーザ側からの変更を拒否</button>
+          </ng-container>
         </ng-container>
         <button mat-raised-button [matMenuTriggerFor]="abolished" color="warn">廃止</button>
         <mat-menu #abolished="matMenu">
@@ -244,7 +244,12 @@
                   <mat-expansion-panel-header>
                     <mat-panel-title>
                       <b>{{d.group_id}}-{{d.service_template.type}}{{('000' + d.service_number).slice(-3)}}-{{connection.connection_template.type}}{{('000' + connection.connection_number).slice(-3)}}
-                        ({{connection.noc.name}})
+                        <ng-container *ngIf="connection.noc === null">
+                          (希望NOCなし)
+                        </ng-container>
+                        <ng-container *ngIf="connection.noc !== null">
+                          ({{connection.noc.name}})
+                        </ng-container>
                       </b>
                       <br>
                     </mat-panel-title>
@@ -289,7 +294,12 @@
                     </tr>
                     <tr>
                       <th>接続NOC</th>
-                      <td colspan="2">{{connection.noc.name}}</td>
+                      <ng-container *ngIf="connection.noc === null">
+                        <td colspan="2">希望NOCなし</td>
+                      </ng-container>
+                      <ng-container *ngIf="connection.noc !== null">
+                        <td colspan="2">{{connection.noc.name}}</td>
+                      </ng-container>
                     </tr>
                     <tr>
                       <th>トンネル終端アドレス（貴団体側）</th>
