@@ -19,6 +19,7 @@
       <h2>1.1.1. 割り当てを希望するIPアドレスをお知らせください</h2>
       <p>ネットワーク名は半角英数字とハイフンで12文字以内で入力してください</p>
       <mat-checkbox [(ngModel)]="checkV4">IPv4アドレスのアサインを希望する</mat-checkbox>
+      <p>/28より多く、アドレスを割り当てたい方はサポートよりご相談ください。</p>
       <form *ngIf="checkV4" [formGroup]="jpnicV4">
         <mat-form-field [style.width.px]=600>
           <mat-label>IPv4ネットワーク名</mat-label>
@@ -27,12 +28,15 @@
           </label>
         </mat-form-field>
         <br>
-        <mat-form-field [style.width.px]=800>
-          <mat-label>IPv4 Subnet</mat-label>
-          <label>
-            <input matInput placeholder="Ex. /x" formControlName="subnet">
-          </label>
+        <mat-form-field [style.width.px]=600>
+          <mat-label>Subnet</mat-label>
+          <mat-select formControlName="subnet" required>
+            <ng-container *ngFor="let ipv4 of ipv4Template">
+              <mat-option value="{{ipv4.subnet}}" (click)="tmpIPQuantity = ipv4.quantity">{{ipv4.title}}</mat-option>
+            </ng-container>
+          </mat-select>
         </mat-form-field>
+        <br><br>
       </form>
       <br>
       <mat-checkbox [(ngModel)]="checkV6">IPv6アドレスのアサインを希望する</mat-checkbox>
@@ -44,12 +48,15 @@
           </label>
         </mat-form-field>
         <br>
-        <mat-form-field [style.width.px]=800>
-          <mat-label>IPv6 Subnet</mat-label>
-          <label>
-            <input matInput placeholder="Ex. /x" formControlName="subnet">
-          </label>
+        <mat-form-field [style.width.px]=600>
+          <mat-label>Subnet</mat-label>
+          <mat-select formControlName="subnet" required>
+            <ng-container *ngFor="let ipv6 of ipv6Template">
+              <mat-option value="{{ipv6.subnet}}">{{ipv6.title}}</mat-option>
+            </ng-container>
+          </mat-select>
         </mat-form-field>
+        <br><br>
       </form>
       <br><br>
       <h2>1.1.2. JPNICへ登録する情報についてお知らせください</h2>
@@ -119,6 +126,11 @@
         </mat-form-field>
         <br>
         <mat-form-field appearance="fill">
+          <mat-label>メールアドレス (必須)</mat-label>
+          <input matInput [type]="hide ? 'mail' : 'email'" formControlName="mail">
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="fill">
           <mat-label>郵便番号 (必須)</mat-label>
           <input matInput [type]="hide ? 'postcode' : 'text'" formControlName="postcode">
         </mat-form-field>
@@ -141,16 +153,6 @@
         <mat-form-field appearance="fill">
           <mat-label>部署名(English)</mat-label>
           <input matInput [type]="hide ? 'dept_en' : 'text'" formControlName="dept_en">
-        </mat-form-field>
-        <br>
-        <mat-form-field appearance="fill">
-          <mat-label>役職</mat-label>
-          <input matInput [type]="hide ? 'pos' : 'text'" formControlName="pos">
-        </mat-form-field>
-        <br>
-        <mat-form-field appearance="fill">
-          <mat-label>役職(English)</mat-label>
-          <input matInput [type]="hide ? 'pos_en' : 'text'" formControlName="pos_en">
         </mat-form-field>
         <br>
         <mat-form-field appearance="fill">
@@ -204,6 +206,11 @@
             </mat-form-field>
             <br>
             <mat-form-field appearance="fill">
+              <mat-label>メールアドレス (必須)</mat-label>
+              <input matInput [type]="hide ? 'mail' : 'email'" formControlName="mail">
+            </mat-form-field>
+            <br>
+            <mat-form-field appearance="fill">
               <mat-label>郵便番号 (必須)</mat-label>
               <div [formGroupName]="i">
                 <input matInput [type]="hide ? 'postcode' : 'text'" formControlName="postcode">
@@ -239,20 +246,6 @@
             </mat-form-field>
             <br>
             <mat-form-field appearance="fill">
-              <mat-label>役職</mat-label>
-              <div [formGroupName]="i">
-                <input matInput [type]="hide ? 'pos' : 'text'" formControlName="pos">
-              </div>
-            </mat-form-field>
-            <br>
-            <mat-form-field appearance="fill">
-              <mat-label>役職(English)</mat-label>
-              <div [formGroupName]="i">
-                <input matInput [type]="hide ? 'pos_en' : 'text'" formControlName="pos_en">
-              </div>
-            </mat-form-field>
-            <br>
-            <mat-form-field appearance="fill">
               <mat-label>電話番号 (必須)</mat-label>
               <div [formGroupName]="i">
                 <input matInput [type]="hide ? 'tel' : 'text'" formControlName="tel">
@@ -280,46 +273,66 @@
         <button mat-raised-button color="primary" (click)="addTechUserOptionForm()">追加</button>
       </form>
       <br>
-      <h2>1.1.5. IPv4ネットワークプラン</h2>
-      <p>IPv4アドレスの割り当てには、JPNICの定めるIPアドレスの利用率を満たして頂く必要がございます。
+      <ng-container *ngIf="checkV4">
+        <h2>1.1.5. IPv4ネットワークプラン</h2>
+        <p>IPv4アドレスの割り当てには、JPNICの定めるIPアドレスの利用率を満たして頂く必要がございます。
+          <br>
+          最低でも割り当てから3カ月以内に25%、6カ月以内に25%、1年以内に50％をご利用いただく必要があります。
+          <br>
+          以下のフォームにIPアドレスの利用計画をご記入ください。</p>
         <br>
-        最低でも割り当てから3カ月以内に25%、6カ月以内に25%、1年以内に50％をご利用いただく必要があります。
-        <br>
-        以下のフォームにIPアドレスの利用計画をご記入ください。</p>
-      <br>
-      <form [formGroup]="plan">
-        <div formArrayName="v4">
-          <div *ngFor="let option of planProcess.controls; let i = index">
-            <mat-form-field>
-              <div [formGroupName]="i">
-                <input class="width" matInput placeholder="name" type="text" formControlName="name"/></div>
-            </mat-form-field>
-            &nbsp;&nbsp;&nbsp;
-            <mat-form-field>
-              <div [formGroupName]="i">
-                <input class="full-width" matInput placeholder="直後" type="number" formControlName="after"/></div>
-            </mat-form-field>
-            &nbsp;&nbsp;&nbsp;
-            <mat-form-field>
-              <div [formGroupName]="i">
-                <input class="full-width" matInput placeholder="半年後" type="number" formControlName="half_year"/>
-              </div>
-            </mat-form-field>
-            &nbsp;&nbsp;&nbsp;
-            <mat-form-field>
-              <div [formGroupName]="i">
-                <input class="full-width" matInput placeholder="1年後" type="number" formControlName="one_year"/>
-              </div>
-            </mat-form-field>
-            &nbsp;&nbsp;&nbsp;
-            <button mat-raised-button color="warn" (click)="removePlanOptionForm(i)">削除</button>
+        <form [formGroup]="plan">
+          <div formArrayName="v4">
+            <div *ngFor="let option of planProcess.controls; let i = index">
+              <mat-form-field>
+                <div [formGroupName]="i">
+                  <input class="width" matInput placeholder="name" type="text" formControlName="name"/></div>
+              </mat-form-field>
+              &nbsp;&nbsp;&nbsp;
+              <mat-form-field>
+                <div [formGroupName]="i">
+                  <input class="full-width" matInput placeholder="直後" type="number" formControlName="after"
+                         (change)="checkPlan()"/>
+                </div>
+              </mat-form-field>
+              &nbsp;&nbsp;&nbsp;
+              <mat-form-field>
+                <div [formGroupName]="i">
+                  <input class="full-width" matInput placeholder="半年後" type="number" formControlName="half_year"
+                         (change)="checkPlan()"/>
+                </div>
+              </mat-form-field>
+              &nbsp;&nbsp;&nbsp;
+              <mat-form-field>
+                <div [formGroupName]="i">
+                  <input class="full-width" matInput placeholder="1年後" type="number" formControlName="one_year"
+                         (change)="checkPlan()"/>
+                </div>
+              </mat-form-field>
+              &nbsp;&nbsp;&nbsp;
+              <button mat-raised-button color="warn" (click)="removePlanOptionForm(i)">削除</button>
+            </div>
           </div>
-        </div>
-        <button mat-raised-button color="primary" (click)="addPlanOptionForm()">追加</button>
-      </form>
-      <br>
-      <p>例) 直後: 1ホスト 半年後: 5ホスト 1年後: 6ホストの場合、「1/5/6」のように入力してください。</p>
-      <br>
+          <button mat-raised-button color="primary" (click)="addPlanOptionForm()">追加</button>
+        </form>
+        <br>
+        <br>
+        <ng-container *ngIf="!planAfter">
+          <p><font color="red">直後のアドレス使用率が25%未満又は100%を超えています。</font></p>
+        </ng-container>
+        <ng-container *ngIf="!planHalfYear">
+          <p><font color="red">半年後のアドレス使用率が25%未満又は100を超えています。。</font></p>
+        </ng-container>
+        <ng-container *ngIf="!planOneYear">
+          <p><font color="red">1年後のアドレス使用率が50%未満又は100%を超えています。</font></p>
+        </ng-container>
+        <ng-container *ngIf="planAfter && planHalfYear && planOneYear">
+          <p><font color="green">OK！！</font></p>
+        </ng-container>
+        <br>
+        <p>例) 直後: 1ホスト 半年後: 5ホスト 1年後: 6ホストの場合、「1/5/6」のように入力してください。</p>
+        <br>
+      </ng-container>
     </ng-container>
     <br>
     <ng-container *ngIf="needGlobalAS">
@@ -353,10 +366,10 @@
     <ng-container *ngIf="needRoute">
       <h2>1.2. 当団体から広報する経路をお選び下さい（BGPの方のみ）</h2>
       <section>
-        <mat-checkbox [(ngModel)]="routeV4Check">IPv4でBGPの経路広告を希望する</mat-checkbox>
+        <mat-checkbox *ngIf="checkV4" [(ngModel)]="routeV4Check">IPv4でBGPの経路広告を希望する</mat-checkbox>
       </section>
       <section>
-        <mat-checkbox [(ngModel)]="routeV6Check">IPv6でBGPの経路広告を希望する</mat-checkbox>
+        <mat-checkbox *ngIf="checkV6" [(ngModel)]="routeV6Check">IPv6でBGPの経路広告を希望する</mat-checkbox>
       </section>
       <br>
       <ng-container *ngIf="routeV4Check">

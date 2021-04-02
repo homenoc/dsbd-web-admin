@@ -26,6 +26,11 @@
       </mat-form-field>
       <br>
       <mat-form-field appearance="fill">
+        <mat-label>メールアドレス (必須)</mat-label>
+        <input matInput [type]="hide ? 'mail' : 'email'" formControlName="mail">
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="fill">
         <mat-label>組織名 (必須)</mat-label>
         <input matInput [type]="hide ? 'org' : 'text'" formControlName="org">
       </mat-form-field>
