@@ -1,0 +1,40 @@
+.contract {
+  margin-top: 7px;
+  margin-left: 10px;
+  margin-right: 10px;
+
+  table {
+    border-collapse: collapse;
+    margin: 0 auto;
+    width: 80%;
+
+  }
+
+  td, th {
+    border: 1px solid #ccc;
+    padding: 10px;
+  }
+
+  th {
+    //background: #6b9144;
+    white-space: pre-wrap;
+  }
+
+  tr:first-child th {
+    border-top: 5px solid #005ab3;
+  }
+
+  tr:first-child td {
+    border-top: 5px solid #ccc;
+  }
+
+  p {
+    white-space: pre-wrap;
+    //color: #000000;
+  }
+
+  button {
+    margin-left: 10px;
+  }
+
+}
