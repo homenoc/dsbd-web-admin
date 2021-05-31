@@ -21,9 +21,7 @@ export default class App extends React.Component {
         return (
             <BrowserRouter>
                 <Switch>
-                    <Route exact path="/register" component={SignUp}/>
                     <Route exact path="/login" component={SignIn}/>
-                    <Route exact path="/forget" component={PasswordRecovery}/>
                     <Route exact path="/dashboard" component={Dashboard}/>
                     <Route exact path="/dashboard/notice" component={Notice}/>
                     <Route exact path="/dashboard/group" component={Group}/>
