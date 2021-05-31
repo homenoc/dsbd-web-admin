@@ -96,7 +96,7 @@ function RowConnection(props: {
             </TableCell>
             <TableCell align="right">
                 <Box display="flex" justifyContent="flex-end">
-                    <ConnectionGetDialogs key={"connection_get_dialog"} connection={connection}
+                    <ConnectionGetDialogs key={"connection_get_dialog"} connection={connection} service={service}
                                           template={template} reload={reload}/>
                     &nbsp;
                     <DeleteDialog key={"connection_delete_alert_dialog_" + connection.ID} id={connection.ID}

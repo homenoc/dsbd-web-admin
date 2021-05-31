@@ -8,7 +8,7 @@ import {
 } from "@material-ui/core";
 import {
     BGPRouterDetailData,
-    ConnectionDetailData,
+    ConnectionDetailData, ServiceDetailData,
     TemplateData, TunnelEndPointRouterIPTemplateData
 } from "../../../interface";
 import classes from "./ConnectionDialog.module.scss";
@@ -18,11 +18,12 @@ import useStyles from "./styles";
 import {Open} from "../../../components/Dashboard/Open/Open";
 
 export default function ConnectionGetDialogs(props: {
+    service: ServiceDetailData,
     connection: ConnectionDetailData,
     template: TemplateData,
     reload: Dispatch<SetStateAction<boolean>>
 }) {
-    const {connection, template, reload} = props
+    const {service, connection, template, reload} = props
     const [open, setOpen] = React.useState(false);
 
     const handleClickOpen = () => {
@@ -49,17 +50,18 @@ export default function ConnectionGetDialogs(props: {
                 <DialogContent dividers>
                     <Grid container spacing={3}>
                         <Grid item xs={3}>
-                            <ConnectionStatus key={"connectionStatus"} connection={connection}/>
+                            <ConnectionStatus key={"connectionStatus"} connection={connection} service={service}/>
                         </Grid>
                         <Grid item xs={3}>
                             <ConnectionEtc key={"connectionETC"} connection={connection}/>
                         </Grid>
                         <Grid item xs={6}>
-                            <ConnectionOpen key={"connection_open"} connection={connection}
+                            <ConnectionOpen key={"connection_open"} connection={connection} service={service}
                                             template={template} setReload={reload}/>
                         </Grid>
                         <Grid item xs={6}>
-                            <ConnectionUserDisplay key={"connection_user_display"} connection={connection}/>
+                            <ConnectionUserDisplay key={"connection_user_display"} service={service}
+                                                   connection={connection}/>
                         </Grid>
                     </Grid>
                 </DialogContent>
@@ -115,11 +117,12 @@ export function ConnectionOpenButton(props: {
 }
 
 export function ConnectionOpen(props: {
+    service: ServiceDetailData
     connection: ConnectionDetailData,
     template: TemplateData,
     setReload: Dispatch<SetStateAction<boolean>>
 }) {
-    const {connection, template, setReload} = props
+    const {service, connection, template, setReload} = props
     const [connectionCopy, setConnectionCopy] = useState(connection);
     const [lock, setLock] = React.useState(true);
     const classes = useStyles();
@@ -138,7 +141,7 @@ export function ConnectionOpen(props: {
             <Card className={classes.root}>
                 <CardContent>
                     <br/>
-                    <ConnectionOpenL3User key={"connection_open_l3_user"} connection={connectionCopy}
+                    <ConnectionOpenL3User key={"connection_open_l3_user"} connection={connectionCopy} service={service}
                                           setConnection={setConnectionCopy} lock={lock}/>
                     <ConnectionOpenVPN key={"Open_VPN"} connection={connectionCopy} setConnection={setConnectionCopy}
                                        lock={lock}/>
@@ -242,14 +245,16 @@ export function ConnectionOpenVPN(props: {
 }
 
 export function ConnectionOpenL3User(props: {
+    service: ServiceDetailData,
     connection: ConnectionDetailData,
     setConnection: Dispatch<SetStateAction<ConnectionDetailData>>,
     lock: boolean,
 }) {
-    const {connection, setConnection, lock} = props
+    const {service, connection, setConnection, lock} = props
     const classes = useStyles();
 
-    if (connection.service === undefined || !connection.service.service_template.need_route) {
+    console.log(connection)
+    if (service === undefined || !service.service_template.need_route) {
         return null
     } else {
         return (
@@ -316,11 +321,14 @@ export function ConnectionOpenL3User(props: {
     }
 }
 
-export function ConnectionStatus(props: { connection: ConnectionDetailData }): any {
+export function ConnectionStatus(props: {
+    service: ServiceDetailData
+    connection: ConnectionDetailData
+}): any {
     const classes = useStyles();
-    const {connection} = props;
-    const serviceCode = connection.service?.group_id + "-" + connection.service?.service_template.type +
-        ('000' + connection.service?.service_number).slice(-3) + "-" +
+    const {service, connection} = props;
+    const serviceCode = service.group_id + "-" + service.service_template.type +
+        ('000' + service.service_number).slice(-3) + "-" +
         connection.connection_template.type + ('000' + connection.connection_number).slice(-3);
     const createDate = "作成日: " + connection.CreatedAt;
     const updateDate = "更新日: " + connection.UpdatedAt;
@@ -438,8 +446,11 @@ export function ConnectionMonitorDisplay(props: { monitor: boolean }) {
     }
 }
 
-export function ConnectionUserDisplay(props: { connection: ConnectionDetailData }) {
-    const {connection} = props
+export function ConnectionUserDisplay(props: {
+    service: ServiceDetailData
+    connection: ConnectionDetailData
+}) {
+    const {service, connection} = props
 
     const distinctionIPAssign = (our: boolean) => {
         if (our) {
@@ -488,16 +499,11 @@ export function ConnectionUserDisplay(props: { connection: ConnectionDetailData 
                         </tr>
                         <tr>
                             <th>利用料金</th>
-                            {
-                                connection.service !== undefined && getFee(connection.service.fee)
-                            }
+                            {getFee(service.fee)}
                         </tr>
                         <tr>
                             <th>当団体からのIPアドレスの割当</th>
-                            {
-                                connection.service !== undefined &&
-                                distinctionIPAssign(connection.service.service_template.need_jpnic)
-                            }
+                            {distinctionIPAssign(service.service_template.need_jpnic)}
                         </tr>
                         </thead>
                     </table>

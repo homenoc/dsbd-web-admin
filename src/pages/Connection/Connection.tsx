@@ -119,8 +119,12 @@ export default function Connection() {
                             {/*Group: {service.gr?.org}({service.group?.org_en})*/}
                         </CardContent>
                         <CardActions>
-                            <ConnectionGetDialogs key={"connection_get_dialog"} connection={connection}
-                                                  template={template} reload={setReload}/>
+                            {
+                                connection.service !== undefined &&
+                                <ConnectionGetDialogs key={"connection_get_dialog"} connection={connection}
+                                                      template={template} reload={setReload}
+                                                      service={connection.service}/>
+                            }
                         </CardActions>
                     </Card>
                 ))
