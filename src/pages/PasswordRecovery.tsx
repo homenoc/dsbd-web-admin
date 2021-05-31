@@ -10,7 +10,7 @@ import {
     TextField, ThemeProvider, Typography
 } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import {colorTheme} from './Theme';
+import {colorTheme} from "../components/Theme";
 import React, {FormEvent, useState} from 'react';
 
 const useStyles = makeStyles((theme) => ({

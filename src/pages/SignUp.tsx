@@ -9,10 +9,9 @@ import {
     makeStyles, TextField, ThemeProvider,
     Typography
 } from "@material-ui/core";
-import {Copyright} from "@material-ui/icons";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import {colorTheme} from "./Theme";
 import React from "react";
+import {colorTheme} from "../components/Theme";
 
 
 const useStyles = makeStyles((theme) => ({
