@@ -23,7 +23,7 @@ import {
     TemplateData,
 } from "../../../../interface";
 import useStyles from "../styles";
-import {check} from "../ConnectionAdd/check";
+import {check} from "./check";
 import {useSnackbar} from "notistack";
 import {Post} from "../../../../api/Connection";
 
@@ -220,7 +220,7 @@ export function ConnectionAddServiceSelect(props: {
                         >
                             {
                                 template.ipv6_route?.map((row, index) => (
-                                    <MenuItem key={"ipv4_route_" + index} value={row.ID}>{row.name}</MenuItem>
+                                    <MenuItem key={"ipv6_route_" + index} value={row.ID}>{row.name}</MenuItem>
                                 ))
                             }
                         </Select>

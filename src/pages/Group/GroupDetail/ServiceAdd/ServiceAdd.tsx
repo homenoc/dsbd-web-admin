@@ -733,7 +733,7 @@ export function ServiceAddJPNICIPv4Plan(props: {
                         <TextField
                             className={classes.formMedium}
                             required
-                            id="outlined-required"
+                            id="name"
                             label="Name"
                             value={inputPlan.name}
                             variant="outlined"
@@ -744,7 +744,7 @@ export function ServiceAddJPNICIPv4Plan(props: {
                         <TextField
                             className={classes.formVeryTooShort}
                             required
-                            id="outlined-required"
+                            id="after"
                             label="直後"
                             value={inputPlan.after}
                             type="number"
@@ -756,7 +756,7 @@ export function ServiceAddJPNICIPv4Plan(props: {
                         <TextField
                             className={classes.formVeryTooShort}
                             required
-                            id="outlined-required"
+                            id="half_year"
                             label="半年後"
                             value={inputPlan.half_year}
                             type="number"
@@ -768,7 +768,7 @@ export function ServiceAddJPNICIPv4Plan(props: {
                         <TextField
                             className={classes.formVeryTooShort}
                             required
-                            id="outlined-required"
+                            id="one_year"
                             label="1年後"
                             value={inputPlan.one_year}
                             type="number"
@@ -851,7 +851,7 @@ export function ServiceAddJPNICInfo(props: {
                 <TextField
                     className={classes.formShort}
                     required
-                    id="outlined-required"
+                    id="org"
                     label="組織名"
                     value={data.org}
                     variant="outlined"
@@ -865,7 +865,7 @@ export function ServiceAddJPNICInfo(props: {
                 <TextField
                     className={classes.formShort}
                     required
-                    id="outlined-required"
+                    id="org_en"
                     label="組織名(英語)"
                     value={data.org_en}
                     variant="outlined"
@@ -880,7 +880,7 @@ export function ServiceAddJPNICInfo(props: {
                 <TextField
                     className={classes.formVeryShort}
                     required
-                    id="outlined-required"
+                    id="postcode"
                     label="郵便番号"
                     value={data.postcode}
                     variant="outlined"
@@ -894,7 +894,7 @@ export function ServiceAddJPNICInfo(props: {
                 <TextField
                     className={classes.formLong}
                     required
-                    id="outlined-required"
+                    id="address"
                     label="住所(日本語)"
                     value={data.address}
                     variant="outlined"
@@ -908,7 +908,7 @@ export function ServiceAddJPNICInfo(props: {
                 <TextField
                     className={classes.formLong}
                     required
-                    id="outlined-required"
+                    id="address_en"
                     label="住所(英語)"
                     value={data.address_en}
                     variant="outlined"
@@ -942,7 +942,7 @@ export function ServiceAddJPNICAdmin(props: {
                 <TextField
                     className={classes.formVeryShort}
                     required
-                    id="outlined-required"
+                    id="jpnic_admin_org"
                     label="組織名"
                     value={jpnic.org}
                     variant="outlined"
@@ -957,7 +957,7 @@ export function ServiceAddJPNICAdmin(props: {
                 <TextField
                     className={classes.formVeryShort}
                     required
-                    id="outlined-required"
+                    id="jpnic_admin_org_en"
                     label="組織名(English)"
                     value={jpnic.org_en}
                     variant="outlined"
@@ -973,7 +973,7 @@ export function ServiceAddJPNICAdmin(props: {
                 <TextField
                     className={classes.formVeryShort}
                     required
-                    id="outlined-required"
+                    id="jpnic_admin_name"
                     label="名前"
                     value={jpnic.name}
                     variant="outlined"
@@ -988,7 +988,7 @@ export function ServiceAddJPNICAdmin(props: {
                 <TextField
                     className={classes.formVeryShort}
                     required
-                    id="outlined-required"
+                    id="jpnic_admin_name_en"
                     label="名前(English)"
                     value={jpnic.name_en}
                     variant="outlined"
@@ -1004,7 +1004,7 @@ export function ServiceAddJPNICAdmin(props: {
                 <TextField
                     className={classes.formVeryShort}
                     required
-                    id="outlined-required"
+                    id="jpnic_admin_postcode"
                     label="郵便番号"
                     value={jpnic.postcode}
                     variant="outlined"
@@ -1020,7 +1020,7 @@ export function ServiceAddJPNICAdmin(props: {
                 <TextField
                     className={classes.formLong}
                     required
-                    id="outlined-required"
+                    id="jpnic_admin_address"
                     label="住所"
                     value={jpnic.address}
                     variant="outlined"
@@ -1036,7 +1036,7 @@ export function ServiceAddJPNICAdmin(props: {
                 <TextField
                     className={classes.formLong}
                     required
-                    id="outlined-required"
+                    id="jpnic_admin_address_en"
                     label="住所(English)"
                     value={jpnic.address_en}
                     variant="outlined"
@@ -1051,7 +1051,7 @@ export function ServiceAddJPNICAdmin(props: {
                 <br/>
                 <TextField
                     className={classes.formVeryShort}
-                    id="outlined-required"
+                    id="jpnic_admin_dept"
                     label="Dept"
                     value={jpnic.dept}
                     variant="outlined"
@@ -1065,7 +1065,7 @@ export function ServiceAddJPNICAdmin(props: {
                 />
                 <TextField
                     className={classes.formVeryShort}
-                    id="outlined-required"
+                    id="jpnic_admin_dept_en"
                     label="Dept(English)"
                     value={jpnic.dept_en}
                     variant="outlined"
@@ -1080,7 +1080,7 @@ export function ServiceAddJPNICAdmin(props: {
                 <TextField
                     className={classes.formVeryShort}
                     required
-                    id="outlined-required"
+                    id="jpnic_admin_tel"
                     label="電話番号"
                     value={jpnic.tel}
                     variant="outlined"
@@ -1094,7 +1094,7 @@ export function ServiceAddJPNICAdmin(props: {
                 />
                 <TextField
                     className={classes.formVeryShort}
-                    id="outlined-required"
+                    id="jpnic_admin_fax"
                     label="Fax"
                     value={jpnic.fax}
                     variant="outlined"
@@ -1110,7 +1110,7 @@ export function ServiceAddJPNICAdmin(props: {
                 <TextField
                     className={classes.formShort}
                     required
-                    id="outlined-required"
+                    id="jpnic_admin_mail"
                     label="Mail"
                     value={jpnic.mail}
                     variant="outlined"
@@ -1125,7 +1125,7 @@ export function ServiceAddJPNICAdmin(props: {
                 <TextField
                     className={classes.formVeryShort}
                     required
-                    id="outlined-required"
+                    id="jpnic_admin_country"
                     label="住居国"
                     value={jpnic.country}
                     variant="outlined"
@@ -1221,7 +1221,7 @@ export function ServiceAddJPNICTech(props: {
                         <TextField
                             className={classes.formVeryShort}
                             required
-                            id="outlined-required"
+                            id="jpnic_tech_org"
                             label="Org"
                             value={jpnic.org}
                             variant="outlined"
@@ -1235,7 +1235,7 @@ export function ServiceAddJPNICTech(props: {
                         <TextField
                             className={classes.formVeryShort}
                             required
-                            id="outlined-required"
+                            id="jpnic_tech_org_en"
                             label="Org(English)"
                             value={jpnic.org_en}
                             variant="outlined"
@@ -1250,7 +1250,7 @@ export function ServiceAddJPNICTech(props: {
                         <TextField
                             className={classes.formVeryShort}
                             required
-                            id="outlined-required"
+                            id="jpnic_tech_name"
                             label="名前"
                             value={jpnic.name}
                             variant="outlined"
@@ -1264,7 +1264,7 @@ export function ServiceAddJPNICTech(props: {
                         <TextField
                             className={classes.formVeryShort}
                             required
-                            id="outlined-required"
+                            id="jpnic_tech_name_en"
                             label="名前(English)"
                             value={jpnic.name_en}
                             variant="outlined"
@@ -1279,7 +1279,7 @@ export function ServiceAddJPNICTech(props: {
                         <TextField
                             className={classes.formVeryShort}
                             required
-                            id="outlined-required"
+                            id="jpnic_tech_postcode"
                             label="郵便番号"
                             value={jpnic.postcode}
                             variant="outlined"
@@ -1294,7 +1294,7 @@ export function ServiceAddJPNICTech(props: {
                         <TextField
                             className={classes.formLong}
                             required
-                            id="outlined-required"
+                            id="jpnic_tech_address"
                             label="住所"
                             value={jpnic.address}
                             variant="outlined"
@@ -1309,7 +1309,7 @@ export function ServiceAddJPNICTech(props: {
                         <TextField
                             className={classes.formLong}
                             required
-                            id="outlined-required"
+                            id="jpnic_tech_address_en"
                             label="住所(English)"
                             value={jpnic.address_en}
                             variant="outlined"
@@ -1323,7 +1323,7 @@ export function ServiceAddJPNICTech(props: {
                         <br/>
                         <TextField
                             className={classes.formVeryShort}
-                            id="outlined-required"
+                            id="jpnic_tech_dept"
                             label="Dept"
                             value={jpnic.dept}
                             variant="outlined"
@@ -1336,7 +1336,7 @@ export function ServiceAddJPNICTech(props: {
                         />
                         <TextField
                             className={classes.formVeryShort}
-                            id="outlined-required"
+                            id="jpnic_tech_dept_en"
                             label="Dept(English)"
                             value={jpnic.dept_en}
                             variant="outlined"
@@ -1350,7 +1350,7 @@ export function ServiceAddJPNICTech(props: {
                         <TextField
                             className={classes.formVeryShort}
                             required
-                            id="outlined-required"
+                            id="jpnic_tech_tel"
                             label="電話番号"
                             value={jpnic.tel}
                             variant="outlined"
@@ -1363,7 +1363,7 @@ export function ServiceAddJPNICTech(props: {
                         />
                         <TextField
                             className={classes.formVeryShort}
-                            id="outlined-required"
+                            id="jpnic_tech_fax"
                             label="Fax"
                             value={jpnic.fax}
                             variant="outlined"
@@ -1379,7 +1379,7 @@ export function ServiceAddJPNICTech(props: {
                         <TextField
                             className={classes.formShort}
                             required
-                            id="outlined-required"
+                            id="jpnic_tech_mail"
                             label="Mail"
                             value={jpnic.mail}
                             variant="outlined"
@@ -1393,7 +1393,7 @@ export function ServiceAddJPNICTech(props: {
                         <TextField
                             className={classes.formVeryShort}
                             required
-                            id="outlined-required"
+                            id="jpnic_tech_country"
                             label="住居国"
                             value={jpnic.country}
                             variant="outlined"
@@ -1427,7 +1427,7 @@ export function ServiceAddJPNICTech(props: {
                                     <TextField
                                         className={classes.formVeryShort}
                                         required
-                                        id="outlined-required"
+                                        id={"jpnic_tech_" + index + "_org"}
                                         label="組織名"
                                         value={row.org}
                                         variant="outlined"
@@ -1441,7 +1441,7 @@ export function ServiceAddJPNICTech(props: {
                                     <TextField
                                         className={classes.formVeryShort}
                                         required
-                                        id="outlined-required"
+                                        id={"jpnic_tech_" + index + "_org_en"}
                                         label="組織名(English)"
                                         value={row.org_en}
                                         variant="outlined"
@@ -1456,7 +1456,7 @@ export function ServiceAddJPNICTech(props: {
                                     <TextField
                                         className={classes.formVeryShort}
                                         required
-                                        id="outlined-required"
+                                        id={"jpnic_tech_" + index + "_name"}
                                         label="名前"
                                         value={row.name}
                                         variant="outlined"
@@ -1470,7 +1470,7 @@ export function ServiceAddJPNICTech(props: {
                                     <TextField
                                         className={classes.formVeryShort}
                                         required
-                                        id="outlined-required"
+                                        id={"jpnic_tech_" + index + "_name_en"}
                                         label="名前(English)"
                                         value={row.name_en}
                                         variant="outlined"
@@ -1485,7 +1485,7 @@ export function ServiceAddJPNICTech(props: {
                                     <TextField
                                         className={classes.formVeryShort}
                                         required
-                                        id="outlined-required"
+                                        id={"jpnic_tech_" + index + "_postcode"}
                                         label="郵便番号"
                                         value={row.postcode}
                                         variant="outlined"
@@ -1500,7 +1500,7 @@ export function ServiceAddJPNICTech(props: {
                                     <TextField
                                         className={classes.formLong}
                                         required
-                                        id="outlined-required"
+                                        id={"jpnic_tech_" + index + "_address"}
                                         label="住所"
                                         value={row.address}
                                         variant="outlined"
@@ -1515,7 +1515,7 @@ export function ServiceAddJPNICTech(props: {
                                     <TextField
                                         className={classes.formLong}
                                         required
-                                        id="outlined-required"
+                                        id={"jpnic_tech_" + index + "_address_en"}
                                         label="住所(English)"
                                         value={row.address_en}
                                         variant="outlined"
@@ -1530,7 +1530,7 @@ export function ServiceAddJPNICTech(props: {
                                     <TextField
                                         className={classes.formVeryShort}
                                         required
-                                        id="outlined-required"
+                                        id={"jpnic_tech_" + index + "_dept"}
                                         label="Dept"
                                         value={row.dept}
                                         variant="outlined"
@@ -1544,7 +1544,7 @@ export function ServiceAddJPNICTech(props: {
                                     <TextField
                                         className={classes.formVeryShort}
                                         required
-                                        id="outlined-required"
+                                        id={"jpnic_tech_" + index + "_dept_en"}
                                         label="Dept(English)"
                                         value={row.dept_en}
                                         variant="outlined"
@@ -1558,7 +1558,7 @@ export function ServiceAddJPNICTech(props: {
                                     <TextField
                                         className={classes.formVeryShort}
                                         required
-                                        id="outlined-required"
+                                        id={"jpnic_tech_" + index + "_tel"}
                                         label="電話番号"
                                         value={row.tel}
                                         variant="outlined"
@@ -1572,7 +1572,7 @@ export function ServiceAddJPNICTech(props: {
                                     <TextField
                                         className={classes.formVeryShort}
                                         required
-                                        id="outlined-required"
+                                        id={"jpnic_tech_" + index + "_fax"}
                                         label="Fax"
                                         value={row.fax}
                                         variant="outlined"
@@ -1587,7 +1587,7 @@ export function ServiceAddJPNICTech(props: {
                                     <TextField
                                         className={classes.formShort}
                                         required
-                                        id="outlined-required"
+                                        id={"jpnic_tech_" + index + "_mail"}
                                         label="Mail"
                                         value={row.mail}
                                         variant="outlined"
@@ -1601,7 +1601,7 @@ export function ServiceAddJPNICTech(props: {
                                     <TextField
                                         className={classes.formVeryShort}
                                         required
-                                        id="outlined-required"
+                                        id={"jpnic_tech_" + index + "_country"}
                                         label="住居国"
                                         value={row.country}
                                         variant="outlined"
@@ -1772,7 +1772,7 @@ export function ServiceAddBandwidthDialogs(props: {
                 <TextField
                     className={classes.formVeryShort}
                     required
-                    id="outlined-required"
+                    id="avg_downstream"
                     label="平均上り利用帯域"
                     value={data.avg_downstream}
                     type="number"
@@ -1784,7 +1784,7 @@ export function ServiceAddBandwidthDialogs(props: {
                 <TextField
                     className={classes.formVeryShort}
                     required
-                    id="outlined-required"
+                    id="max_downstream"
                     label="最大上り利用帯域"
                     value={data.max_downstream}
                     type="number"
@@ -1797,7 +1797,7 @@ export function ServiceAddBandwidthDialogs(props: {
                 <TextField
                     className={classes.formVeryShort}
                     required
-                    id="outlined-required"
+                    id="avg_upstream"
                     label="平均下り利用帯域"
                     value={data.avg_upstream}
                     type="number"
@@ -1809,7 +1809,7 @@ export function ServiceAddBandwidthDialogs(props: {
                 <TextField
                     className={classes.formVeryShort}
                     required
-                    id="outlined-required"
+                    id="max_upstream"
                     label="最大下り利用帯域"
                     value={data.max_upstream}
                     type="number"
@@ -1860,7 +1860,7 @@ export function ServiceAddMaxASDialogs(props: {
                 <TextField
                     className={classes.formVeryShort}
                     required
-                    id="outlined-required"
+                    id="max_bandwidth_asn"
                     label="ASN"
                     value={data.max_bandwidth_as}
                     variant="outlined"
