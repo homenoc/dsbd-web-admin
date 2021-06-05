@@ -15,7 +15,6 @@ import useStyles from "./styles";
 import {ServiceAddAllowButton, ServiceLockButton} from "./ServiceMenu";
 import {useSnackbar} from "notistack";
 import {Put} from "../../../api/Service";
-import {Open} from "../../../components/Dashboard/Open/Open";
 import {ServiceJPNICTechBase} from "./JPNICTech/JPNICTech";
 import {ServiceJPNICAdminBase} from "./JPNICAdmin/JPNICAdmin";
 import {ServiceIPBase} from "./IP/IP";
@@ -27,6 +26,7 @@ export default function ServiceGetDialogs(props: {
 }) {
     const {service, reload, template} = props
     const [open, setOpen] = React.useState(false);
+    const classes = useStyles();
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -57,8 +57,20 @@ export default function ServiceGetDialogs(props: {
                         <Grid item xs={3}>
                             <ServiceOpen key={"ServiceOpen"} service={service} reload={reload}/>
                         </Grid>
-                        <Grid item xs={6}>
+                        <Grid item xs={3}>
                             <ServiceMainMenu key={"ServiceMainMenu"} service={service} reload={reload}/>
+                        </Grid>
+                        <Grid item xs={3}>
+                            <Card className={classes.root}>
+                                <CardContent>
+                                    <h3>Help</h3>
+                                    <h4>開通に向けて手順</h4>
+                                    <div>1. 該当のサービスを審査OKにする</div>
+                                    <div>2. 登録されたIPアドレスを確認/JPNICへの登録が完了すれば、該当のIPステータスを開通にする。</div>
+                                    <div>3. 接続情報を元に、開通作業を行う</div>
+                                    <div>4. 開通が完了すれば、接続情報からステータスを開通にする。</div>
+                                </CardContent>
+                            </Card>
                         </Grid>
                         <Grid item xs={6}>
                             <div className={cssModule.contract}>
@@ -169,8 +181,8 @@ export function ServiceOpenButton(props: {
     const {enqueueSnackbar} = useSnackbar();
 
     // Update Service Information
-    const updateInfo = (open: boolean) => {
-        service.open = open;
+    const updateInfo = (pass: boolean) => {
+        service.pass = pass;
         Put(service.group_id, service).then(res => {
             if (res.error === "") {
                 console.log(res.data);
@@ -184,16 +196,16 @@ export function ServiceOpenButton(props: {
         })
     }
 
-    if (!service.open) {
+    if (!service.pass) {
         return (
             <Button size="small" color="primary" disabled={lockInfo} onClick={() => updateInfo(true)}>
-                開通
+                審査済に変更
             </Button>
         )
     } else {
         return (
             <Button size="small" color="secondary" disabled={lockInfo} onClick={() => updateInfo(false)}>
-                未開通
+                審査中に変更
             </Button>
         )
     }
@@ -226,8 +238,23 @@ export function ServiceOpen(props: { service: ServiceDetailData, reload: Dispatc
                     label={serviceCode}
                 />
                 <br/>
-                <h3>Status</h3>
-                <Open key={service.ID} open={service.open}/>
+                <h3>Pass</h3>
+                {
+                    service.pass &&
+                    <Chip
+                        size="small"
+                        color="primary"
+                        label="審査OK"
+                    />
+                }
+                {
+                    !service.pass &&
+                    <Chip
+                        size="small"
+                        color="secondary"
+                        label="審査中/審査NG"
+                    />
+                }
                 <br/>
                 <br/>
                 <form className={classes.rootForm} noValidate autoComplete="off">
@@ -292,21 +319,6 @@ export function ServiceEtc(props: { service: ServiceDetailData }): any {
                     <tr>
                         <th>AS</th>
                         <td>{service.max_bandwidth_as}</td>
-                    </tr>
-                    </thead>
-                </table>
-                <h3>アドレス広報方法</h3>
-                <table aria-colspan={3}>
-                    <thead>
-                    <tr>
-                        <th colSpan={1}/>
-                        <th colSpan={1}>IPv4</th>
-                        <th colSpan={1}>IPv6</th>
-                    </tr>
-                    <tr>
-                        <th>Route</th>
-                        <td>{service.route_v4}</td>
-                        <td>{service.route_v6}</td>
                     </tr>
                     </thead>
                 </table>

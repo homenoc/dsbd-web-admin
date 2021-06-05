@@ -3,7 +3,7 @@ import {useSnackbar} from "notistack";
 import {Delete, Put} from "../../../api/Connection";
 import {
     Box,
-    Button,
+    Button, Chip,
     Dialog,
     DialogActions,
     DialogContent,
@@ -15,7 +15,6 @@ import {
 import {ConnectionDetailData, ServiceDetailData, TemplateData} from "../../../interface";
 import {TransitionProps} from "@material-ui/core/transitions";
 import ConnectionGetDialogs from "../../Connection/ConnectionDetail/ConnectionDialog";
-import {ChipGet} from "./Service";
 
 const Transition = React.forwardRef(function Transition(
     props: TransitionProps & { children?: React.ReactElement<any, any> },
@@ -92,7 +91,30 @@ function RowConnection(props: {
             <TableCell align="left">{serviceCode}</TableCell>
             <TableCell align="left">{connection.connection_template.name}</TableCell>
             <TableCell align="left">
-                <ChipGet open={connection.open} enable={connection.enable}/>
+                {
+                    !connection.enable &&
+                    <Chip
+                        size="small"
+                        color="secondary"
+                        label="無効"
+                    />
+                }
+                {
+                    connection.enable && connection.open &&
+                    <Chip
+                        size="small"
+                        color="primary"
+                        label="開通"
+                    />
+                }
+                {
+                    connection.enable && !connection.open &&
+                    <Chip
+                        size="small"
+                        color="secondary"
+                        label="未開通"
+                    />
+                }
             </TableCell>
             <TableCell align="right">
                 <Box display="flex" justifyContent="flex-end">

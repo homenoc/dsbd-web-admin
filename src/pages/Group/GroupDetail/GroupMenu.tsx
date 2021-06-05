@@ -55,7 +55,7 @@ export function GroupStatusButton(props: { data: GroupDetailData, reload: Dispat
                     color={"primary"}
                     variant="contained"
                 >
-                    サービス申請追加
+                    サービス申請許可
                 </Button>
             }
         </div>

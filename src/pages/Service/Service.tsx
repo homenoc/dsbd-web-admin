@@ -62,9 +62,9 @@ export default function Service() {
 
     const checkConnection = (service: ServiceDetailData) => {
         if (value === 1) {
-            return service.open
+            return service.pass
         } else if (value === 2) {
-            return !service.open
+            return !service.pass
         } else {
             return true;
         }

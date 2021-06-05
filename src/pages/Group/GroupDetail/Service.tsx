@@ -20,6 +20,7 @@ import {Delete, Put} from "../../../api/Service";
 import {useSnackbar} from "notistack";
 import {TransitionProps} from "@material-ui/core/transitions";
 import {RowConnectionCheck} from "./Connection";
+import {Update} from "../../../api/Connection";
 
 const useRowStyles = makeStyles({
     root: {
@@ -39,8 +40,12 @@ const Transition = React.forwardRef(function Transition(
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export function ChipGet(props: { open: boolean, enable: boolean }) {
-    const {open, enable} = props;
+export function ChipGet(props: {
+    open: boolean,
+    pass: boolean,
+    enable: boolean
+}) {
+    const {open, pass, enable} = props;
 
     if (!enable) {
         return (
@@ -51,21 +56,20 @@ export function ChipGet(props: { open: boolean, enable: boolean }) {
             />
         )
     } else {
-
-        if (open) {
-            return (
-                <Chip
-                    size="small"
-                    color="primary"
-                    label="開通"
-                />
-            )
-        } else {
+        if (!pass) {
             return (
                 <Chip
                     size="small"
                     color="secondary"
-                    label="未開通"
+                    label="未審査"
+                />
+            )
+        }else{
+            return (
+                <Chip
+                    size="small"
+                    color="primary"
+                    label="審査OK"
                 />
             )
         }
@@ -98,11 +102,26 @@ function RowService(props: {
                     align="left">{serviceCode}</TableCell>
                 <TableCell align="left">{service.service_template.name}</TableCell>
                 <TableCell align="left">
-                    <ChipGet open={service.open} enable={service.enable}/>
+                    <ChipGet open={service.pass} pass={service.pass} enable={service.enable}/>
+                    &nbsp;
+                    {
+                        service.enable && service.add_allow &&
+                        <Chip
+                            size="small"
+                            color="primary"
+                            label="接続申請追加許可中"
+                        />
+                    }
                 </TableCell>
                 <TableCell align="left">{service.asn}</TableCell>
                 <TableCell align="right">
                     <Box display="flex" justifyContent="flex-end">
+                        {
+                            !service.pass &&
+                            <ExaminationDialog key={"service_examination_dialog_" + service.ID} id={service.ID}
+                                               service={service} reload={reload}/>
+                        }
+                        &nbsp;
                         <ServiceGetDialogs key={service.ID + "Dialog"} service={service} reload={reload}
                                            template={template}/>
                         &nbsp;
@@ -125,6 +144,68 @@ function RowService(props: {
                 </TableCell>
             </TableRow>
         </React.Fragment>
+    );
+}
+
+function ExaminationDialog(props: {
+    id: number
+    service: ServiceDetailData
+    reload: Dispatch<SetStateAction<boolean>>
+}) {
+    const {id, service, reload} = props;
+    const [open, setOpen] = React.useState(false);
+    const {enqueueSnackbar} = useSnackbar();
+
+    const updateService = () => {
+        service.pass = true;
+        Put(id, service).then(res => {
+            if (res.error === "") {
+                console.log(res.data);
+                enqueueSnackbar('Request Success', {variant: "success"});
+            } else {
+                console.log(res.error);
+                enqueueSnackbar(String(res.error), {variant: "error"});
+            }
+            setOpen(false);
+            reload(true);
+        })
+    }
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    return (
+        <div>
+            <Button size="small" variant="outlined" color={"primary"} onClick={handleClickOpen}>審査OK</Button>
+            <Dialog
+                open={open}
+                TransitionComponent={Transition}
+                keepMounted
+                onClose={handleClose}
+                aria-labelledby="alert-dialog-slide-title"
+                aria-describedby="alert-dialog-slide-description"
+            >
+                <DialogTitle id="alert-dialog-slide-title">審査通過</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-slide-description">
+                        審査を通過させますか？
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose} color="primary">
+                        いいえ
+                    </Button>
+                    <Button onClick={updateService} color="primary">
+                        はい
+                    </Button>
+                </DialogActions>
+            </Dialog>
+        </div>
     );
 }
 
