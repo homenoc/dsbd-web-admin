@@ -1,5 +1,5 @@
 import {Button, Menu, MenuItem} from "@material-ui/core";
-import React, {Dispatch, SetStateAction} from "react";
+import React, {Dispatch, SetStateAction, useEffect} from "react";
 import {GroupDetailData} from "../../../interface";
 import useStyles from "./styles";
 import {Put} from "../../../api/Group";
@@ -11,29 +11,8 @@ export function GroupStatusButton(props: { data: GroupDetailData, reload: Dispat
     const {enqueueSnackbar} = useSnackbar();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
-
-    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
-
     const handleClose = () => {
         setAnchorEl(null);
-    };
-
-    const changeStatus = (status: number) => {
-        data.status = status;
-
-        Put(data.ID, data).then(res => {
-            if (res.error === "") {
-                console.log(res.data);
-                enqueueSnackbar('Request Success', {variant: "success"});
-            } else {
-                enqueueSnackbar(String(res.error), {variant: "error"});
-            }
-
-            handleClose();
-            reload(true);
-        })
     };
 
     const changePassStatus = (pass: boolean) => {
@@ -51,75 +30,36 @@ export function GroupStatusButton(props: { data: GroupDetailData, reload: Dispat
     };
 
 
-    if (data.pass) {
-        if (data.status === 2) {
-            return (
+    return (
+        <div>
+            {
+                !data.pass &&
                 <Button
                     className={classes.button1}
                     aria-controls="simple-menu"
                     aria-haspopup="true"
-                    onClick={() => changeStatus(3)}
+                    onClick={() => changePassStatus(true)}
                     color={"primary"}
                     variant="contained"
                 >
-                    サービス審査完了
+                    審査OK
                 </Button>
-            )
-        } else if (data.status === 4) {
-            return (
+            }
+            {
+                !data.add_allow &&
                 <Button
                     className={classes.button1}
                     aria-controls="simple-menu"
                     aria-haspopup="true"
-                    onClick={() => changeStatus(0)}
+                    onClick={() => changePassStatus(true)}
                     color={"primary"}
-                    variant="outlined"
+                    variant="contained"
                 >
-                    開通作業の完了
+                    サービス申請追加
                 </Button>
-            )
-        }
-
-        return (
-            <div>
-                <Button
-                    className={classes.button1}
-                    aria-controls="simple-menu"
-                    aria-haspopup="true"
-                    onClick={handleClick}
-                    color={"primary"}
-                    variant="outlined"
-                >
-                    Status変更処理
-                </Button>
-                <Menu
-                    id="simple-menu"
-                    anchorEl={anchorEl}
-                    keepMounted
-                    open={Boolean(anchorEl)}
-                    onClose={handleClose}
-                >
-                    <MenuItem onClick={() => changeStatus(0)}>(0)申込Statusなし</MenuItem>
-                    <MenuItem onClick={() => changeStatus(1)}>(1)[新規]サービス情報</MenuItem>
-                    <MenuItem onClick={() => changeStatus(3)}>(3)[新規]接続情報</MenuItem>
-                    <MenuItem onClick={() => changePassStatus(false)}>未審査状態に戻す</MenuItem>
-                </Menu>
-            </div>
-        )
-    } else {
-        return (
-            <Button
-                className={classes.button1}
-                aria-controls="simple-menu"
-                aria-haspopup="true"
-                onClick={() => changePassStatus(true)}
-                color={"primary"}
-                variant="contained"
-            >
-                審査
-            </Button>
-        )
-    }
+            }
+        </div>
+    )
 }
 
 export function GroupLockButton(props: { data: GroupDetailData, reload: Dispatch<SetStateAction<boolean>> }): any {

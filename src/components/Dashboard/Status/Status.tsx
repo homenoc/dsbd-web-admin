@@ -1,19 +1,38 @@
 import {Chip} from "@material-ui/core";
 import React from "react";
+import {GroupDetailData} from "../../../interface";
 
-export function GroupStatusStr(data: number): string {
+export function GroupStatusStr(data: GroupDetailData): string {
     let str: string = "";
 
-    if (data === 1) {
-        str = "[サービス]　記入段階"
-    } else if (data === 2) {
-        str = "[サービス]　審査中"
-    } else if (data === 3) {
-        str = "[接続]　記入段階"
-    } else if (data === 4) {
-        str = "開通作業段階"
-    }else{
-        str="現在、申込ステータスなし"
+    if (!data.pass) {
+        str = "グループの審査中"
+    } else if (data.add_allow) {
+        str = "Service情報の申請許可中"
+    } else if (data.services !== undefined && data.services.filter(value => !value.pass).length > 0) {
+        str = "Service情報の審査中"
+    } else if (data.services !== undefined && data.services.filter(value => value.add_allow).length > 0) {
+        str = "Connection情報の申請許可中"
+    } else if (data.services !== undefined) {
+        let open = true;
+        for (const tmpService of data.services) {
+            if (tmpService.connections !== undefined) {
+                for (const tmpConnection of tmpService.connections) {
+                    if (!tmpConnection.open) {
+                        open = false;
+                        break;
+                    }
+                }
+                if (!open) {
+                    break;
+                }
+            }
+        }
+        if (!open) {
+            str = "開通作業中"
+        } else {
+            str = "現在、申込ステータスなし"
+        }
     }
 
     return str;

@@ -258,7 +258,7 @@ export function GroupStatus(props: { data: GroupDetailData }): any {
                         <Chip
                             size="small"
                             color="primary"
-                            label={GroupStatusStr(data.status)}
+                            label={GroupStatusStr(data)}
                         />
                     </Grid>
                     <Grid item xs={6}>
