@@ -41,7 +41,8 @@ export function GroupStatusStr(data: GroupDetailData): string {
 export function GroupStudent(props: { student: boolean, date: string }): any {
     const {student, date} = props;
     if (student) {
-        const label = {date} + "まで";
+        const tmp = date.split('T');
+        const label = tmp[0] + "まで";
         return (
             <Chip
                 size="small"
