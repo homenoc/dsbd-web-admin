@@ -1,8 +1,27 @@
 import axios from "axios";
 import {restfulApiConfig} from "./Config";
-import {GroupDetailData} from "../interface";
 
-export function Put(id: number, data: GroupDetailData): Promise<{ error: string; data: any }> {
+export function Post(data: any): Promise<{ error: string | undefined; data: any }> {
+    return axios.post(restfulApiConfig.apiURL + "/support", data, {
+        headers: {
+            'Content-Type': 'application/json',
+            ACCESS_TOKEN: sessionStorage.getItem('AccessToken'),
+        }
+    }).then(res => {
+        return {
+            error: undefined,
+            data: res.data
+        };
+    }).catch(err => {
+        console.log(err);
+        return {
+            error: err,
+            data: null
+        };
+    })
+}
+
+export function Put(id: number, data: any): Promise<{ error: string | undefined; data: any }> {
     return axios.put(restfulApiConfig.apiURL + "/support/" + id, data, {
         headers: {
             'Content-Type': 'application/json',
@@ -10,7 +29,7 @@ export function Put(id: number, data: GroupDetailData): Promise<{ error: string;
         }
     }).then(res => {
         return {
-            error: "",
+            error: undefined,
             data: res.data.group
         };
     }).catch(err => {

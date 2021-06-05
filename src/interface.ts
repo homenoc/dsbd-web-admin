@@ -67,6 +67,8 @@ export interface TicketDetailData {
     CreatedAt: string,
     UpdatedAt: string,
     solved: boolean,
+    group_id: number,
+    admin: boolean,
     title: string,
     chat?: ChatData[],
     user?: UserDetailData,
@@ -331,6 +333,15 @@ export interface IPRouteData {
     name: string
 }
 
+
+export interface TicketAddData {
+    is_group: boolean,
+    user_id: number,
+    group_id: number,
+    title: string,
+    data: string
+}
+
 export interface ServiceAddData {
     jpnic_admin?: ServiceAddJPNICData,
     jpnic_tech?: ServiceAddJPNICData[],
@@ -539,7 +550,9 @@ export const DefaultTicketData: TicketDetailData = {
     CreatedAt: "",
     UpdatedAt: "",
     solved: false,
+    group_id: 0,
     title: "",
+    admin: false,
     chat: undefined,
     user: undefined,
     group: undefined,
@@ -722,4 +735,12 @@ export const DefaultAddIP: ServiceAddIPData = {
     name: "",
     start_date: "",
     end_date: undefined
+}
+
+export const DefaultTicketAddData: TicketAddData = {
+    is_group: true,
+    user_id: 0,
+    group_id: 0,
+    title: "",
+    data: ""
 }
