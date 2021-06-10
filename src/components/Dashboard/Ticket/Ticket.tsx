@@ -22,7 +22,7 @@ import {useSnackbar} from "notistack";
 
 
 export default function Ticket(props: {
-    data: GroupDetailData
+    data: TicketDetailData[] | undefined
     setReload: Dispatch<SetStateAction<boolean>>
 }): any {
     const {data, setReload} = props;
@@ -36,12 +36,12 @@ export default function Ticket(props: {
                 </Typography>
             </Toolbar>
             {
-                data.tickets === undefined && <h3>データがありません</h3>
+                data === undefined && <h3>データがありません</h3>
             }
             {
-                data.tickets !== undefined &&
+                data !== undefined &&
                 <StatusTable key={"ticket_status_table"} setReload={setReload}
-                             ticket={data.tickets.filter(item => !item.request).sort((a, b) => b.ID - a.ID)}/>
+                             ticket={data.filter(item => !item.request).sort((a, b) => b.ID - a.ID)}/>
             }
         </TableContainer>
     )
