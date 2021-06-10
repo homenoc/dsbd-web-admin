@@ -33,7 +33,7 @@ export default function Service(props: {
         <TableContainer component={Paper}>
             <Toolbar variant="dense">
                 <Typography className={classes.heading} id="tableTitle" component="div">
-                    Requests
+                    Services
                 </Typography>
             </Toolbar>
             {
