@@ -35,7 +35,8 @@ export default function Ticket(props: { data: GroupDetailData }): any {
             }
             {
                 data.tickets !== undefined &&
-                <StatusTable key={"ticket_status_table"} ticket={data.tickets.filter(item => !item.request)}/>
+                <StatusTable key={"ticket_status_table"}
+                             ticket={data.tickets.filter(item => !item.request).sort((a, b) => b.ID - a.ID)}/>
             }
         </TableContainer>
     )
@@ -155,10 +156,10 @@ export function StatusTable(props: {
                             rowsPerPage > 0
                                 ? ticket.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 : ticket
-                        ).sort((a, b) => b.ID - a.ID).map((row) => (
+                        ).map((row) => (
                             <TableRow key={"ticket_detail_" + row.ID}>
                                 <TableCell component="th" scope="row">
-                                    {row.title}
+                                    {row.ID}: {row.title}
                                 </TableCell>
                                 <TableCell style={{width: 300}} align="right">
                                     {row.CreatedAt}
