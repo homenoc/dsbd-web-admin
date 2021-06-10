@@ -9,6 +9,7 @@ import {
 } from "@material-ui/core";
 import {DefaultGroupDetailData, DefaultTemplateData} from "../../../interface";
 import Ticket from "./Ticket";
+import Request from "./Request";
 import Service from "./Service";
 import {GroupProfileInfo, GroupMainMenu, GroupStatus} from "./Group";
 import {useSnackbar} from "notistack";
@@ -102,6 +103,9 @@ export default function GroupDetail() {
                         </Grid>
                         <Grid item xs={12}>
                             <Ticket key={"ticket_" + group.ID} data={group} setReload={setReload}/>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Request key={"request_" + group.ID} data={group} setReload={setReload}/>
                         </Grid>
                         <Grid item xs={6}>
                             <Users key={"users_" + group.ID} data={group}/>
