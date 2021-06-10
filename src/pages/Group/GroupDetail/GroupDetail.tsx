@@ -100,11 +100,11 @@ export default function GroupDetail() {
                         <Grid item xs={12}>
                             <Service key={"service_" + group.ID} data={group} template={template} reload={setReload}/>
                         </Grid>
-                        <Grid item xs={6}>
-                            <Users key={"users_" + group.ID} data={group}/>
+                        <Grid item xs={12}>
+                            <Ticket key={"ticket_" + group.ID} data={group} setReload={setReload}/>
                         </Grid>
                         <Grid item xs={6}>
-                            <Ticket key={"ticket_" + group.ID} data={group}/>
+                            <Users key={"users_" + group.ID} data={group}/>
                         </Grid>
                     </Grid>
                 )
