@@ -1,5 +1,5 @@
 import useStyles from "./styles";
-import {GroupDetailData, TicketDetailData, UserDetailData} from "../../../interface";
+import {GroupDetailData, UserDetailData} from "../../../interface";
 import {
     Button, Chip, IconButton,
     Paper,
@@ -26,7 +26,7 @@ export default function User(props: { data: GroupDetailData }): any {
         <TableContainer component={Paper}>
             <Toolbar variant="dense">
                 <Typography className={classes.heading} id="tableTitle" component="div">
-                    Tickets
+                    Users
                 </Typography>
             </Toolbar>
             {
