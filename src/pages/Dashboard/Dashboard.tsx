@@ -3,12 +3,14 @@ import DashboardComponent from "../../components/Dashboard/Dashboard";
 import {useSnackbar} from "notistack";
 import {GetAll as SupportGetAll} from "../../api/Support";
 import {GetAll as ServiceGetAll} from "../../api/Service";
-import {ServiceDetailData, TemplateData, TicketDetailData} from "../../interface";
+import {GetAll as ConnectionGetAll} from "../../api/Connection";
+import {ConnectionDetailData, ServiceDetailData, TemplateData, TicketDetailData} from "../../interface";
 import {Grid} from "@material-ui/core";
 import Ticket from "../../components/Dashboard/Ticket/Ticket";
 import Request from "../../components/Dashboard/Request/Request";
 import {GetTemplate} from "../../api/Group";
 import Service from "../../components/Dashboard/Service/Service";
+import Connection from "../../components/Dashboard/Connection/Connection";
 
 
 export default function Dashboard() {
@@ -17,6 +19,7 @@ export default function Dashboard() {
     const [ticket, setTicket] = useState<TicketDetailData[]>()
     const [request, setRequest] = useState<TicketDetailData[]>()
     const [service, setService] = useState<ServiceDetailData[]>()
+    const [connection, setConnection] = useState<ConnectionDetailData[]>()
     const [template, setTemplate] = useState<TemplateData>()
 
     useEffect(() => {
@@ -34,8 +37,16 @@ export default function Dashboard() {
             ServiceGetAll().then(res => {
                 if (res.error === "") {
                     const data = res.data;
-                    console.log(data.filter((item: ServiceDetailData) => item.enable && !item.pass));
                     setService(data.filter((item: ServiceDetailData) => item.enable && !item.pass));
+                    setReload(false);
+                } else {
+                    enqueueSnackbar("" + res.error, {variant: "error"});
+                }
+            })
+            ConnectionGetAll().then(res => {
+                if (res.error === "") {
+                    const data = res.data;
+                    setConnection(data.filter((item: ConnectionDetailData) => item.enable && !item.open));
                     setReload(false);
                 } else {
                     enqueueSnackbar("" + res.error, {variant: "error"});
@@ -67,6 +78,9 @@ export default function Dashboard() {
                 </Grid>
                 <Grid item xs={12}>
                     <Service key={"service"} data={service} template={template} setReload={setReload}/>
+                </Grid>
+                <Grid item xs={12}>
+                    <Connection key={"connection"} data={connection} template={template} setReload={setReload}/>
                 </Grid>
             </Grid>
         </DashboardComponent>

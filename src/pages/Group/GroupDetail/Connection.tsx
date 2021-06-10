@@ -132,7 +132,7 @@ function RowConnection(props: {
     );
 }
 
-function DeleteDialog(props: {
+export function DeleteDialog(props: {
     id: number
     reload: Dispatch<SetStateAction<boolean>>
 }) {
@@ -192,7 +192,7 @@ function DeleteDialog(props: {
     );
 }
 
-function EnableDialog(props: {
+export function EnableDialog(props: {
     connection: ConnectionDetailData
     reload: Dispatch<SetStateAction<boolean>>
 }) {
