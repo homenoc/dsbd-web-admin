@@ -34,7 +34,8 @@ export default function Ticket(props: { data: GroupDetailData }): any {
                 data.tickets === undefined && <h3>データがありません</h3>
             }
             {
-                data.tickets !== undefined && <StatusTable key={"ticket_status_table"} ticket={data.tickets}/>
+                data.tickets !== undefined &&
+                <StatusTable key={"ticket_status_table"} ticket={data.tickets.filter(item => !item.request)}/>
             }
         </TableContainer>
     )
