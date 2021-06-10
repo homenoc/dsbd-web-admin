@@ -8,8 +8,8 @@ import {
     CircularProgress, Grid
 } from "@material-ui/core";
 import {DefaultGroupDetailData, DefaultTemplateData} from "../../../interface";
-import Ticket from "./Ticket";
-import Request from "./Request";
+import Ticket from "../../../components/Dashboard/Ticket/Ticket";
+import Request from "../../../components/Dashboard/Request/Request";
 import Service from "./Service";
 import {GroupProfileInfo, GroupMainMenu, GroupStatus} from "./Group";
 import {useSnackbar} from "notistack";

@@ -1,4 +1,4 @@
-import useStyles from "./styles";
+import useStyles from "../../../pages/Group/GroupDetail/styles";
 import {GroupDetailData, TicketDetailData} from "../../../interface";
 import {
     Button, Chip, IconButton,
