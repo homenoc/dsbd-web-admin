@@ -85,25 +85,26 @@ export default function GroupDetail() {
                 ) : (
                     <Grid container spacing={3}>
                         <Grid item xs={3}>
-                            <GroupStatus key={group.ID} data={group}/>
+                            <GroupStatus key={"group_status_" + group.ID} data={group}/>
                         </Grid>
                         <Grid item xs={2}>
-                            <GroupMainMenu key={group.ID} data={group} reload={setReload}/>
+                            <GroupMainMenu key={"group_main_menu" + group.ID} data={group} reload={setReload}/>
                         </Grid>
                         <Grid item xs={3}>
-                            <GroupMemo key={group.ID} data={group} reload={setReload}/>
+                            <GroupMemo key={"group_memo_" + group.ID} data={group} reload={setReload}/>
                         </Grid>
                         <Grid item xs={4}>
-                            <GroupProfileInfo key={group.ID} data={group} template={template} reload={setReload}/>
+                            <GroupProfileInfo key={"group_profile_info" + group.ID} data={group} template={template}
+                                              reload={setReload}/>
                         </Grid>
                         <Grid item xs={12}>
-                            <Service key={"Service"} data={group} template={template} reload={setReload}/>
+                            <Service key={"service_" + group.ID} data={group} template={template} reload={setReload}/>
                         </Grid>
                         <Grid item xs={6}>
-                            <Users key={group.ID} data={group}/>
+                            <Users key={"users_" + group.ID} data={group}/>
                         </Grid>
                         <Grid item xs={6}>
-                            <Ticket key={group.ID} data={group}/>
+                            <Ticket key={"ticket_" + group.ID} data={group}/>
                         </Grid>
                     </Grid>
                 )
