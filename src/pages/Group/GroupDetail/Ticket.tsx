@@ -155,8 +155,7 @@ export function StatusTable(props: {
                             rowsPerPage > 0
                                 ? ticket.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 : ticket
-                        ).filter(item => !item.request)
-                            .sort((a, b) => b.ID - a.ID).map((row) => (
+                        ).sort((a, b) => b.ID - a.ID).map((row) => (
                             <TableRow key={"ticket_detail_" + row.ID}>
                                 <TableCell component="th" scope="row">
                                     {row.title}
