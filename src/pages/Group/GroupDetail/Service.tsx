@@ -64,7 +64,7 @@ export function ChipGet(props: {
                     label="未審査"
                 />
             )
-        }else{
+        } else {
             return (
                 <Chip
                     size="small"
@@ -122,7 +122,7 @@ function RowService(props: {
                                                service={service} reload={reload}/>
                         }
                         &nbsp;
-                        <ServiceGetDialogs key={service.ID + "Dialog"} service={service} reload={reload}
+                        <ServiceGetDialogs key={"service_get_dialog_" + service.ID} service={service} reload={reload}
                                            template={template}/>
                         &nbsp;
                         <DeleteDialog key={"service_delete_alert_dialog_" + service.ID} id={service.ID}
@@ -147,7 +147,7 @@ function RowService(props: {
     );
 }
 
-function ExaminationDialog(props: {
+export function ExaminationDialog(props: {
     id: number
     service: ServiceDetailData
     reload: Dispatch<SetStateAction<boolean>>
@@ -209,7 +209,7 @@ function ExaminationDialog(props: {
     );
 }
 
-function DeleteDialog(props: {
+export function DeleteDialog(props: {
     id: number
     reload: Dispatch<SetStateAction<boolean>>
 }) {
@@ -269,7 +269,7 @@ function DeleteDialog(props: {
     );
 }
 
-function EnableDialog(props: {
+export function EnableDialog(props: {
     service: ServiceDetailData
     reload: Dispatch<SetStateAction<boolean>>
 }) {
@@ -384,8 +384,8 @@ export default function Service(props: {
                             <TableBody>
                                 {
                                     data.services.map((row: ServiceDetailData) => (
-                                        <RowService key={row.ID} template={template} service={row} groupID={data.ID}
-                                                    reload={reload}/>
+                                        <RowService key={"service_row_service_" + row.ID} template={template}
+                                                    service={row} groupID={data.ID} reload={reload}/>
                                     ))
                                 }
                             </TableBody>
