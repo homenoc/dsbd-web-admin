@@ -183,7 +183,7 @@ export function ServiceOpenButton(props: {
     // Update Service Information
     const updateInfo = (pass: boolean) => {
         service.pass = pass;
-        Put(service.group_id, service).then(res => {
+        Put(service.ID, service).then(res => {
             if (res.error === "") {
                 console.log(res.data);
                 enqueueSnackbar('Request Success', {variant: "success"});
@@ -375,7 +375,7 @@ export function ServiceDetail(props: {
 
     // Update Group Information
     const updateInfo = () => {
-        Put(service.group_id, serviceCopy).then(res => {
+        Put(service.ID, serviceCopy).then(res => {
             if (res.error === "") {
                 console.log(res.data);
                 enqueueSnackbar('Request Success', {variant: "success"});
