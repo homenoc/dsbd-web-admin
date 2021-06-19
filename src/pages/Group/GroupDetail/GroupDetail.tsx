@@ -86,7 +86,7 @@ export default function GroupDetail() {
                 ) : (
                     <Grid container spacing={3}>
                         <Grid item xs={3}>
-                            <GroupStatus key={"group_status_" + group.ID} data={group}/>
+                            <GroupStatus key={"group_status_" + group.ID} data={group} reload={reload}/>
                         </Grid>
                         <Grid item xs={2}>
                             <GroupMainMenu key={"group_main_menu" + group.ID} data={group} reload={setReload}/>
@@ -96,7 +96,7 @@ export default function GroupDetail() {
                         </Grid>
                         <Grid item xs={4}>
                             <GroupProfileInfo key={"group_profile_info" + group.ID} data={group} template={template}
-                                              reload={setReload}/>
+                                              setReload={setReload}/>
                         </Grid>
                         <Grid item xs={12}>
                             <Service key={"service_" + group.ID} data={group} template={template} reload={setReload}/>

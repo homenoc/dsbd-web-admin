@@ -4,13 +4,19 @@ import {useSnackbar} from "notistack";
 import {GetAll as SupportGetAll} from "../../api/Support";
 import {GetAll as ServiceGetAll} from "../../api/Service";
 import {GetAll as ConnectionGetAll} from "../../api/Connection";
-import {ConnectionDetailData, ServiceDetailData, TemplateData, TicketDetailData} from "../../interface";
+import {
+    ConnectionDetailData,
+    ServiceDetailData,
+    TemplateData,
+    TicketDetailData
+} from "../../interface";
 import {Grid} from "@material-ui/core";
 import Ticket from "../../components/Dashboard/Ticket/Ticket";
 import Request from "../../components/Dashboard/Request/Request";
 import {GetTemplate} from "../../api/Group";
 import Service from "../../components/Dashboard/Service/Service";
 import Connection from "../../components/Dashboard/Connection/Connection";
+import {Group} from "../../components/Dashboard/Group/Group";
 
 
 export default function Dashboard() {
@@ -81,6 +87,9 @@ export default function Dashboard() {
                 </Grid>
                 <Grid item xs={12}>
                     <Connection key={"connection"} data={connection} template={template} setReload={setReload}/>
+                </Grid>
+                <Grid item xs={12}>
+                    <Group key={"group"} data={template?.group} setReload={setReload}/>
                 </Grid>
             </Grid>
         </DashboardComponent>

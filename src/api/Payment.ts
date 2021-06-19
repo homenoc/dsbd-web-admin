@@ -1,8 +1,9 @@
 import axios from "axios";
 import {restfulApiConfig} from "./Config";
+import {PaymentDetailData} from "../interface";
 
-export function Put(id: number, data: any): Promise<{ error: string; data: any }> {
-    return axios.put(restfulApiConfig.apiURL + "/group/" + id, data, {
+export function Post(data: PaymentDetailData): Promise<{ error: string; data: any }> {
+    return axios.post(restfulApiConfig.apiURL + "/payment", data, {
         headers: {
             'Content-Type': 'application/json',
             ACCESS_TOKEN: sessionStorage.getItem('AccessToken'),
@@ -10,7 +11,7 @@ export function Put(id: number, data: any): Promise<{ error: string; data: any }
     }).then(res => {
         return {
             error: "",
-            data: res.data.group
+            data: res.data.service
         };
     }).catch(err => {
         console.log(err);
@@ -21,8 +22,8 @@ export function Put(id: number, data: any): Promise<{ error: string; data: any }
     })
 }
 
-export function DeleteSubscription(id: number): Promise<{ error: string; data: any }> {
-    return axios.delete(restfulApiConfig.apiURL + "/group/" + id + "/subscription", {
+export function Delete(id: number): Promise<{ error: string; data: any }> {
+    return axios.delete(restfulApiConfig.apiURL + "/payment/" + id, {
         headers: {
             'Content-Type': 'application/json',
             ACCESS_TOKEN: sessionStorage.getItem('AccessToken'),
@@ -30,7 +31,7 @@ export function DeleteSubscription(id: number): Promise<{ error: string; data: a
     }).then(res => {
         return {
             error: "",
-            data: res.data.group
+            data: res.data.service
         };
     }).catch(err => {
         console.log(err);
@@ -41,8 +42,8 @@ export function DeleteSubscription(id: number): Promise<{ error: string; data: a
     })
 }
 
-export function Get(id: string): Promise<{ error: string, data: any }> {
-    return axios.get(restfulApiConfig.apiURL + "/group/" + id, {
+export function Put(id: number, data: PaymentDetailData): Promise<{ error: string; data: any }> {
+    return axios.put(restfulApiConfig.apiURL + "/payment/" + id, data, {
         headers: {
             'Content-Type': 'application/json',
             ACCESS_TOKEN: sessionStorage.getItem('AccessToken'),
@@ -50,27 +51,7 @@ export function Get(id: string): Promise<{ error: string, data: any }> {
     }).then(res => {
         return {
             error: "",
-            data: res.data.group
-        };
-    }).catch(err => {
-        console.log(err);
-        return {
-            error: err,
-            data: null
-        };
-    })
-}
-
-export function GetTemplate(): Promise<{ error: string, data: any }> {
-    return axios.get(restfulApiConfig.apiURL + "/template", {
-        headers: {
-            'Content-Type': 'application/json',
-            ACCESS_TOKEN: sessionStorage.getItem('AccessToken'),
-        }
-    }).then(res => {
-        return {
-            error: "",
-            data: res.data
+            data: res.data.service
         };
     }).catch(err => {
         console.log(err);
@@ -82,7 +63,28 @@ export function GetTemplate(): Promise<{ error: string, data: any }> {
 }
 
 export function GetAll(): Promise<{ error: string, data: any }> {
-    return axios.get(restfulApiConfig.apiURL + "/group", {
+    return axios.get(restfulApiConfig.apiURL + "/payment", {
+        headers: {
+            'Content-Type': 'application/json',
+            ACCESS_TOKEN: sessionStorage.getItem('AccessToken'),
+        }
+    }).then(res => {
+        console.log(res.data);
+        return {
+            error: "",
+            data: res.data.payment
+        };
+    }).catch(err => {
+        console.log(err);
+        return {
+            error: err,
+            data: null
+        };
+    })
+}
+
+export function Refund(id: number): Promise<{ error: string; data: any }> {
+    return axios.post(restfulApiConfig.apiURL + "/payment/" + id + "/refund", {}, {
         headers: {
             'Content-Type': 'application/json',
             ACCESS_TOKEN: sessionStorage.getItem('AccessToken'),
@@ -90,7 +92,7 @@ export function GetAll(): Promise<{ error: string, data: any }> {
     }).then(res => {
         return {
             error: "",
-            data: res.data.group
+            data: res.data.service
         };
     }).catch(err => {
         console.log(err);

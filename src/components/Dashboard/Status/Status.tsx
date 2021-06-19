@@ -60,26 +60,3 @@ export function GroupStudent(props: { student: boolean, date: string }): any {
         );
     }
 }
-
-export function GroupFee(props: { fee: number }): any {
-    const {fee} = props;
-    if (fee === 0 || fee === null) {
-        return (
-            <Chip
-                size="small"
-                color="primary"
-                label="無料"
-            />
-        );
-    } else {
-        const label = fee + "円";
-        return (
-            <Chip
-                size="small"
-                color="secondary"
-                label={label}
-            />
-        );
-    }
-}
-

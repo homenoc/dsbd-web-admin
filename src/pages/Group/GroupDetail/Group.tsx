@@ -3,17 +3,19 @@ import {GroupDetailData, TemplateData} from "../../../interface";
 import {
     Accordion, AccordionDetails, AccordionSummary,
     Button, Card,
-    CardContent, Chip, Grid,
+    CardContent, Chip, FormControl, Grid, InputLabel, MenuItem, PropTypes, Select,
     TextField, Typography
 } from "@material-ui/core";
-import React, {Dispatch, SetStateAction, useState} from "react";
+import React, {Dispatch, SetStateAction, useEffect, useState} from "react";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import {GroupFee, GroupStatusStr, GroupStudent} from "../../../components/Dashboard/Status/Status";
+import {GroupStatusStr} from "../../../components/Dashboard/Status/Status";
 import {GroupAbolition, GroupLockButton, GroupStatusButton} from "./GroupMenu";
-import {Put} from "../../../api/Group";
+import {DeleteSubscription, Put} from "../../../api/Group";
 import {useSnackbar} from "notistack";
 import ServiceAddDialogs from "./ServiceAdd/ServiceAdd";
 import ConnectionAddDialogs from "./ConnectionAdd/ConnectionAdd";
+import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
 
 function ChipAgree(props: { agree: boolean }) {
     const {agree} = props;
@@ -39,15 +41,88 @@ function ChipAgree(props: { agree: boolean }) {
 export function GroupProfileInfo(props: {
     data: GroupDetailData,
     template: TemplateData,
-    reload: Dispatch<SetStateAction<boolean>>
+    setReload: Dispatch<SetStateAction<boolean>>
 }): any {
-    const {data, template, reload} = props;
+    const {data, template, setReload} = props;
     const classes = useStyles();
     const [lockPersonalInformation, setLockPersonalInformation] = React.useState(true);
     const [group, setGroup] = useState(data);
     const [openAddService, setOpenAddService] = React.useState(false);
     const [openAddConnection, setOpenAddConnection] = React.useState(false);
     const {enqueueSnackbar} = useSnackbar();
+    const [paymentCoupon, setPaymentCoupon] = React.useState(0);
+    const [discountRate, setDiscountRate] = React.useState(0);
+    const [membershipPlan, setMembershipPlan] = React.useState(0);
+    const monthly = 1000;
+    const yearly = 12000;
+    let nowDate = new Date();
+    const [selectedDate, setSelectedDate] = React.useState<Date | null>(nowDate);
+    const [membershipDate, setMembershipDate] = React.useState<string>("");
+
+    useEffect(() => {
+        if (data.member_expired != null) {
+            const tmp = data.member_expired.split('T');
+            nowDate = new Date(tmp[0]);
+            setSelectedDate(new Date(tmp[0]));
+            handleBeginDateChange(selectedDate);
+        }
+    }, []);
+
+    const membershipUpdate = () => {
+        const req = {
+            payment_coupon_template_id: paymentCoupon,
+            payment_membership_template_id: membershipPlan,
+            member_expired: membershipDate
+        };
+
+        console.log(req);
+
+        Put(data.ID, req).then(res => {
+            if (res.error === "") {
+                console.log(res.data);
+                enqueueSnackbar('Request Success', {variant: "success"});
+            } else {
+                enqueueSnackbar(String(res.error), {variant: "error"});
+            }
+
+            setReload(true);
+        })
+    }
+
+    const cancelSubscription = () => {
+        DeleteSubscription(data.ID).then(res => {
+            if (res.error === "") {
+                console.log(res.data);
+                enqueueSnackbar('Request Success', {variant: "success"});
+            } else {
+                enqueueSnackbar(String(res.error), {variant: "error"});
+            }
+
+            setReload(true);
+        })
+    }
+
+    const handleBeginDateChange = (date: Date | null) => {
+        setSelectedDate(date);
+        if (date !== null) {
+            setMembershipDate(date.getFullYear() + '-' + ('00' + (date.getMonth() + 1)).slice(-2) +
+                '-' + ('00' + (date.getDate())).slice(-2) + 'T09:00:00Z');
+        }
+    };
+    const handleChangeMembershipPlan = (event: React.ChangeEvent<{ value: unknown }>) => {
+        setMembershipPlan(event.target.value as number);
+    };
+    const handleChangeCoupon = (event: React.ChangeEvent<{ value: unknown }>) => {
+        setPaymentCoupon(event.target.value as number);
+        const coupon = template.payment_coupon_template?.filter(coupon => coupon.ID === event.target.value as number)
+        if (coupon != null) {
+            if (coupon.length === 0) {
+                setDiscountRate(0);
+            } else {
+                setDiscountRate(coupon[0].discount_rate);
+            }
+        }
+    };
 
     const clickPersonalInfoLock = () => {
         setLockPersonalInformation(!lockPersonalInformation);
@@ -64,7 +139,7 @@ export function GroupProfileInfo(props: {
                 enqueueSnackbar(String(res.error), {variant: "error"});
             }
 
-            reload(true);
+            setReload(true);
         })
     }
 
@@ -192,7 +267,70 @@ export function GroupProfileInfo(props: {
                     </AccordionSummary>
                     <AccordionDetails>
                         <Typography>
-
+                            <FormControl variant="filled" className={classes.formShort}>
+                                <InputLabel id="payment-membership">Membership Plan</InputLabel>
+                                <Select
+                                    labelId="membership-plan-label"
+                                    id="membership-plan"
+                                    value={membershipPlan}
+                                    onChange={handleChangeMembershipPlan}
+                                >
+                                    <MenuItem value={0}>自動課金無効</MenuItem>
+                                    {
+                                        template.payment_membership_template?.map(tmp =>
+                                            <MenuItem value={tmp.ID}>{tmp.plan}</MenuItem>
+                                        )
+                                    }
+                                </Select>
+                            </FormControl>
+                            <FormControl variant="filled" className={classes.formShort}>
+                                <InputLabel id="payment-coupon">Coupon</InputLabel>
+                                <Select
+                                    labelId="payment-label"
+                                    id="payment"
+                                    value={paymentCoupon}
+                                    onChange={handleChangeCoupon}
+                                >
+                                    <MenuItem value={0}>割引なし(0%割引)</MenuItem>
+                                    {
+                                        template.payment_coupon_template?.map(coupon =>
+                                            <MenuItem
+                                                value={coupon.ID}>{coupon.title}({coupon.discount_rate}%割引)</MenuItem>
+                                        )
+                                    }
+                                </Select>
+                                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                    <KeyboardDatePicker
+                                        required
+                                        margin="normal"
+                                        id="membership-date-picker-dialog"
+                                        label="Membership期限"
+                                        format="yyyy/MM/dd"
+                                        value={selectedDate}
+                                        onChange={handleBeginDateChange}
+                                        KeyboardButtonProps={{
+                                            'aria-label': 'change date',
+                                        }}
+                                    />
+                                </MuiPickersUtilsProvider>
+                                <br/>
+                                <Grid container spacing={3}>
+                                    <Grid item xs={6}>
+                                        <p><b>{monthly - (discountRate / 100) * monthly}円/月</b></p>
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <p><b>{yearly - (discountRate / 100) * yearly}円/年</b></p>
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <Button size="small" variant="contained" color="primary"
+                                                className={classes.spaceRight}
+                                                onClick={membershipUpdate}> Update </Button>
+                                        <Button size="small" variant="contained" color={"secondary"}
+                                                className={classes.spaceRight}
+                                                onClick={cancelSubscription}> 解約 </Button>
+                                    </Grid>
+                                </Grid>
+                            </FormControl>
                         </Typography>
                     </AccordionDetails>
                 </Accordion>
@@ -219,9 +357,9 @@ export function GroupProfileInfo(props: {
                 <br/>
                 <Button size="small" className={classes.spaceTop}>メール送信</Button>
                 <ServiceAddDialogs key={"service_add_dialogs"} baseData={data} template={template} open={openAddService}
-                                   setOpen={setOpenAddService} reload={reload}/>
+                                   setOpen={setOpenAddService} reload={setReload}/>
                 <ConnectionAddDialogs key={"connection_add_dialogs"} baseData={data} template={template}
-                                      open={openAddConnection} setOpen={setOpenAddConnection} reload={reload}/>
+                                      open={openAddConnection} setOpen={setOpenAddConnection} reload={setReload}/>
             </CardContent>
         </Card>
     )
@@ -243,11 +381,71 @@ export function GroupMainMenu(props: { data: GroupDetailData, reload: Dispatch<S
     )
 }
 
-export function GroupStatus(props: { data: GroupDetailData }): any {
+export function GroupStatus(props: {
+    data: GroupDetailData
+    reload: boolean
+}): any {
     const classes = useStyles();
-    const {data} = props;
+    const {data, reload} = props;
     const createDate = "作成日: " + data.CreatedAt;
     const updateDate = "更新日: " + data.UpdatedAt;
+    const [membershipLabel, setMembershipLabel] = useState<{ color: Exclude<PropTypes.Color, 'inherit'>, label: string }>({
+        color: "primary",
+        label: ""
+    });
+    const [automaticUpdate, setAutomaticUpdate] = useState<{ color: Exclude<PropTypes.Color, 'inherit'>, label: string }>({
+        color: "primary",
+        label: ""
+    });
+    const nowDate = new Date;
+
+    useEffect(() => {
+        setMembershipLabel({color: "primary", label: ""});
+        if (data.member_expired != null) {
+            const tmp = data.member_expired.split('T');
+            const groupMemberExpired = new Date(tmp[0]);
+
+            if (data.payment_coupon_template_id !== 0) {
+                setMembershipLabel({
+                    color: "primary",
+                    label: data.payment_coupon_template?.title + ": " + tmp[0] + "まで"
+                });
+            } else {
+                setMembershipLabel({
+                    color: "primary",
+                    label: "会員: " + tmp[0] + "まで"
+                });
+            }
+            if (groupMemberExpired < nowDate) {
+                setMembershipLabel({
+                    color: "secondary",
+                    label: "(未払い) " + membershipLabel.label
+                })
+            }
+        } else {
+            setMembershipLabel({
+                color: "secondary",
+                label: "未払い状態"
+            })
+        }
+
+        if (data.payment_membership_template?.yearly) {
+            setAutomaticUpdate({
+                color: membershipLabel.color,
+                label: "(年更新)"
+            })
+        } else if (data.payment_membership_template?.monthly) {
+            setAutomaticUpdate({
+                color: membershipLabel.color,
+                label: "(月更新)"
+            })
+        } else {
+            setAutomaticUpdate({
+                color: membershipLabel.color,
+                label: "(更新無効)"
+            })
+        }
+    }, [reload]);
 
     return (
         <Card className={classes.root}>
@@ -261,13 +459,11 @@ export function GroupStatus(props: { data: GroupDetailData }): any {
                             label={GroupStatusStr(data)}
                         />
                     </Grid>
-                    <Grid item xs={6}>
-                        <h3>Student</h3>
-                        <GroupStudent key={data.ID} student={data.student} date={data.student_expired}/>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <h3>Payment</h3>
-                        <GroupFee key={data.ID} fee={data.fee}/>
+                    <Grid item xs={12}>
+                        <h3>Membership</h3>
+                        <Chip size="small" color={membershipLabel.color} label={membershipLabel.label}/>
+                        &nbsp;
+                        <Chip size="small" color={automaticUpdate.color} label={automaticUpdate.label}/>
                     </Grid>
                     <Grid item xs={12}>
                         <h3>Date</h3>

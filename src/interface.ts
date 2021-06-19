@@ -47,6 +47,20 @@ export interface UserDetailData {
     tokens?: TokenDetailData[]
 }
 
+export interface PaymentDetailData {
+    ID: number,
+    CreatedAt: string,
+    UpdatedAt: string,
+    user?: UserDetailData,
+    group?: GroupDetailData,
+    is_membership: boolean,
+    paid: boolean,
+    refund: boolean,
+    fee: number,
+    payment_intent_id: string,
+    comment: string,
+}
+
 export interface TokenDetailData {
     CreatedAt: string,
     ID: number,
@@ -289,6 +303,8 @@ export interface GroupDetailData {
     ID: number,
     CreatedAt: string,
     UpdatedAt: string,
+    payment_coupon_template_id?: number,
+    payment_membership_template_id?: number,
     expired_status: number,
     status: number,
     pass: boolean,
@@ -307,9 +323,34 @@ export interface GroupDetailData {
     student_expired: string,
     fee: number,
     lock: boolean,
+    paid: boolean,
+    member_expired: string,
     users?: UserDetailData[],
     tickets?: TicketDetailData[],
-    services?: ServiceDetailData[]
+    services?: ServiceDetailData[],
+    payment_coupon_template?: PaymentCouponTemplateData
+    payment_membership_template?: PaymentMembershipTemplate
+}
+
+export interface PaymentMembershipTemplate {
+    ID: number,
+    CreatedAt: string,
+    UpdatedAt: string,
+    title: string,
+    plan: string,
+    monthly: boolean,
+    yearly: boolean,
+    fee: number,
+    comment: string
+}
+
+export interface PaymentCouponTemplateData {
+    ID: number,
+    CreatedAt: string,
+    UpdatedAt: string,
+    title: string,
+    discount_rate: number,
+    comment: string
 }
 
 export interface TemplateData {
@@ -322,6 +363,8 @@ export interface TemplateData {
     ntts?: NTTTemplateData[]
     tunnel_endpoint_router?: TunnelEndPointRouterTemplateData[]
     tunnel_endpoint_router_ip?: TunnelEndPointRouterIPTemplateData[]
+    payment_membership_template?: PaymentMembershipTemplate[]
+    payment_coupon_template?: PaymentCouponTemplateData[]
     ipv4_route?: IPRouteData[]
     ipv6_route?: IPRouteData[]
     user?: UserDetailData[]
@@ -436,6 +479,7 @@ export const DefaultGroupDetailData: GroupDetailData = {
     ID: 0,
     CreatedAt: "",
     UpdatedAt: "",
+    payment_coupon_template_id: 0,
     org: "",
     org_en: "",
     status: 0,
@@ -453,6 +497,8 @@ export const DefaultGroupDetailData: GroupDetailData = {
     student: false,
     student_expired: "",
     fee: 0,
+    member_expired: "",
+    paid: false,
     lock: false,
     users: undefined,
     tickets: undefined,
