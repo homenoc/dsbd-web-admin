@@ -303,6 +303,7 @@ export interface GroupDetailData {
     ID: number,
     CreatedAt: string,
     UpdatedAt: string,
+    memos?: MemoData[],
     payment_coupon_template_id?: number,
     payment_membership_template_id?: number,
     expired_status: number,
@@ -330,6 +331,16 @@ export interface GroupDetailData {
     services?: ServiceDetailData[],
     payment_coupon_template?: PaymentCouponTemplateData
     payment_membership_template?: PaymentMembershipTemplate
+}
+
+export interface MemoData {
+    ID: number,
+    CreatedAt: string,
+    UpdatedAt: string,
+    group_id: number,
+    type: number,
+    title: string,
+    message: string
 }
 
 export interface PaymentMembershipTemplate {
@@ -378,6 +389,12 @@ export interface IPRouteData {
     name: string
 }
 
+export interface MemoAddData {
+    group_id: number,
+    type: number,
+    title: string,
+    message: string
+}
 
 export interface TicketAddData {
     is_group: boolean,
@@ -785,6 +802,13 @@ export const DefaultAddIP: ServiceAddIPData = {
     name: "",
     start_date: "",
     end_date: undefined
+}
+
+export const DefaultMemoAddData: MemoAddData = {
+    group_id: 0,
+    type: 0,
+    title: "",
+    message: ""
 }
 
 export const DefaultTicketAddData: TicketAddData = {
