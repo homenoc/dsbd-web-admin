@@ -16,7 +16,7 @@ export function Post(data: PaymentDetailData): Promise<{ error: string; data: an
     }).catch(err => {
         console.log(err);
         return {
-            error: err,
+            error: "[" + err.response.status + "] " + err.response.data.error,
             data: null
         };
     })
@@ -36,7 +36,7 @@ export function Delete(id: number): Promise<{ error: string; data: any }> {
     }).catch(err => {
         console.log(err);
         return {
-            error: err,
+            error: "[" + err.response.status + "] " + err.response.data.error,
             data: null
         };
     })
@@ -77,7 +77,7 @@ export function GetAll(): Promise<{ error: string, data: any }> {
     }).catch(err => {
         console.log(err);
         return {
-            error: err,
+            error: "[" + err.response.status + "] " + err.response.data.error,
             data: null
         };
     })
@@ -97,7 +97,7 @@ export function Refund(id: number): Promise<{ error: string; data: any }> {
     }).catch(err => {
         console.log(err);
         return {
-            error: err,
+            error: "[" + err.response.status + "] " + err.response.data.error,
             data: null
         };
     })

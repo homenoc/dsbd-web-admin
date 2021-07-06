@@ -1,6 +1,5 @@
 import axios from "axios";
 import {restfulApiConfig} from "./Config";
-import {GroupDetailData} from "../interface";
 
 export function GetAll(): Promise<{ error: string, data: any }> {
     return axios.get(restfulApiConfig.apiURL + "/token", {
@@ -17,7 +16,7 @@ export function GetAll(): Promise<{ error: string, data: any }> {
     }).catch(err => {
         console.log(err);
         return {
-            error: err,
+            error: "[" + err.response.status + "] " + err.response.data.error,
             data: null
         };
     })

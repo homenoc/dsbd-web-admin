@@ -35,7 +35,7 @@ export function Delete(id: number): Promise<{ error: string; data: any }> {
     }).catch(err => {
         console.log(err);
         return {
-            error: err,
+            error: "[" + err.response.status + "] " + err.response.data.error,
             data: null
         };
     })

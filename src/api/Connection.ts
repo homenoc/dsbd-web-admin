@@ -16,7 +16,7 @@ export function Post(id: number, data: ConnectionAddData): Promise<{ error: stri
     }).catch(err => {
         console.log(err);
         return {
-            error: err,
+            error: "[" + err.response.status + "] " + err.response.data.error,
             data: null
         };
     })
@@ -36,7 +36,7 @@ export function Delete(id: number): Promise<{ error: string; data: any }> {
     }).catch(err => {
         console.log(err);
         return {
-            error: err,
+            error: "[" + err.response.status + "] " + err.response.data.error,
             data: null
         };
     })
@@ -56,7 +56,7 @@ export function Put(id: number, data: ConnectionDetailData): Promise<{ error: st
     }).catch(err => {
         console.log(err);
         return {
-            error: err,
+            error: "[" + err.response.status + "] " + err.response.data.error,
             data: null
         };
     })
@@ -76,7 +76,7 @@ export function Update(data: ConnectionDetailData): Promise<{ error: string; dat
     }).catch(err => {
         console.log(err);
         return {
-            error: err,
+            error: "[" + err.response.status + "] " + err.response.data.error,
             data: null
         };
     })
@@ -96,7 +96,7 @@ export function GetAll(): Promise<{ error: string, data: any }> {
     }).catch(err => {
         console.log(err);
         return {
-            error: err,
+            error: "[" + err.response.status + "] " + err.response.data.error,
             data: null
         };
     })

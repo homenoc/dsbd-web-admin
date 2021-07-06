@@ -16,7 +16,7 @@ export function Post(id: number, data: ServiceAddData): Promise<{ error: string;
     }).catch(err => {
         console.log(err);
         return {
-            error: err,
+            error: "[" + err.response.status + "] " + err.response.data.error,
             data: null
         };
     })
@@ -36,7 +36,7 @@ export function Delete(id: number): Promise<{ error: string; data: any }> {
     }).catch(err => {
         console.log(err);
         return {
-            error: err,
+            error: "[" + err.response.status + "] " + err.response.data.error,
             data: null
         };
     })
@@ -56,7 +56,7 @@ export function Put(id: number, data: ServiceDetailData): Promise<{ error: strin
     }).catch(err => {
         console.log(err);
         return {
-            error: err,
+            error: "[" + err.response.status + "] " + err.response.data.error,
             data: null
         };
     })
@@ -76,7 +76,7 @@ export function DeleteIP(id: number): Promise<{ error: string; data: any }> {
     }).catch(err => {
         console.log(err);
         return {
-            error: err,
+            error: "[" + err.response.status + "] " + err.response.data.error,
             data: null
         };
     })
@@ -96,7 +96,7 @@ export function PostIP(id: number, data: ServiceAddIPData): Promise<{ error: str
     }).catch(err => {
         console.log(err);
         return {
-            error: err,
+            error: "[" + err.response.status + "] " + err.response.data.error,
             data: null
         };
     })
@@ -117,7 +117,7 @@ export function PutIP(data: IPData): Promise<{ error: string; data: any }> {
     }).catch(err => {
         console.log(err);
         return {
-            error: err,
+            error: "[" + err.response.status + "] " + err.response.data.error,
             data: null
         };
     })
@@ -137,7 +137,7 @@ export function DeletePlan(id: number): Promise<{ error: string; data: any }> {
     }).catch(err => {
         console.log(err);
         return {
-            error: err,
+            error: "[" + err.response.status + "] " + err.response.data.error,
             data: null
         };
     })
@@ -158,7 +158,7 @@ export function PutPlan(data: PlanData): Promise<{ error: string; data: any }> {
     }).catch(err => {
         console.log(err);
         return {
-            error: err,
+            error: "[" + err.response.status + "] " + err.response.data.error,
             data: null
         };
     })
@@ -178,7 +178,7 @@ export function PutJPNICAdmin(id: number, data: JPNICData): Promise<{ error: str
     }).catch(err => {
         console.log(err);
         return {
-            error: err,
+            error: "[" + err.response.status + "] " + err.response.data.error,
             data: null
         };
     })
@@ -198,7 +198,7 @@ export function PostJPNICTech(id: number, data: JPNICData): Promise<{ error: str
     }).catch(err => {
         console.log(err);
         return {
-            error: err,
+            error: "[" + err.response.status + "] " + err.response.data.error,
             data: null
         };
     })
@@ -218,7 +218,7 @@ export function DeleteJPNICTech(id: number): Promise<{ error: string; data: any 
     }).catch(err => {
         console.log(err);
         return {
-            error: err,
+            error: "[" + err.response.status + "] " + err.response.data.error,
             data: null
         };
     })
@@ -238,7 +238,7 @@ export function PutJPNICTech(id: number, data: JPNICData): Promise<{ error: stri
     }).catch(err => {
         console.log(err);
         return {
-            error: err,
+            error: "[" + err.response.status + "] " + err.response.data.error,
             data: null
         };
     })
@@ -258,7 +258,7 @@ export function Get(id: string): Promise<{ error: string, data: any }> {
     }).catch(err => {
         console.log(err);
         return {
-            error: err,
+            error: "[" + err.response.status + "] " + err.response.data.error,
             data: null
         };
     })
@@ -278,7 +278,7 @@ export function GetAll(): Promise<{ error: string, data: any }> {
     }).catch(err => {
         console.log(err);
         return {
-            error: err,
+            error: "[" + err.response.status + "] " + err.response.data.error,
             data: null
         };
     })
