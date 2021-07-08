@@ -95,8 +95,12 @@ export default function GroupDetail() {
                             <GroupMemo key={"group_memo_" + group.ID} data={group} reload={setReload}/>
                         </Grid>
                         <Grid item xs={4}>
-                            <GroupProfileInfo key={"group_profile_info" + group.ID} data={group} template={template}
-                                              setReload={setReload}/>
+                            <GroupProfileInfo
+                                key={"group_profile_info_" + group.ID}
+                                data={group}
+                                template={template}
+                                setReload={setReload}
+                            />
                         </Grid>
                         <Grid item xs={12}>
                             <Service key={"service_" + group.ID} data={group} template={template} reload={setReload}/>

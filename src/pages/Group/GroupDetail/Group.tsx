@@ -109,7 +109,7 @@ export function GroupProfileInfo(props: {
                 '-' + ('00' + (date.getDate())).slice(-2) + 'T09:00:00Z');
         }
     };
-    const handleChangeMembershipPlan = (event: React.ChangeEvent<{ value: unknown }>) => {
+    const handleChangeMembershipPlan = (event: React.ChangeEvent<{ value: any }>) => {
         setMembershipPlan(event.target.value as number);
     };
     const handleChangeCoupon = (event: React.ChangeEvent<{ value: unknown }>) => {
@@ -150,7 +150,7 @@ export function GroupProfileInfo(props: {
                     <AccordionSummary
                         expandIcon={<ExpandMoreIcon/>}
                         aria-controls="panel1a-content"
-                        id="panel1a-header"
+                        id="group-info"
                     >
                         <Typography className={classes.heading}>グループ情報(住所、電話番号など)</Typography>
                     </AccordionSummary>
@@ -160,7 +160,7 @@ export function GroupProfileInfo(props: {
                                 <TextField
                                     className={classes.formVeryShort}
                                     required
-                                    id="outlined-required"
+                                    id="postcode"
                                     label="郵便番号"
                                     defaultValue={data.postcode}
                                     InputProps={{
@@ -174,7 +174,7 @@ export function GroupProfileInfo(props: {
                                 <TextField
                                     className={classes.formMedium}
                                     required
-                                    id="outlined-required"
+                                    id="address"
                                     label="住所"
                                     defaultValue={data.address}
                                     InputProps={{
@@ -188,7 +188,7 @@ export function GroupProfileInfo(props: {
                                 <TextField
                                     className={classes.formMedium}
                                     required
-                                    id="outlined-required"
+                                    id="address_english"
                                     label="住所(English)"
                                     defaultValue={data.address_en}
                                     InputProps={{
@@ -202,7 +202,7 @@ export function GroupProfileInfo(props: {
                                 <TextField
                                     className={classes.formVeryShort}
                                     required
-                                    id="outlined-required"
+                                    id="tel"
                                     label="電話番号"
                                     defaultValue={data.tel}
                                     InputProps={{
@@ -216,7 +216,7 @@ export function GroupProfileInfo(props: {
                                 <TextField
                                     className={classes.formVeryShort}
                                     required
-                                    id="outlined-required"
+                                    id="country"
                                     label="住居国"
                                     defaultValue={data.country}
                                     InputProps={{
@@ -228,11 +228,21 @@ export function GroupProfileInfo(props: {
                                     }}
                                 />
                             </form>
-                            <Button size="small" color="secondary" disabled={!lockPersonalInformation}
-                                    onClick={clickPersonalInfoLock}>ロック解除</Button>
+                            <Button
+                                size="small"
+                                color="secondary"
+                                disabled={!lockPersonalInformation}
+                                onClick={clickPersonalInfoLock}
+                            >
+                                ロック解除
+                            </Button>
                             <Button size="small">Cancel</Button>
-                            <Button size="small" color="primary" disabled={lockPersonalInformation}
-                                    onClick={updateGroupInfo}>
+                            <Button
+                                size="small"
+                                color="primary"
+                                disabled={lockPersonalInformation}
+                                onClick={updateGroupInfo}
+                            >
                                 Save
                             </Button>
                         </div>
@@ -266,72 +276,91 @@ export function GroupProfileInfo(props: {
                         <Typography className={classes.heading}>学生会員・支払い</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
-                        <Typography>
-                            <FormControl variant="filled" className={classes.formShort}>
-                                <InputLabel id="payment-membership">Membership Plan</InputLabel>
-                                <Select
-                                    labelId="membership-plan-label"
-                                    id="membership-plan"
-                                    value={membershipPlan}
-                                    onChange={handleChangeMembershipPlan}
-                                >
-                                    <MenuItem value={0}>自動課金無効</MenuItem>
-                                    {
-                                        template.payment_membership_template?.map(tmp =>
-                                            <MenuItem value={tmp.ID}>{tmp.plan}</MenuItem>
-                                        )
-                                    }
-                                </Select>
-                            </FormControl>
-                            <FormControl variant="filled" className={classes.formShort}>
-                                <InputLabel id="payment-coupon">Coupon</InputLabel>
-                                <Select
-                                    labelId="payment-label"
-                                    id="payment"
-                                    value={paymentCoupon}
-                                    onChange={handleChangeCoupon}
-                                >
-                                    <MenuItem value={0}>割引なし(0%割引)</MenuItem>
-                                    {
-                                        template.payment_coupon_template?.map(coupon =>
-                                            <MenuItem
-                                                value={coupon.ID}>{coupon.title}({coupon.discount_rate}%割引)</MenuItem>
-                                        )
-                                    }
-                                </Select>
-                                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                    <KeyboardDatePicker
-                                        required
-                                        margin="normal"
-                                        id="membership-date-picker-dialog"
-                                        label="Membership期限"
-                                        format="yyyy/MM/dd"
-                                        value={selectedDate}
-                                        onChange={handleBeginDateChange}
-                                        KeyboardButtonProps={{
-                                            'aria-label': 'change date',
-                                        }}
-                                    />
-                                </MuiPickersUtilsProvider>
-                                <br/>
-                                <Grid container spacing={3}>
-                                    <Grid item xs={6}>
-                                        <p><b>{monthly - (discountRate / 100) * monthly}円/月</b></p>
-                                    </Grid>
-                                    <Grid item xs={6}>
-                                        <p><b>{yearly - (discountRate / 100) * yearly}円/年</b></p>
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <Button size="small" variant="contained" color="primary"
-                                                className={classes.spaceRight}
-                                                onClick={membershipUpdate}> Update </Button>
-                                        <Button size="small" variant="contained" color={"secondary"}
-                                                className={classes.spaceRight}
-                                                onClick={cancelSubscription}> 解約 </Button>
-                                    </Grid>
+                        <FormControl variant="filled" className={classes.formSelect}>
+                            <InputLabel id="membership-plan-label">Membership Plan</InputLabel>
+                            <Select
+                                labelId="membership-plan-label"
+                                id="membership-plan"
+                                value={membershipPlan}
+                                onChange={handleChangeMembershipPlan}
+                            >
+                                <option key={"membership_template_0"} value={0}>自動課金無効</option>
+                                {
+                                    template.payment_membership_template?.map(tmp =>
+                                        <option
+                                            key={"membership_template_" + tmp.ID}
+                                            value={tmp.ID}
+                                        >
+                                            {tmp.plan}
+                                        </option>
+                                    )
+                                }
+                            </Select>
+                        </FormControl>
+                        <FormControl variant="filled" className={classes.formShort}>
+                            <InputLabel id="payment-coupon">Coupon</InputLabel>
+                            <Select
+                                labelId="payment-label"
+                                id="payment-coupon"
+                                value={paymentCoupon}
+                                onChange={handleChangeCoupon}
+                            >
+                                <MenuItem value={0}>割引なし(0%割引)</MenuItem>
+                                {
+                                    template.payment_coupon_template?.map(coupon =>
+                                        <MenuItem
+                                            key={"payment_coupon_template_" + coupon.ID}
+                                            value={coupon.ID}
+                                        >
+                                            {coupon.title}({coupon.discount_rate}%割引)
+                                        </MenuItem>
+                                    )
+                                }
+                            </Select>
+                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                <KeyboardDatePicker
+                                    required
+                                    margin="normal"
+                                    id="membership-date-picker-dialog"
+                                    label="Membership期限"
+                                    format="yyyy/MM/dd"
+                                    value={selectedDate}
+                                    onChange={handleBeginDateChange}
+                                    KeyboardButtonProps={{
+                                        'aria-label': 'change date',
+                                    }}
+                                />
+                            </MuiPickersUtilsProvider>
+                            <br/>
+                            <Grid container spacing={3}>
+                                <Grid item xs={6}>
+                                    <b>{monthly - (discountRate / 100) * monthly}円/月</b>
                                 </Grid>
-                            </FormControl>
-                        </Typography>
+                                <Grid item xs={6}>
+                                    <b>{yearly - (discountRate / 100) * yearly}円/年</b>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Button
+                                        size="small"
+                                        variant="contained"
+                                        color="primary"
+                                        className={classes.spaceRight}
+                                        onClick={membershipUpdate}
+                                    >
+                                        Update
+                                    </Button>
+                                    <Button
+                                        size="small"
+                                        variant="contained"
+                                        color={"secondary"}
+                                        className={classes.spaceRight}
+                                        onClick={cancelSubscription}
+                                    >
+                                        解約
+                                    </Button>
+                                </Grid>
+                            </Grid>
+                        </FormControl>
                     </AccordionDetails>
                 </Accordion>
                 <Accordion>
@@ -348,18 +377,41 @@ export function GroupProfileInfo(props: {
                     </AccordionDetails>
                 </Accordion>
                 <br/>
-                <Button size="small" variant="contained" color="primary" className={classes.spaceRight}
-                        onClick={() => setOpenAddService(true)}>
+                <Button
+                    size="small"
+                    variant="contained"
+                    color="primary"
+                    className={classes.spaceRight}
+                    onClick={() => setOpenAddService(true)}
+                >
                     Service情報の追加
                 </Button>
-                <Button size="small" variant="contained" color="primary"
-                        onClick={() => setOpenAddConnection(true)}>接続情報の追加</Button>
+                <Button
+                    size="small"
+                    variant="contained"
+                    color="primary"
+                    onClick={() => setOpenAddConnection(true)}
+                >
+                    接続情報の追加
+                </Button>
                 <br/>
                 <Button size="small" className={classes.spaceTop}>メール送信</Button>
-                <ServiceAddDialogs key={"service_add_dialogs"} baseData={data} template={template} open={openAddService}
-                                   setOpen={setOpenAddService} reload={setReload}/>
-                <ConnectionAddDialogs key={"connection_add_dialogs"} baseData={data} template={template}
-                                      open={openAddConnection} setOpen={setOpenAddConnection} reload={setReload}/>
+                <ServiceAddDialogs
+                    key={"service_add_dialogs"}
+                    baseData={data}
+                    template={template}
+                    open={openAddService}
+                    setOpen={setOpenAddService}
+                    reload={setReload}
+                />
+                <ConnectionAddDialogs
+                    key={"connection_add_dialogs"}
+                    baseData={data}
+                    template={template}
+                    open={openAddConnection}
+                    setOpen={setOpenAddConnection}
+                    reload={setReload}
+                />
             </CardContent>
         </Card>
     )

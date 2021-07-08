@@ -63,6 +63,7 @@ export function GroupMemo(props: {
                     {
                         data.memos?.map(memo => (
                                 <Chip
+                                    key={"memo_" + memo.ID}
                                     label={memo.title}
                                     clickable
                                     color={getColor(memo.type)}
