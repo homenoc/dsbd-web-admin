@@ -2,7 +2,7 @@ import useStyles from "../../../pages/Group/GroupDetail/styles";
 import {ServiceDetailData, TemplateData} from "../../../interface";
 import {
     Box,
-    Button, Chip, IconButton,
+    Chip, IconButton,
     Paper,
     Table,
     TableBody,
@@ -32,7 +32,7 @@ export default function Service(props: {
     return (
         <TableContainer component={Paper}>
             <Toolbar variant="dense">
-                <Typography className={classes.heading} id="tableTitle" component="div">
+                <Typography className={classes.heading} id="services" component="div">
                     Services
                 </Typography>
             </Toolbar>
@@ -44,8 +44,12 @@ export default function Service(props: {
             }
             {
                 data !== undefined && template !== undefined &&
-                <StatusTable key={"request_status_table"} setReload={setReload} template={template}
-                             service={data.sort((a, b) => b.ID - a.ID)}/>
+                <StatusTable
+                    key={"service_status_table"}
+                    setReload={setReload}
+                    template={template}
+                    service={data.sort((a, b) => b.ID - a.ID)}
+                />
             }
         </TableContainer>
     )
@@ -152,7 +156,7 @@ export function StatusTable(props: {
 
     return (
         <TableContainer component={Paper}>
-            <Table className={classes.table} size="small" aria-label="custom pagination table">
+            <Table className={classes.table} size="small" aria-label="service_table">
                 <TableHead>
                     <TableRow>
                         <TableCell>ServiceCode</TableCell>
@@ -167,8 +171,8 @@ export function StatusTable(props: {
                             rowsPerPage > 0
                                 ? service.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 : service
-                        ).map((row) => (
-                            <TableRow key={"service_detail_" + row.ID}>
+                        ).map((row, index) => (
+                            <TableRow key={"service_detail_" + index}>
                                 <TableCell style={{width: 300}} component="th" scope="row">
                                     {row.ID}: {getServiceCode(row.group_id, row.service_template.type, row.service_number)}
                                 </TableCell>
@@ -189,19 +193,32 @@ export function StatusTable(props: {
                                     <Box display="flex" justifyContent="flex-end">
                                         {
                                             !row.pass &&
-                                            <ExaminationDialog key={"service_examination_dialog_" + row.ID}
-                                                               id={row.ID}
-                                                               service={row} reload={setReload}/>
+                                            <ExaminationDialog
+                                                key={"service_examination_dialog_" + row.ID}
+                                                id={row.ID}
+                                                service={row}
+                                                reload={setReload}
+                                            />
                                         }
                                         &nbsp;
-                                        <ServiceGetDialogs key={row.ID + "_service_get_dialog"} service={row}
-                                                           reload={setReload} template={template}/>
+                                        <ServiceGetDialogs
+                                            key={row.ID + "_service_get_dialog"}
+                                            service={row}
+                                            reload={setReload}
+                                            template={template}
+                                        />
                                         &nbsp;
-                                        <DeleteDialog key={"service_delete_alert_dialog_" + row.ID} id={row.ID}
-                                                      reload={setReload}/>
+                                        <DeleteDialog
+                                            key={"service_delete_alert_dialog_" + row.ID}
+                                            id={row.ID}
+                                            reload={setReload}
+                                        />
                                         &nbsp;
-                                        <EnableDialog key={"service_enable_alert_dialog_" + row.ID} service={row}
-                                                      reload={setReload}/>
+                                        <EnableDialog
+                                            key={"service_enable_alert_dialog_" + row.ID}
+                                            service={row}
+                                            reload={setReload}
+                                        />
                                     </Box>
                                 </TableCell>
                             </TableRow>

@@ -31,7 +31,7 @@ export default function Ticket(props: {
     return (
         <TableContainer component={Paper}>
             <Toolbar variant="dense">
-                <Typography className={classes.heading} id="tableTitle" component="div">
+                <Typography className={classes.heading} id="tickets" component="div">
                     Tickets
                 </Typography>
             </Toolbar>
@@ -40,8 +40,11 @@ export default function Ticket(props: {
             }
             {
                 data !== undefined &&
-                <StatusTable key={"ticket_status_table"} setReload={setReload}
-                             ticket={data.filter(item => !item.request).sort((a, b) => b.ID - a.ID)}/>
+                <StatusTable
+                    key={"ticket_status_table"}
+                    setReload={setReload}
+                    ticket={data.filter(item => !item.request).sort((a, b) => b.ID - a.ID)}
+                />
             }
         </TableContainer>
     )
@@ -174,8 +177,8 @@ export function StatusTable(props: {
                             rowsPerPage > 0
                                 ? ticket.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 : ticket
-                        ).map((row) => (
-                            <TableRow key={"ticket_detail_" + row.ID}>
+                        ).map((row, index) => (
+                            <TableRow key={"ticket_detail_" + index}>
                                 <TableCell component="th" scope="row">
                                     {row.ID}: {row.title}
                                 </TableCell>

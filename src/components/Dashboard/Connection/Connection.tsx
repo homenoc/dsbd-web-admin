@@ -32,7 +32,7 @@ export default function Connection(props: {
     return (
         <TableContainer component={Paper}>
             <Toolbar variant="dense">
-                <Typography className={classes.heading} id="tableTitle" component="div">
+                <Typography className={classes.heading} id="connection" component="div">
                     Connection
                 </Typography>
             </Toolbar>
@@ -44,8 +44,12 @@ export default function Connection(props: {
             }
             {
                 data !== undefined && template !== undefined &&
-                <StatusTable key={"connection_status_table"} setReload={setReload} template={template}
-                             connection={data.sort((a, b) => b.ID - a.ID)}/>
+                <StatusTable
+                    key={"connection_status_table"}
+                    setReload={setReload}
+                    template={template}
+                    connection={data.sort((a, b) => b.ID - a.ID)}
+                />
             }
         </TableContainer>
     )
@@ -147,14 +151,20 @@ export function StatusTable(props: {
         setPage(0);
     };
 
-    const getServiceCode = (groupID: number | undefined, serviceType: string | undefined, serviceNum: number | undefined, connectionType: string, connectionNum: number) => {
+    const getServiceCode = (
+        groupID: number | undefined,
+        serviceType: string | undefined,
+        serviceNum: number | undefined,
+        connectionType: string,
+        connectionNum: number
+    ) => {
         return groupID + "-" + serviceType + ('000' + serviceNum).slice(-3) + "-" + connectionType + ('000' + connectionNum).slice(-3);
     }
 
 
     return (
         <TableContainer component={Paper}>
-            <Table className={classes.table} size="small" aria-label="custom pagination table">
+            <Table className={classes.table} size="small" aria-label="connection">
                 <TableHead>
                     <TableRow>
                         <TableCell>ServiceCode</TableCell>
@@ -200,18 +210,26 @@ export function StatusTable(props: {
                                     <Box display="flex" justifyContent="flex-end">
                                         {
                                             row.service !== undefined &&
-                                            <ConnectionGetDialogs key={"connection_get_dialog_" + row.ID}
-                                                                  connection={row} service={row.service}
-                                                                  template={template} reload={setReload}/>
+                                            <ConnectionGetDialogs
+                                                key={"connection_get_dialog_" + row.ID}
+                                                connection={row}
+                                                service={row.service}
+                                                template={template}
+                                                reload={setReload}
+                                            />
                                         }
                                         &nbsp;
-                                        <DeleteDialog key={"connection_delete_alert_dialog_" + row.ID}
-                                                      id={row.ID}
-                                                      reload={setReload}/>
+                                        <DeleteDialog
+                                            key={"connection_delete_alert_dialog_" + row.ID}
+                                            id={row.ID}
+                                            reload={setReload}
+                                        />
                                         &nbsp;
-                                        <EnableDialog key={"connection_enable_alert_dialog_" + row.ID}
-                                                      connection={row}
-                                                      reload={setReload}/>
+                                        <EnableDialog
+                                            key={"connection_enable_alert_dialog_" + row.ID}
+                                            connection={row}
+                                            reload={setReload}
+                                        />
                                     </Box>
                                 </TableCell>
                             </TableRow>

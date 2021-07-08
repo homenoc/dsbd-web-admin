@@ -27,12 +27,10 @@ export function Group(props: {
     const classes = useStyles();
     const nowDate = new Date()
 
-    console.log(data)
-
     return (
         <TableContainer component={Paper}>
             <Toolbar variant="dense">
-                <Typography className={classes.heading} id="tableTitle" component="div">
+                <Typography className={classes.heading} id="groups" component="div">
                     Groups
                 </Typography>
             </Toolbar>
@@ -41,18 +39,20 @@ export function Group(props: {
             }
             {
                 data !== undefined &&
-                <StatusTable key={"request_status_table"} setReload={setReload}
-                             group={data.filter(item => {
-                                 console.log(item.member_expired)
-                                 if (item.member_expired === "" || item.member_expired == null) {
-                                     return true
-                                 } else {
-                                     const tmp = item.member_expired.split('T');
-                                     const tmpDate = new Date(tmp[0]);
+                <StatusTable
+                    key={"group_status_table"}
+                    setReload={setReload}
+                    group={data.filter(item => {
+                        if (item.member_expired === "" || item.member_expired == null) {
+                            return true
+                        } else {
+                            const tmp = item.member_expired.split('T');
+                            const tmpDate = new Date(tmp[0]);
 
-                                     return nowDate < tmpDate
-                                 }
-                             })}/>
+                            return nowDate < tmpDate
+                        }
+                    })}
+                />
             }
         </TableContainer>
     )
@@ -158,7 +158,7 @@ export function StatusTable(props: {
 
     return (
         <TableContainer component={Paper}>
-            <Table className={classes.table} size="small" aria-label="custom pagination table">
+            <Table className={classes.table} size="small" aria-label="group_table">
                 <TableHead>
                     <TableRow>
                         <TableCell>申請内容</TableCell>
@@ -173,8 +173,8 @@ export function StatusTable(props: {
                             rowsPerPage > 0
                                 ? group.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 : group
-                        ).map((row) => (
-                            <TableRow key={"group_detail_" + row.ID}>
+                        ).map((row, index) => (
+                            <TableRow key={"group_detail_" + index}>
                                 <TableCell style={{width: 300}} component="th" scope="row">
                                     {row.ID}: {row.org}({row.org_en})
                                 </TableCell>
@@ -194,23 +194,6 @@ export function StatusTable(props: {
                                     }
                                 </TableCell>
                                 <TableCell style={{width: 300}} align="right">
-                                    {/*{*/}
-                                    {/*    (row.request_reject || row.solved) &&*/}
-                                    {/*    <Button size="small" color="primary" variant="outlined"*/}
-                                    {/*            onClick={() => clickChangeStatus(row.ID, false, false)}>申請中</Button>*/}
-                                    {/*}*/}
-                                    {/*{*/}
-                                    {/*    !row.request_reject && !row.solved &&*/}
-                                    {/*    <Button size="small" color="primary" variant="outlined"*/}
-                                    {/*            onClick={() => clickChangeStatus(row.ID, true, false)}>変更/承諾済み</Button>*/}
-                                    {/*}*/}
-                                    {/*&nbsp;*/}
-                                    {/*{*/}
-                                    {/*    !row.request_reject && !row.solved &&*/}
-                                    {/*    <Button size="small" color="secondary" variant="outlined"*/}
-                                    {/*            onClick={() => clickChangeStatus(row.ID, false, true)}>却下</Button>*/}
-                                    {/*}*/}
-                                    &nbsp;
                                     <Button size="small" variant="outlined"
                                             onClick={() => GroupPage(row.ID)}>Detail</Button>
                                 </TableCell>

@@ -1,5 +1,5 @@
 import useStyles from "../../../pages/Group/GroupDetail/styles";
-import {GroupDetailData, TicketDetailData} from "../../../interface";
+import {TicketDetailData} from "../../../interface";
 import {
     Button, Chip, IconButton,
     Paper,
@@ -31,7 +31,7 @@ export default function Request(props: {
     return (
         <TableContainer component={Paper}>
             <Toolbar variant="dense">
-                <Typography className={classes.heading} id="tableTitle" component="div">
+                <Typography className={classes.heading} id="requests" component="div">
                     Requests
                 </Typography>
             </Toolbar>
@@ -40,8 +40,11 @@ export default function Request(props: {
             }
             {
                 data !== undefined &&
-                <StatusTable key={"request_status_table"} setReload={setReload}
-                             ticket={data.filter(item => item.request).sort((a, b) => b.ID - a.ID)}/>
+                <StatusTable
+                    key={"request_status_table"}
+                    setReload={setReload}
+                    ticket={data.filter(item => item.request).sort((a, b) => b.ID - a.ID)}
+                />
             }
         </TableContainer>
     )
@@ -174,8 +177,8 @@ export function StatusTable(props: {
                             rowsPerPage > 0
                                 ? ticket.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 : ticket
-                        ).map((row) => (
-                            <TableRow key={"ticket_detail_" + row.ID}>
+                        ).map((row, index) => (
+                            <TableRow key={"ticket_detail_" + index}>
                                 <TableCell style={{width: 300}} component="th" scope="row">
                                     {row.ID}: {row.title}
                                 </TableCell>
@@ -199,23 +202,42 @@ export function StatusTable(props: {
                                 <TableCell style={{width: 300}} align="right">
                                     {
                                         (row.request_reject || row.solved) &&
-                                        <Button size="small" color="primary" variant="outlined"
-                                                onClick={() => clickChangeStatus(row.ID, false, false)}>申請中</Button>
+                                        <Button
+                                            size="small"
+                                            color="primary"
+                                            variant="outlined"
+                                            onClick={() => clickChangeStatus(row.ID, false, false)}>
+                                            申請中
+                                        </Button>
                                     }
                                     {
                                         !row.request_reject && !row.solved &&
-                                        <Button size="small" color="primary" variant="outlined"
-                                                onClick={() => clickChangeStatus(row.ID, true, false)}>変更/承諾済み</Button>
+                                        <Button
+                                            size="small"
+                                            color="primary"
+                                            variant="outlined"
+                                            onClick={() => clickChangeStatus(row.ID, true, false)}>
+                                            変更/承諾済み
+                                        </Button>
                                     }
                                     &nbsp;
                                     {
                                         !row.request_reject && !row.solved &&
-                                        <Button size="small" color="secondary" variant="outlined"
-                                                onClick={() => clickChangeStatus(row.ID, false, true)}>却下</Button>
+                                        <Button
+                                            size="small"
+                                            color="secondary"
+                                            variant="outlined"
+                                            onClick={() => clickChangeStatus(row.ID, false, true)}>
+                                            却下
+                                        </Button>
                                     }
                                     &nbsp;
-                                    <Button size="small" variant="outlined"
-                                            onClick={() => ChatPage(row.ID)}>Chat</Button>
+                                    <Button
+                                        size="small"
+                                        variant="outlined"
+                                        onClick={() => ChatPage(row.ID)}>
+                                        Chat
+                                    </Button>
                                 </TableCell>
                             </TableRow>
                         ))

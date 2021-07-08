@@ -32,7 +32,7 @@ export function MemoGroup(props: {
     return (
         <TableContainer component={Paper}>
             <Toolbar variant="dense">
-                <Typography className={classes.heading} id="tableTitle" component="div">
+                <Typography className={classes.heading} id="groups_memo" component="div">
                     Groups(Memo)
                 </Typography>
             </Toolbar>
@@ -42,19 +42,17 @@ export function MemoGroup(props: {
             {
                 data !== undefined &&
                 <StatusTable
-                    key={"request_status_table"}
+                    key={"group_memo_status_table"}
                     setReload={setReload}
-                    group={
-                        data.filter(grp => {
-                                const tmp = grp.memos?.filter(memo => memo.type === 1);
-                                if (tmp === undefined) {
-                                    return false;
-                                } else {
-                                    return tmp.length !== 0;
-                                }
+                    group={data.filter(grp => {
+                            const tmp = grp.memos?.filter(memo => memo.type === 1);
+                            if (tmp === undefined) {
+                                return false;
+                            } else {
+                                return tmp.length !== 0;
                             }
-                        )
-                    }
+                        }
+                    )}
                 />
             }
         </TableContainer>
@@ -196,39 +194,38 @@ export function StatusTable(props: {
                 <TableBody>
                     {
                         (
-                            rowsPerPage > 0
-                                ? group.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                : group
-                        ).map((row) => (
-                            <TableRow key={"group_memo_detail_" + row.ID}>
-                                <TableCell style={{width: 700}} component="th" scope="row">
-                                    {
-                                        row.memos?.filter(memo => memo.type === 1).map(memo => (
-                                            <Chip
-                                                label={memo.title}
-                                                className={classes.right}
-                                                clickable
-                                                color={"secondary"}
-                                                onClick={() => handleClickDetail(memo)}
-                                                onDelete={() => handleDelete(memo.ID)}
-                                            />
-                                        ))
-                                    }
-                                </TableCell>
-                                <TableCell style={{width: 300}} align="left">
-                                    {row.ID}: {row.org}({row.org_en})
-                                </TableCell>
-                                <TableCell style={{width: 300}} align="right">
-                                    &nbsp;
-                                    <Button
-                                        size="small"
-                                        variant="outlined"
-                                        onClick={() => GroupPage(row.ID)}>
-                                        Detail
-                                    </Button>
-                                </TableCell>
-                            </TableRow>
-                        ))
+                            rowsPerPage > 0 ? group.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : group
+                        ).map((row,index) => (
+                                <TableRow key={"group_memo_detail_" + index}>
+                                    <TableCell style={{width: 700}} component="th" scope="row">
+                                        {
+                                            row.memos?.filter(memo => memo.type === 1).map(memo => (
+                                                <Chip
+                                                    label={memo.title}
+                                                    className={classes.right}
+                                                    clickable
+                                                    color={"secondary"}
+                                                    onClick={() => handleClickDetail(memo)}
+                                                    onDelete={() => handleDelete(memo.ID)}
+                                                />
+                                            ))
+                                        }
+                                    </TableCell>
+                                    <TableCell style={{width: 300}} align="left">
+                                        {row.ID}: {row.org}({row.org_en})
+                                    </TableCell>
+                                    <TableCell style={{width: 300}} align="right">
+                                        &nbsp;
+                                        <Button
+                                            size="small"
+                                            variant="outlined"
+                                            onClick={() => GroupPage(row.ID)}>
+                                            Detail
+                                        </Button>
+                                    </TableCell>
+                                </TableRow>
+                            )
+                        )
                     }
                     {
                         emptyRows > 0 && (
