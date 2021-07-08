@@ -17,6 +17,7 @@ import {GetTemplate} from "../../api/Group";
 import Service from "../../components/Dashboard/Service/Service";
 import Connection from "../../components/Dashboard/Connection/Connection";
 import {Group} from "../../components/Dashboard/Group/Group";
+import {MemoGroup} from "../../components/Dashboard/Group/Memo";
 
 
 export default function Dashboard() {
@@ -58,20 +59,17 @@ export default function Dashboard() {
                     enqueueSnackbar("" + res.error, {variant: "error"});
                 }
             })
+            GetTemplate().then(res => {
+                if (res.error === "") {
+                    console.log(res);
+                    setTemplate(res.data);
+                    console.log(template);
+                } else {
+                    enqueueSnackbar("" + res.error, {variant: "error"});
+                }
+            })
         }
     }, [reload]);
-
-    useEffect(() => {
-        GetTemplate().then(res => {
-            if (res.error === "") {
-                console.log(res);
-                setTemplate(res.data);
-                console.log(template);
-            } else {
-                enqueueSnackbar("" + res.error, {variant: "error"});
-            }
-        })
-    }, []);
 
     return (
         <DashboardComponent title="Dashboard">
@@ -90,6 +88,9 @@ export default function Dashboard() {
                 </Grid>
                 <Grid item xs={12}>
                     <Group key={"group"} data={template?.group} setReload={setReload}/>
+                </Grid>
+                <Grid item xs={12}>
+                    <MemoGroup key={"group_memo"} data={template?.group} setReload={setReload}/>
                 </Grid>
             </Grid>
         </DashboardComponent>
