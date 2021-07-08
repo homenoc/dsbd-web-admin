@@ -228,12 +228,10 @@ export function EnableDialog(props: {
         <div>
             <Button size="small" variant="outlined" onClick={handleClickOpen}>
                 {
-                    connection.enable &&
-                    <div>Disable</div>
+                    connection.enable && "Disable"
                 }
                 {
-                    !connection.enable &&
-                    <div>Enable</div>
+                    !connection.enable && "Enable"
                 }
             </Button>
             <Dialog
@@ -241,19 +239,17 @@ export function EnableDialog(props: {
                 TransitionComponent={Transition}
                 keepMounted
                 onClose={handleClose}
-                aria-labelledby="alert-dialog-slide-title"
-                aria-describedby="alert-dialog-slide-description"
+                aria-labelledby="connection-enable-dialog-title"
+                aria-describedby="connection-enable-dialog-description"
             >
-                <DialogTitle id="alert-dialog-slide-title">Enable</DialogTitle>
+                <DialogTitle id="connection-enable-dialog-title">Enable</DialogTitle>
                 <DialogContent>
-                    <DialogContentText id="alert-dialog-slide-description">
+                    <DialogContentText id="connection-enable-dialog-description">
                         {
-                            connection.enable &&
-                            <div>有効から無効に変更します。</div>
+                            connection.enable && "有効から無効に変更します。"
                         }
                         {
-                            !connection.enable &&
-                            <div>無効から有効に変更します。</div>
+                            !connection.enable && "無効から有効に変更します。"
                         }
                     </DialogContentText>
                 </DialogContent>

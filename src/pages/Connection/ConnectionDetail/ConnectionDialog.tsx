@@ -56,12 +56,20 @@ export default function ConnectionGetDialogs(props: {
                             <ConnectionEtc key={"connectionETC"} connection={connection}/>
                         </Grid>
                         <Grid item xs={6}>
-                            <ConnectionOpen key={"connection_open"} connection={connection} service={service}
-                                            template={template} setReload={reload}/>
+                            <ConnectionOpen
+                                key={"connection_open"}
+                                connection={connection}
+                                service={service}
+                                template={template}
+                                setReload={reload}
+                            />
                         </Grid>
                         <Grid item xs={6}>
-                            <ConnectionUserDisplay key={"connection_user_display"} service={service}
-                                                   connection={connection}/>
+                            <ConnectionUserDisplay
+                                key={"connection_user_display"}
+                                service={service}
+                                connection={connection}
+                            />
                         </Grid>
                     </Grid>
                 </DialogContent>

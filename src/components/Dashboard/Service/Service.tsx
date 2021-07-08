@@ -194,7 +194,7 @@ export function StatusTable(props: {
                                         {
                                             !row.pass &&
                                             <ExaminationDialog
-                                                key={"service_examination_dialog_" + row.ID}
+                                                key={"service_examination_dialog_" + index}
                                                 id={row.ID}
                                                 service={row}
                                                 reload={setReload}
@@ -202,20 +202,20 @@ export function StatusTable(props: {
                                         }
                                         &nbsp;
                                         <ServiceGetDialogs
-                                            key={row.ID + "_service_get_dialog"}
+                                            key={"service_get_dialog_"+index}
                                             service={row}
                                             reload={setReload}
                                             template={template}
                                         />
                                         &nbsp;
                                         <DeleteDialog
-                                            key={"service_delete_alert_dialog_" + row.ID}
+                                            key={"service_delete_dialog_" + index}
                                             id={row.ID}
                                             reload={setReload}
                                         />
                                         &nbsp;
                                         <EnableDialog
-                                            key={"service_enable_alert_dialog_" + row.ID}
+                                            key={"service_enable_dialog_" + row.ID}
                                             service={row}
                                             reload={setReload}
                                         />

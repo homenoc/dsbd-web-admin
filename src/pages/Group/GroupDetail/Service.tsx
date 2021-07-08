@@ -97,8 +97,7 @@ function RowService(props: {
                 <TableCell align="left">
                     {service.ID}
                 </TableCell>
-                <TableCell
-                    align="left">{serviceCode}</TableCell>
+                <TableCell align="left">{serviceCode}</TableCell>
                 <TableCell align="left">{service.service_template.name}</TableCell>
                 <TableCell align="left">
                     <ChipGet open={service.pass} pass={service.pass} enable={service.enable}/>
@@ -117,18 +116,32 @@ function RowService(props: {
                     <Box display="flex" justifyContent="flex-end">
                         {
                             !service.pass &&
-                            <ExaminationDialog key={"service_examination_dialog_" + service.ID} id={service.ID}
-                                               service={service} reload={reload}/>
+                            <ExaminationDialog
+                                key={"service_examination_dialog_" + service.ID}
+                                id={service.ID}
+                                service={service}
+                                reload={reload}
+                            />
                         }
                         &nbsp;
-                        <ServiceGetDialogs key={"service_get_dialog_" + service.ID} service={service} reload={reload}
-                                           template={template}/>
+                        <ServiceGetDialogs
+                            key={"service_get_dialog_" + service.ID}
+                            service={service}
+                            reload={reload}
+                            template={template}
+                        />
                         &nbsp;
-                        <DeleteDialog key={"service_delete_alert_dialog_" + service.ID} id={service.ID}
-                                      reload={reload}/>
+                        <DeleteDialog
+                            key={"service_delete_alert_dialog_" + service.ID}
+                            id={service.ID}
+                            reload={reload}
+                        />
                         &nbsp;
-                        <EnableDialog key={"service_enable_alert_dialog_" + service.ID} service={service}
-                                      reload={reload}/>
+                        <EnableDialog
+                            key={"service_enable_alert_dialog_" + service.ID}
+                            service={service}
+                            reload={reload}
+                        />
                     </Box>
                 </TableCell>
             </TableRow>
@@ -136,8 +149,13 @@ function RowService(props: {
                 <TableCell style={{paddingBottom: 0, paddingTop: 0}} colSpan={7}>
                     <Collapse in={open} timeout="auto" unmountOnExit>
                         <Box margin={1}>
-                            <RowConnectionCheck key={service.ID + "Connection"} template={template} service={service}
-                                                groupID={groupID} reload={reload}/>
+                            <RowConnectionCheck
+                                key={service.ID + "Connection"}
+                                template={template}
+                                service={service}
+                                groupID={groupID}
+                                reload={reload}
+                            />
                         </Box>
                     </Collapse>
                 </TableCell>
@@ -186,12 +204,12 @@ export function ExaminationDialog(props: {
                 TransitionComponent={Transition}
                 keepMounted
                 onClose={handleClose}
-                aria-labelledby="alert-dialog-slide-title"
-                aria-describedby="alert-dialog-slide-description"
+                aria-labelledby="alert-dialog-examination-title"
+                aria-describedby="alert-dialog-examination-description"
             >
-                <DialogTitle id="alert-dialog-slide-title">審査通過</DialogTitle>
+                <DialogTitle id="alert-dialog-examination-title">審査通過</DialogTitle>
                 <DialogContent>
-                    <DialogContentText id="alert-dialog-slide-description">
+                    <DialogContentText id="alert-dialog-examination-description">
                         審査を通過させますか？
                     </DialogContentText>
                 </DialogContent>
@@ -246,12 +264,12 @@ export function DeleteDialog(props: {
                 TransitionComponent={Transition}
                 keepMounted
                 onClose={handleClose}
-                aria-labelledby="alert-dialog-slide-title"
-                aria-describedby="alert-dialog-slide-description"
+                aria-labelledby="alert-delete-dialog-title"
+                aria-describedby="alert-delete-dialog-description"
             >
-                <DialogTitle id="alert-dialog-slide-title">削除</DialogTitle>
+                <DialogTitle id="alert-delete-dialog-title">削除</DialogTitle>
                 <DialogContent>
-                    <DialogContentText id="alert-dialog-slide-description">
+                    <DialogContentText id="alert-delete-dialog">
                         本当に削除しますか？
                     </DialogContentText>
                 </DialogContent>
@@ -304,12 +322,10 @@ export function EnableDialog(props: {
         <div>
             <Button size="small" variant="outlined" onClick={handleClickOpen}>
                 {
-                    service.enable &&
-                    <div>Disable</div>
+                    service.enable && "Disable"
                 }
                 {
-                    !service.enable &&
-                    <div>Enable</div>
+                    !service.enable && "Enable"
                 }
             </Button>
             <Dialog
@@ -317,19 +333,17 @@ export function EnableDialog(props: {
                 TransitionComponent={Transition}
                 keepMounted
                 onClose={handleClose}
-                aria-labelledby="alert-dialog-slide-title"
-                aria-describedby="alert-dialog-slide-description"
+                aria-labelledby="enable dialog"
+                aria-describedby="enable dialog"
             >
-                <DialogTitle id="alert-dialog-slide-title">Enable</DialogTitle>
+                <DialogTitle id="alert-dialog-enable-title">Enable</DialogTitle>
                 <DialogContent>
-                    <DialogContentText id="alert-dialog-slide-description">
+                    <DialogContentText id="alert-dialog-enable-text">
                         {
-                            service.enable &&
-                            <div>有効から無効に変更します。</div>
+                            service.enable && "有効から無効に変更します。"
                         }
                         {
-                            !service.enable &&
-                            <div>無効から有効に変更します。</div>
+                            !service.enable && "無効から有効に変更します。"
                         }
                     </DialogContentText>
                 </DialogContent>

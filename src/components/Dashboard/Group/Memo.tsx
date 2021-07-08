@@ -195,12 +195,13 @@ export function StatusTable(props: {
                     {
                         (
                             rowsPerPage > 0 ? group.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : group
-                        ).map((row,index) => (
+                        ).map((row, index) => (
                                 <TableRow key={"group_memo_detail_" + index}>
                                     <TableCell style={{width: 700}} component="th" scope="row">
                                         {
                                             row.memos?.filter(memo => memo.type === 1).map(memo => (
                                                 <Chip
+                                                    key={"memo_" + memo.ID}
                                                     label={memo.title}
                                                     className={classes.right}
                                                     clickable
