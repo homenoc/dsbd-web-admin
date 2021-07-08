@@ -20,7 +20,6 @@ import {Delete, Put} from "../../../api/Service";
 import {useSnackbar} from "notistack";
 import {TransitionProps} from "@material-ui/core/transitions";
 import {RowConnectionCheck} from "./Connection";
-import {Update} from "../../../api/Connection";
 
 const useRowStyles = makeStyles({
     root: {
@@ -45,7 +44,7 @@ export function ChipGet(props: {
     pass: boolean,
     enable: boolean
 }) {
-    const {open, pass, enable} = props;
+    const {pass, enable} = props;
 
     if (!enable) {
         return (

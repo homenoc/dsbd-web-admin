@@ -4,8 +4,6 @@ import {
     Container,
     CssBaseline,
     FormControlLabel,
-    Grid,
-    Link,
     makeStyles,
     TextField, ThemeProvider, Typography
 } from '@material-ui/core';

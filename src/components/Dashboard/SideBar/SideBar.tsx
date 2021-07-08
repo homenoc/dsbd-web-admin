@@ -23,22 +23,18 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import useStyles from "./styles";
 import useStyles2 from "../styles";
 
-export default function SideBar(props: any) {
+export default function SideBar() {
     const classesDashboard = useStyles2();
     const classesMenu = useStyles();
 
 
     // Menu Bar
     const [open, setOpen] = React.useState(false);
-    const handleDrawerOpen = () => {
-        setOpen(true);
-    };
     const handleDrawerClose = () => {
         setOpenOther(false);
         setOpen(false);
     };
     // Menu Bar (Other Button)
-    const fixedHeightPaper = clsx(classesDashboard.paper, classesDashboard.fixedHeight);
     const [openOther, setOpenOther] = React.useState(false);
     const handleClick = () => {
         setOpenOther(!openOther);

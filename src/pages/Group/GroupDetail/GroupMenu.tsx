@@ -1,5 +1,5 @@
 import {Button, Menu, MenuItem} from "@material-ui/core";
-import React, {Dispatch, SetStateAction, useEffect} from "react";
+import React, {Dispatch, SetStateAction} from "react";
 import {GroupDetailData} from "../../../interface";
 import useStyles from "./styles";
 import {Put} from "../../../api/Group";
@@ -8,7 +8,6 @@ import {useSnackbar} from "notistack";
 export function GroupStatusButton(props: { data: GroupDetailData, reload: Dispatch<SetStateAction<boolean>> }): any {
     const {data, reload} = props;
     const classes = useStyles();
-    const {enqueueSnackbar} = useSnackbar();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
     const handleClose = () => {

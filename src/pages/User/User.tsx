@@ -12,7 +12,7 @@ import {
     Typography
 } from "@material-ui/core";
 import {GetAll} from "../../api/User";
-import {DefaultUserDetailDataArray, NoticeData, UserDetailData} from "../../interface";
+import {DefaultUserDetailDataArray, UserDetailData} from "../../interface";
 import {useSnackbar} from "notistack";
 
 

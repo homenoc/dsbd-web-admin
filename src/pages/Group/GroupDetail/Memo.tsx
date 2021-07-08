@@ -11,7 +11,7 @@ import {
     DialogTitle, FormControl, FormControlLabel, FormLabel,
     Grid, Radio, RadioGroup, TextField
 } from "@material-ui/core";
-import React, {Dispatch, SetStateAction, useEffect} from "react";
+import React, {Dispatch, SetStateAction} from "react";
 import {useSnackbar} from "notistack";
 import {Delete, Post} from "../../../api/Memo";
 

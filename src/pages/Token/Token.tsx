@@ -15,7 +15,6 @@ import {GetAll} from "../../api/Token";
 import {
     DefaultTokenDetailDataArray,
     TokenDetailData,
-    UserDetailData
 } from "../../interface";
 import {useSnackbar} from "notistack";
 

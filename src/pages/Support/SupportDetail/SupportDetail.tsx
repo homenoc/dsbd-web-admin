@@ -3,7 +3,7 @@ import {DefaultChatDataArray} from "../../../interface";
 import useStyles from "./styles";
 import {Paper} from "@material-ui/core";
 import {restfulApiConfig} from "../../../api/Config";
-import useWebSocket, {ReadyState} from "react-use-websocket";
+import useWebSocket from "react-use-websocket";
 import {MessageLeft, MessageRight} from "./Message";
 import {TextInput} from "./TextInput";
 import {Get} from "../../../api/Support";
@@ -14,7 +14,7 @@ export default function SupportDetail() {
     const classes = useStyles();
     let id: string;
     ({id} = useParams());
-    const {sendMessage, lastMessage, readyState,} = useWebSocket(restfulApiConfig.wsURL + "/support" +
+    const {sendMessage, lastMessage} = useWebSocket(restfulApiConfig.wsURL + "/support" +
         '?id=' + id + '&user_token=' + sessionStorage.getItem('ClientID') + '&access_token=' +
         sessionStorage.getItem('AccessToken'), {
         onOpen: () => enqueueSnackbar("WebSocket接続確立", {variant: "success"}),
@@ -82,15 +82,6 @@ export default function SupportDetail() {
             setSendPush(false);
         }
     }, [sendPush]);
-
-
-    const connectionStatus = {
-        [ReadyState.CONNECTING]: 'Connecting',
-        [ReadyState.OPEN]: 'Open',
-        [ReadyState.CLOSING]: 'Closing',
-        [ReadyState.CLOSED]: 'Closed',
-        [ReadyState.UNINSTANTIATED]: 'Uninstantiated',
-    }[readyState];
 
     return (
         <div>

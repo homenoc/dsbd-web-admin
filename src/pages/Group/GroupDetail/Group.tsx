@@ -397,7 +397,7 @@ export function GroupStatus(props: {
         color: "primary",
         label: ""
     });
-    const nowDate = new Date;
+    const nowDate = new Date();
 
     useEffect(() => {
         setMembershipLabel({color: "primary", label: ""});

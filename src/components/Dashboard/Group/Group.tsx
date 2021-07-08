@@ -135,7 +135,7 @@ export function StatusTable(props: {
     group: GroupDetailData[]
     setReload: Dispatch<SetStateAction<boolean>>
 }) {
-    const {group, setReload} = props;
+    const {group} = props;
     const classes = useStyles2();
     const history = useHistory();
     const [page, setPage] = React.useState(0);
@@ -183,11 +183,11 @@ export function StatusTable(props: {
                                 </TableCell>
                                 <TableCell style={{width: 160}} align="right">
                                     {
-                                        (row.member_expired == null || row.member_expired != "") &&
+                                        (row.member_expired == null || row.member_expired !== "") &&
                                         <Chip size="small" color="secondary" label="未払い状態"/>
                                     }
                                     {
-                                        !(row.member_expired == null || row.member_expired != "") &&
+                                        !(row.member_expired == null || row.member_expired !== "") &&
                                         <div>
                                             <Chip size="small" color="secondary" label={"期限切れ: " + row.member_expired}/>
                                         </div>

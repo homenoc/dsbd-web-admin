@@ -1,7 +1,6 @@
 import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Slide} from "@material-ui/core";
 import React, {Dispatch, SetStateAction} from "react";
 import {TransitionProps} from "@material-ui/core/transitions";
-import {JPNICData} from "../../../interface";
 
 const Transition = React.forwardRef(function Transition(
     props: TransitionProps & { children?: React.ReactElement<any, any> },

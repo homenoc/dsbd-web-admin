@@ -47,7 +47,7 @@ export default function ServiceAddDialogs(props: {
     const {enqueueSnackbar} = useSnackbar();
 
     useEffect(() => {
-        const nowDate = new Date;
+        const nowDate = new Date();
         let tmpEndDate = nowDate;
         setData({
             ...data, start_date: nowDate.getFullYear() + '-' + ('00' + (nowDate.getMonth() + 1)).slice(-2) +

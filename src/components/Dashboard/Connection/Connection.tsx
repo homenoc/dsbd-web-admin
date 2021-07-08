@@ -133,7 +133,7 @@ export function StatusTable(props: {
     template: TemplateData
     setReload: Dispatch<SetStateAction<boolean>>
 }) {
-    const {connection, template, setReload} = props;
+    const {template, connection, setReload} = props;
     const classes = useStyles2();
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
