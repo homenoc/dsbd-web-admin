@@ -56,12 +56,13 @@ export function RowConnectionCheck(props: {
                     <TableBody>
                         {
                             service.connections.map((rowConnection: ConnectionDetailData) => (
-                                <RowConnection key={rowConnection.ID}
-                                               template={template}
-                                               service={service}
-                                               connection={rowConnection}
-                                               groupID={groupID}
-                                               reload={reload}
+                                <RowConnection
+                                    key={rowConnection.ID}
+                                    template={template}
+                                    service={service}
+                                    connection={rowConnection}
+                                    groupID={groupID}
+                                    reload={reload}
                                 />
                             ))
                         }
@@ -118,14 +119,22 @@ function RowConnection(props: {
             </TableCell>
             <TableCell align="right">
                 <Box display="flex" justifyContent="flex-end">
-                    <ConnectionGetDialogs key={"connection_get_dialog"} connection={connection} service={service}
-                                          template={template} reload={reload}/>
+                    <ConnectionGetDialogs
+                        key={"connection_get_dialog"}
+                        connection={connection}
+                        service={service}
+                        template={template}
+                        reload={reload}/>
                     &nbsp;
-                    <DeleteDialog key={"connection_delete_alert_dialog_" + connection.ID} id={connection.ID}
-                                  reload={reload}/>
+                    <DeleteDialog
+                        key={"connection_delete_alert_dialog_" + connection.ID}
+                        id={connection.ID}
+                        reload={reload}/>
                     &nbsp;
-                    <EnableDialog key={"connection_enable_alert_dialog_" + connection.ID} connection={connection}
-                                  reload={reload}/>
+                    <EnableDialog
+                        key={"connection_enable_alert_dialog_" + connection.ID}
+                        connection={connection}
+                        reload={reload}/>
                 </Box>
             </TableCell>
         </TableRow>

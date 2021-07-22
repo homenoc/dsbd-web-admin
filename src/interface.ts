@@ -248,6 +248,12 @@ export interface NTTTemplateData {
     hidden: boolean
 }
 
+export interface MailTemplateData {
+    process_id: string
+    subject: string
+    message: string
+}
+
 export interface IPTemplateData {
     name: any;
     CreatedAt: string
@@ -380,6 +386,7 @@ export interface TemplateData {
     ipv6_route?: IPRouteData[]
     user?: UserDetailData[]
     group?: GroupDetailData[]
+    mail_template?: MailTemplateData[]
 }
 
 export interface IPRouteData {
@@ -476,6 +483,12 @@ export interface ChatData {
     data: string,
     user_name: string,
     admin: boolean,
+}
+
+export interface MailSendData {
+    to_mail: string,
+    subject: string,
+    content: string,
 }
 
 export const DefaultTemplateData: TemplateData = {
@@ -817,4 +830,10 @@ export const DefaultTicketAddData: TicketAddData = {
     group_id: 0,
     title: "",
     data: ""
+}
+
+export const DefaultMailSendData: MailSendData = {
+    to_mail: "",
+    subject: "",
+    content: ""
 }

@@ -397,8 +397,12 @@ export default function Service(props: {
                             <TableBody>
                                 {
                                     data.services.map((row: ServiceDetailData) => (
-                                        <RowService key={"service_row_service_" + row.ID} template={template}
-                                                    service={row} groupID={data.ID} reload={reload}/>
+                                        <RowService
+                                            key={"service_row_service_" + row.ID}
+                                            template={template}
+                                            service={row}
+                                            groupID={data.ID}
+                                            reload={reload}/>
                                     ))
                                 }
                             </TableBody>

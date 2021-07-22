@@ -14,6 +14,7 @@ import Service from "./Service";
 import {GroupProfileInfo, GroupMainMenu, GroupStatus} from "./Group";
 import {useSnackbar} from "notistack";
 import {GroupMemo} from "./Memo";
+import {MailAutoSendDialogs, MailSendDialogs} from "../Mail";
 
 
 function getTitle(id: number, org: string, org_en: string, loading: boolean): string {
@@ -33,6 +34,9 @@ export default function GroupDetail() {
     const [loading, setLoading] = useState(true)
     const [group, setGroup] = useState(DefaultGroupDetailData);
     const [template, setTemplate] = useState(DefaultTemplateData);
+    const [openMailSendDialog, setOpenMailSendDialog] = useState(false);
+    const [openMailAutoSendDialog, setOpenMailAutoSendDialog] = useState("");
+    const [sendAutoEmail, setSendAutoEmail] = useState("");
     let id: string;
     ({id} = useParams());
 
@@ -54,6 +58,15 @@ export default function GroupDetail() {
             if (res.error === "") {
                 console.log(res);
                 setGroup(res.data);
+                let mails = "";
+                if (res.data.users != undefined) {
+                    for (const user of res.data.users) {
+                        if (user.level < 3) {
+                            mails += user.email + ",";
+                        }
+                    }
+                }
+                setSendAutoEmail(mails);
                 setLoading(false);
                 setReload(false);
             } else {
@@ -89,7 +102,11 @@ export default function GroupDetail() {
                             <GroupStatus key={"group_status_" + group.ID} data={group} reload={reload}/>
                         </Grid>
                         <Grid item xs={2}>
-                            <GroupMainMenu key={"group_main_menu" + group.ID} data={group} reload={setReload}/>
+                            <GroupMainMenu
+                                key={"group_main_menu" + group.ID}
+                                data={group}
+                                autoMail={setOpenMailAutoSendDialog}
+                                reload={setReload}/>
                         </Grid>
                         <Grid item xs={3}>
                             <GroupMemo key={"group_memo_" + group.ID} data={group} reload={setReload}/>
@@ -98,12 +115,17 @@ export default function GroupDetail() {
                             <GroupProfileInfo
                                 key={"group_profile_info_" + group.ID}
                                 data={group}
+                                setOpenMailSendDialog={setOpenMailSendDialog}
                                 template={template}
                                 setReload={setReload}
                             />
                         </Grid>
                         <Grid item xs={12}>
-                            <Service key={"service_" + group.ID} data={group} template={template} reload={setReload}/>
+                            <Service
+                                key={"service_" + group.ID}
+                                data={group}
+                                template={template}
+                                reload={setReload}/>
                         </Grid>
                         <Grid item xs={12}>
                             <Ticket key={"ticket_" + group.ID} data={group.tickets} setReload={setReload}/>
@@ -113,6 +135,21 @@ export default function GroupDetail() {
                         </Grid>
                         <Grid item xs={6}>
                             <Users key={"users_" + group.ID} data={group}/>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <MailAutoSendDialogs
+                                setOpen={setOpenMailAutoSendDialog}
+                                mails={sendAutoEmail}
+                                template={template?.mail_template}
+                                open={openMailAutoSendDialog}
+                                org={group.org}
+                            />
+                            <MailSendDialogs
+                                setOpen={setOpenMailSendDialog}
+                                open={openMailSendDialog}
+                                mails={sendAutoEmail}
+                                template={template?.mail_template}
+                                org={group.org}/>
                         </Grid>
                     </Grid>
                 )

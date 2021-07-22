@@ -41,9 +41,10 @@ function ChipAgree(props: { agree: boolean }) {
 export function GroupProfileInfo(props: {
     data: GroupDetailData,
     template: TemplateData,
+    setOpenMailSendDialog: Dispatch<SetStateAction<boolean>>
     setReload: Dispatch<SetStateAction<boolean>>
 }): any {
-    const {data, template, setReload} = props;
+    const {data, template, setOpenMailSendDialog, setReload} = props;
     const classes = useStyles();
     const [lockPersonalInformation, setLockPersonalInformation] = React.useState(true);
     const [group, setGroup] = useState(data);
@@ -395,7 +396,7 @@ export function GroupProfileInfo(props: {
                     接続情報の追加
                 </Button>
                 <br/>
-                <Button size="small" className={classes.spaceTop}>メール送信</Button>
+                <Button size="small" className={classes.spaceTop} onClick={() => setOpenMailSendDialog(true)}>メール送信</Button>
                 <ServiceAddDialogs
                     key={"service_add_dialogs"}
                     baseData={data}
@@ -417,15 +418,19 @@ export function GroupProfileInfo(props: {
     )
 }
 
-export function GroupMainMenu(props: { data: GroupDetailData, reload: Dispatch<SetStateAction<boolean>> }): any {
+export function GroupMainMenu(props: {
+    data: GroupDetailData,
+    autoMail: Dispatch<SetStateAction<string>>,
+    reload: Dispatch<SetStateAction<boolean>>
+}): any {
     const classes = useStyles();
-    const {data, reload} = props;
+    const {data, autoMail, reload} = props;
 
     return (
         <Card className={classes.root}>
             <CardContent>
                 <h3>Menu</h3>
-                <GroupStatusButton key={"group_status_button"} data={data} reload={reload}/>
+                <GroupStatusButton key={"group_status_button"} data={data} autoMail={autoMail} reload={reload}/>
                 <GroupLockButton key={"group_lock_button"} data={data} reload={reload}/>
                 <GroupAbolition key={"group_abolition"}/>
             </CardContent>
