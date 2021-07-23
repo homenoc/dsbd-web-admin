@@ -140,6 +140,7 @@ export function StatusTable(props: {
     const history = useHistory();
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    const nowDate = new Date();
 
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, group.length - page * rowsPerPage);
 
@@ -183,14 +184,12 @@ export function StatusTable(props: {
                                 </TableCell>
                                 <TableCell style={{width: 160}} align="right">
                                     {
-                                        (row.member_expired == null || row.member_expired !== "") &&
+                                        row.member_expired == null &&
                                         <Chip size="small" color="secondary" label="未払い状態"/>
                                     }
                                     {
-                                        !(row.member_expired == null || row.member_expired !== "") &&
-                                        <div>
-                                            <Chip size="small" color="secondary" label={"期限切れ: " + row.member_expired}/>
-                                        </div>
+                                        row.member_expired != null && new Date(row.member_expired) < nowDate &&
+                                        <Chip size="small" color="secondary" label={"期限切れ: " + row.member_expired}/>
                                     }
                                 </TableCell>
                                 <TableCell style={{width: 300}} align="right">
