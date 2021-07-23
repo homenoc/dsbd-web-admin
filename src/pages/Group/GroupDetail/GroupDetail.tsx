@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
 import Dashboard from "../../../components/Dashboard/Dashboard";
 import {Get, GetTemplate} from "../../../api/Group";
@@ -124,6 +124,7 @@ export default function GroupDetail() {
                             <Service
                                 key={"service_" + group.ID}
                                 data={group}
+                                autoMail={setOpenMailAutoSendDialog}
                                 template={template}
                                 reload={setReload}/>
                         </Grid>

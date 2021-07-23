@@ -202,7 +202,7 @@ export function StatusTable(props: {
                                         }
                                         &nbsp;
                                         <ServiceGetDialogs
-                                            key={"service_get_dialog_"+index}
+                                            key={"service_get_dialog_" + index}
                                             service={row}
                                             reload={setReload}
                                             template={template}

@@ -77,11 +77,12 @@ export function ChipGet(props: {
 
 function RowService(props: {
     service: ServiceDetailData,
+    autoMail: Dispatch<SetStateAction<string>>,
     groupID: number,
     template: TemplateData,
     reload: Dispatch<SetStateAction<boolean>>
 }) {
-    const {service, groupID, template, reload} = props;
+    const {service, autoMail, groupID, template, reload} = props;
     const [open, setOpen] = React.useState(false);
     const classes = useRowStyles();
     const serviceCode = groupID + "-" + service.service_template.type + ('000' + service.service_number).slice(-3);
@@ -118,6 +119,7 @@ function RowService(props: {
                             !service.pass &&
                             <ExaminationDialog
                                 key={"service_examination_dialog_" + service.ID}
+                                autoMail={autoMail}
                                 id={service.ID}
                                 service={service}
                                 reload={reload}
@@ -166,10 +168,11 @@ function RowService(props: {
 
 export function ExaminationDialog(props: {
     id: number
+    autoMail?: Dispatch<SetStateAction<string>>,
     service: ServiceDetailData
     reload: Dispatch<SetStateAction<boolean>>
 }) {
-    const {id, service, reload} = props;
+    const {id, autoMail, service, reload} = props;
     const [open, setOpen] = React.useState(false);
     const {enqueueSnackbar} = useSnackbar();
 
@@ -182,6 +185,9 @@ export function ExaminationDialog(props: {
             } else {
                 console.log(res.error);
                 enqueueSnackbar(String(res.error), {variant: "error"});
+            }
+            if (autoMail !== undefined) {
+                autoMail("pass_service");
             }
             setOpen(false);
             reload(true);
@@ -362,10 +368,11 @@ export function EnableDialog(props: {
 
 export default function Service(props: {
     data: GroupDetailData,
+    autoMail: Dispatch<SetStateAction<string>>,
     template: TemplateData,
     reload: Dispatch<SetStateAction<boolean>>
 }): any {
-    const {data, template, reload} = props;
+    const {data, autoMail, template, reload} = props;
     const classes = useStyles();
 
     if (data.services !== undefined) {
@@ -400,6 +407,7 @@ export default function Service(props: {
                                         <RowService
                                             key={"service_row_service_" + row.ID}
                                             template={template}
+                                            autoMail={autoMail}
                                             service={row}
                                             groupID={data.ID}
                                             reload={reload}/>
