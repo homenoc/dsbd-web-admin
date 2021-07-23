@@ -49,7 +49,7 @@ export function Group(props: {
                             const tmp = item.member_expired.split('T');
                             const tmpDate = new Date(tmp[0]);
 
-                            return nowDate < tmpDate
+                            return !(nowDate < tmpDate)
                         }
                     })}
                 />
