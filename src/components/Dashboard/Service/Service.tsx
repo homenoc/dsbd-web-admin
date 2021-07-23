@@ -1,7 +1,7 @@
 import useStyles from "../../../pages/Group/GroupDetail/styles";
 import {ServiceDetailData, TemplateData} from "../../../interface";
 import {
-    Box,
+    Box, Button,
     Chip, IconButton,
     Paper,
     Table,
@@ -19,6 +19,7 @@ import FirstPageIcon from '@material-ui/icons/FirstPage';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import ServiceGetDialogs from "../../../pages/Service/ServiceDetail/ServiceDialog";
 import {DeleteDialog, EnableDialog, ExaminationDialog} from "../../../pages/Group/GroupDetail/Service";
+import {useHistory} from "react-router-dom";
 
 
 export default function Service(props: {
@@ -137,6 +138,7 @@ export function StatusTable(props: {
     const classes = useStyles2();
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    const history = useHistory();
 
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, service.length - page * rowsPerPage);
 
@@ -152,7 +154,9 @@ export function StatusTable(props: {
     };
 
     const getServiceCode = (groupID: number, type: string, serviceNum: number) => groupID + "-" + type + ('000' + serviceNum).slice(-3);
-
+    const GroupDetailPage = (groupID: number) => {
+        history.push('/dashboard/group/' + groupID);
+    }
 
     return (
         <TableContainer component={Paper}>
@@ -219,6 +223,13 @@ export function StatusTable(props: {
                                             service={row}
                                             reload={setReload}
                                         />
+                                        &nbsp;
+                                        <Button
+                                            size="small"
+                                            variant="outlined"
+                                            onClick={() => GroupDetailPage(row.group_id)}>
+                                            Group
+                                        </Button>
                                     </Box>
                                 </TableCell>
                             </TableRow>
