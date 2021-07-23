@@ -188,10 +188,12 @@ export function StatusTable(props: {
                             <TableRow key={"ticket_detail_" + index}>
                                 <TableCell component="th" scope="row">
                                     {
-                                        row.group_id === 0 && <Chip size="small" color="primary" label="U"/>
+                                        (row.group_id === 0 || row.group_id == null) &&
+                                        <Chip size="small" color="primary" label="U"/>
                                     }
                                     {
-                                        row.group_id !== 0 && <Chip size="small" color="primary" label="G"/>
+                                        !(row.group_id === 0 || row.group_id == null) &&
+                                        <Chip size="small" color="primary" label="G"/>
                                     }
                                     &nbsp;
                                     {row.ID}: {row.title}
@@ -227,7 +229,7 @@ export function StatusTable(props: {
                                     </Button>
                                     &nbsp;
                                     {
-                                        row.group_id !== 0 &&
+                                        !(row.group_id === 0 || row.group_id == null) &&
                                         <Button
                                             size="small"
                                             variant="outlined"
@@ -236,7 +238,7 @@ export function StatusTable(props: {
                                         </Button>
                                     }
                                     {
-                                        row.group_id === 0 &&
+                                        (row.group_id === 0 || row.group_id == null) &&
                                         <Button
                                             size="small"
                                             variant="outlined"

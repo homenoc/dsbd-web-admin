@@ -248,7 +248,7 @@ export function StatusTable(props: {
                                     </Button>
                                     &nbsp;
                                     {
-                                        row.group_id !== 0 &&
+                                        !(row.group_id === 0 || row.group_id == null) &&
                                         <Button
                                             size="small"
                                             variant="outlined"
@@ -257,7 +257,7 @@ export function StatusTable(props: {
                                         </Button>
                                     }
                                     {
-                                        row.group_id === 0 &&
+                                        (row.group_id === 0 || row.group_id == null) &&
                                         <Button
                                             size="small"
                                             variant="outlined"

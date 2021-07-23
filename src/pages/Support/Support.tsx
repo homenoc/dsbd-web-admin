@@ -104,7 +104,7 @@ export default function Support() {
                             </Typography>
                             <br/>
                             {
-                                ticket.group_id === 0 &&
+                                (ticket.group_id === 0 || ticket.group_id == null) &&
                                 <Chip
                                     size="small"
                                     color="primary"
@@ -112,7 +112,7 @@ export default function Support() {
                                 />
                             }
                             {
-                                ticket.group_id !== 0 &&
+                                !(ticket.group_id === 0 || ticket.group_id == null) &&
                                 <Chip
                                     size="small"
                                     color="primary"
