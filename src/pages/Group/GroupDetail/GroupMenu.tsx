@@ -5,8 +5,12 @@ import useStyles from "./styles";
 import {Put} from "../../../api/Group";
 import {useSnackbar} from "notistack";
 
-export function GroupStatusButton(props: { data: GroupDetailData, reload: Dispatch<SetStateAction<boolean>> }): any {
-    const {data, reload} = props;
+export function GroupStatusButton(props: {
+    data: GroupDetailData,
+    autoMail: Dispatch<SetStateAction<string>>,
+    reload: Dispatch<SetStateAction<boolean>>
+}): any {
+    const {data, autoMail, reload} = props;
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -21,6 +25,10 @@ export function GroupStatusButton(props: { data: GroupDetailData, reload: Dispat
                 console.log(res.data);
             } else {
                 console.log(res.error);
+            }
+
+            if (pass) {
+                autoMail("pass_the_examination");
             }
 
             handleClose();
