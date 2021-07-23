@@ -129,16 +129,24 @@ export function StatusTable(props: {
 }) {
     const {ticket, setReload} = props;
     const classes = useStyles2();
-    const history = useHistory();
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const {enqueueSnackbar} = useSnackbar();
+    const history = useHistory();
 
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, ticket.length - page * rowsPerPage);
 
     const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
         setPage(newPage);
     };
+
+    const GroupDetailPage = (groupID: number) => {
+        history.push('/dashboard/group/' + groupID);
+    }
+
+    const UserDetailPage = (userID: number) => {
+        history.push('/dashboard/user/' + userID);
+    }
 
     const handleChangeRowsPerPage = (
         event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -199,7 +207,7 @@ export function StatusTable(props: {
                                         <Chip size="small" color="primary" label="承諾/変更済み"/>
                                     }
                                 </TableCell>
-                                <TableCell style={{width: 300}} align="right">
+                                <TableCell style={{width: 350}} align="right">
                                     {
                                         (row.request_reject || row.solved) &&
                                         <Button
@@ -238,6 +246,25 @@ export function StatusTable(props: {
                                         onClick={() => ChatPage(row.ID)}>
                                         Chat
                                     </Button>
+                                    &nbsp;
+                                    {
+                                        row.group_id !== 0 &&
+                                        <Button
+                                            size="small"
+                                            variant="outlined"
+                                            onClick={() => GroupDetailPage(row.group_id)}>
+                                            Group
+                                        </Button>
+                                    }
+                                    {
+                                        row.group_id === 0 &&
+                                        <Button
+                                            size="small"
+                                            variant="outlined"
+                                            onClick={() => UserDetailPage(row.user_id)}>
+                                            User
+                                        </Button>
+                                    }
                                 </TableCell>
                             </TableRow>
                         ))

@@ -133,7 +133,6 @@ export function StatusTable(props: {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const {enqueueSnackbar} = useSnackbar();
-
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, ticket.length - page * rowsPerPage);
 
     const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
@@ -148,6 +147,14 @@ export function StatusTable(props: {
     };
 
     const ChatPage = (id: number) => history.push("/dashboard/support/" + id);
+
+    const GroupDetailPage = (groupID: number) => {
+        history.push('/dashboard/group/' + groupID);
+    }
+
+    const UserDetailPage = (userID: number) => {
+        history.push('/dashboard/user/' + userID);
+    }
 
     const clickSolvedStatus = (id: number, solved: boolean) => {
         Put(id, {solved}).then(res => {
@@ -200,7 +207,7 @@ export function StatusTable(props: {
                                         !row.solved && <Chip size="small" color="secondary" label="未解決"/>
                                     }
                                 </TableCell>
-                                <TableCell style={{width: 180}} align="right">
+                                <TableCell style={{width: 250}} align="right">
                                     {
                                         row.solved &&
                                         <Button size="small" color="primary" variant="outlined"
@@ -212,8 +219,31 @@ export function StatusTable(props: {
                                                 onClick={() => clickSolvedStatus(row.ID, true)}>解決済み</Button>
                                     }
                                     &nbsp;
-                                    <Button size="small" variant="outlined"
-                                            onClick={() => ChatPage(row.ID)}>Chat</Button>
+                                    <Button
+                                        size="small"
+                                        variant="outlined"
+                                        onClick={() => ChatPage(row.ID)}>
+                                        Chat
+                                    </Button>
+                                    &nbsp;
+                                    {
+                                        row.group_id !== 0 &&
+                                        <Button
+                                            size="small"
+                                            variant="outlined"
+                                            onClick={() => GroupDetailPage(row.group_id)}>
+                                            Group
+                                        </Button>
+                                    }
+                                    {
+                                        row.group_id === 0 &&
+                                        <Button
+                                            size="small"
+                                            variant="outlined"
+                                            onClick={() => UserDetailPage(row.user_id)}>
+                                            User
+                                        </Button>
+                                    }
                                 </TableCell>
                             </TableRow>
                         ))

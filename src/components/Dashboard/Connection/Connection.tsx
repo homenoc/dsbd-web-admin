@@ -1,7 +1,7 @@
 import useStyles from "../../../pages/Group/GroupDetail/styles";
 import {ConnectionDetailData, TemplateData} from "../../../interface";
 import {
-    Box,
+    Box, Button,
     Chip, IconButton,
     Paper,
     Table,
@@ -19,6 +19,7 @@ import FirstPageIcon from '@material-ui/icons/FirstPage';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import {DeleteDialog, EnableDialog} from "../../../pages/Group/GroupDetail/Connection";
 import ConnectionGetDialogs from "../../../pages/Connection/ConnectionDetail/ConnectionDialog";
+import {useHistory} from "react-router-dom";
 
 
 export default function Connection(props: {
@@ -135,6 +136,7 @@ export function StatusTable(props: {
 }) {
     const {template, connection, setReload} = props;
     const classes = useStyles2();
+    const history = useHistory();
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
@@ -150,6 +152,12 @@ export function StatusTable(props: {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
     };
+
+    const GroupDetailPage = (groupID: number | undefined) => {
+        if (groupID !== undefined) {
+            history.push('/dashboard/group/' + groupID);
+        }
+    }
 
     const getServiceCode = (
         groupID: number | undefined,
@@ -230,6 +238,13 @@ export function StatusTable(props: {
                                             connection={row}
                                             reload={setReload}
                                         />
+                                        &nbsp;
+                                        <Button
+                                            size="small"
+                                            variant="outlined"
+                                            onClick={() => GroupDetailPage(row.service?.group_id)}>
+                                            Group
+                                        </Button>
                                     </Box>
                                 </TableCell>
                             </TableRow>
