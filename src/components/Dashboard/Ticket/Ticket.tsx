@@ -180,6 +180,13 @@ export function StatusTable(props: {
                         ).map((row, index) => (
                             <TableRow key={"ticket_detail_" + index}>
                                 <TableCell component="th" scope="row">
+                                    {
+                                        row.group_id === 0 && <Chip size="small" color="primary" label="U"/>
+                                    }
+                                    {
+                                        row.group_id !== 0 && <Chip size="small" color="primary" label="G"/>
+                                    }
+                                    &nbsp;
                                     {row.ID}: {row.title}
                                 </TableCell>
                                 <TableCell style={{width: 300}} align="right">
