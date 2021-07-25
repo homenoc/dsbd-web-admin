@@ -208,6 +208,8 @@ export interface ConnectionDetailData {
     tunnel_endpoint_router_ip_id: number,
     ntt_template_id: number,
     ntt_template?: NTTTemplateData,
+    ipv4_route_template?: IPv4RouteTemplate,
+    ipv6_route_template?: IPv6RouteTemplate,
     connection_template: ConnectionTemplateData,
     tunnel_endpoint_router_ip?: TunnelEndPointRouterIPTemplateData
 }
@@ -338,6 +340,22 @@ export interface GroupDetailData {
     services?: ServiceDetailData[],
     payment_coupon_template?: PaymentCouponTemplateData
     payment_membership_template?: PaymentMembershipTemplate
+}
+
+export interface IPv4RouteTemplate {
+    CreatedAt: string
+    DeletedAt: string
+    ID: number
+    UpdatedAt: string
+    name: string
+}
+
+export interface IPv6RouteTemplate {
+    CreatedAt: string
+    DeletedAt: string
+    ID: number
+    UpdatedAt: string
+    name: string
 }
 
 export interface MemoData {

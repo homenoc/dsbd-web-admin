@@ -362,6 +362,28 @@ export function ConnectionStatus(props: {
                             label={connection.connection_template.name}
                         />
                     </Grid>
+                    <Grid item xs={6}>
+                        <h3>BGP IPv4</h3>
+                        {
+                            connection.ipv4_route_template !== null&&
+                            <Chip
+                                size="small"
+                                color="primary"
+                                label={connection.ipv4_route_template?.name}
+                            />
+                        }
+                    </Grid>
+                    <Grid item xs={6}>
+                        <h3>BGP IPv6</h3>
+                        {
+                            connection.ipv6_route_template !== null&&
+                            <Chip
+                                size="small"
+                                color="primary"
+                                label={connection.ipv6_route_template?.name}
+                            />
+                        }
+                    </Grid>
                     <Grid item xs={12}>
                         <h3>Date</h3>
                         <Chip
