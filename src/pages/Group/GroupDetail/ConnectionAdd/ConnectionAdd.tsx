@@ -180,7 +180,7 @@ export function ConnectionAddServiceSelect(props: {
                 <br/>
                 {
                     ipBGPRoute &&
-                    <FormLabel component="legend">1.1. 広報するBGPの方法を選択してください。</FormLabel>
+                    <FormLabel component="legend">1.1. BGPで当団体から広報する経路種類を選択してください。</FormLabel>
                 }
             </Grid>
             <Grid item xs={6}>
