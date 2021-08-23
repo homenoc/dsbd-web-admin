@@ -45,10 +45,6 @@ export function GroupStatusButton(props: {
                 console.log(res.error);
             }
 
-            if (add_allow) {
-                autoMail("pass_the_examination");
-            }
-
             handleClose();
             reload(true);
         })
