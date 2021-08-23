@@ -132,7 +132,7 @@ export function DeletePlan(id: number): Promise<{ error: string; data: any }> {
     }).then(res => {
         return {
             error: "",
-            data: res.data.service
+            data: res.data
         };
     }).catch(err => {
         console.log(err);
@@ -153,7 +153,27 @@ export function PutPlan(data: PlanData): Promise<{ error: string; data: any }> {
         }).then(res => {
         return {
             error: "",
-            data: res.data.service
+            data: res.data
+        };
+    }).catch(err => {
+        console.log(err);
+        return {
+            error: "[" + err.response.status + "] " + err.response.data.error,
+            data: null
+        };
+    })
+}
+
+export function PostJPNICAdmin(serviceID: number, data: JPNICData): Promise<{ error: string; data: any }> {
+    return axios.post(restfulApiConfig.apiURL + "/service/" + serviceID + "/jpnic_admin", data, {
+        headers: {
+            'Content-Type': 'application/json',
+            ACCESS_TOKEN: sessionStorage.getItem('AccessToken'),
+        }
+    }).then(res => {
+        return {
+            error: "",
+            data: res.data
         };
     }).catch(err => {
         console.log(err);
@@ -173,7 +193,7 @@ export function PutJPNICAdmin(id: number, data: JPNICData): Promise<{ error: str
     }).then(res => {
         return {
             error: "",
-            data: res.data.service
+            data: res.data
         };
     }).catch(err => {
         console.log(err);
@@ -193,7 +213,7 @@ export function PostJPNICTech(id: number, data: JPNICData): Promise<{ error: str
     }).then(res => {
         return {
             error: "",
-            data: res.data.service
+            data: res.data
         };
     }).catch(err => {
         console.log(err);
@@ -213,7 +233,7 @@ export function DeleteJPNICTech(id: number): Promise<{ error: string; data: any 
     }).then(res => {
         return {
             error: "",
-            data: res.data.service
+            data: res.data
         };
     }).catch(err => {
         console.log(err);
@@ -233,7 +253,7 @@ export function PutJPNICTech(id: number, data: JPNICData): Promise<{ error: stri
     }).then(res => {
         return {
             error: "",
-            data: res.data.service
+            data: res.data
         };
     }).catch(err => {
         console.log(err);

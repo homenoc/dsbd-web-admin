@@ -3,7 +3,7 @@ import React, {Dispatch, SetStateAction, useEffect, useState} from "react";
 import {DefaultServiceJPNICData, JPNICData} from "../../../interface";
 import useStyles from "../../../pages/Service/ServiceDetail/styles";
 import {useSnackbar} from "notistack";
-import {DeleteJPNICTech, PostJPNICTech, PutJPNICAdmin, PutJPNICTech} from "../../../api/Service";
+import {DeleteJPNICTech, PostJPNICAdmin, PostJPNICTech, PutJPNICAdmin, PutJPNICTech} from "../../../api/Service";
 import {DeleteAlertDialog} from "../Alert/Alert";
 
 
@@ -31,19 +31,36 @@ export function JPNICDetail(props: {
     // Update Service Information
     const updateInfo = () => {
         if (jpnicAdmin) {
-            PutJPNICAdmin(jpnicCopy.ID, jpnicCopy).then(res => {
-                if (res.error === "") {
-                    console.log(res.data);
-                    enqueueSnackbar('Request Success', {variant: "success"});
-                    setLockInfo(true)
-                } else {
-                    console.log(res.error);
-                    enqueueSnackbar(String(res.error), {variant: "error"});
-                }
+            // データ存在しない場合
+            if (jpnic.ID === 0) {
+                PostJPNICAdmin(serviceID, jpnicCopy).then(res => {
+                    if (res.error === "") {
+                        console.log(res.data);
+                        enqueueSnackbar('Request Success', {variant: "success"});
+                        setLockInfo(true)
+                    } else {
+                        console.log(res.error);
+                        enqueueSnackbar(res.error, {variant: "error"});
+                    }
 
-                setLockInfo(true);
-                reload(true);
-            })
+                    setLockInfo(true);
+                    reload(true);
+                })
+            } else {
+                PutJPNICAdmin(jpnicCopy.ID, jpnicCopy).then(res => {
+                    if (res.error === "") {
+                        console.log(res.data);
+                        enqueueSnackbar('Request Success', {variant: "success"});
+                        setLockInfo(true)
+                    } else {
+                        console.log(res.error);
+                        enqueueSnackbar(String(res.error), {variant: "error"});
+                    }
+
+                    setLockInfo(true);
+                    reload(true);
+                })
+            }
         } else {
             PutJPNICTech(jpnicCopy.ID, jpnicCopy).then(res => {
                 if (res.error === "") {
