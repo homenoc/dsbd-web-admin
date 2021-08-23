@@ -36,17 +36,17 @@ export default function ConnectionAddDialogs(props: {
 }) {
     const {template, open, setOpen, baseData, reload} = props
     const [data, setData] = React.useState(DefaultConnectionAddData);
-    const [connectionID, setConnectionID] = React.useState(0);
+    const [serviceID, setServiceID] = React.useState(0);
     const [internet, setInternet] = React.useState(false);
     const [serviceCode, setServiceCode] = React.useState("");
     const {enqueueSnackbar} = useSnackbar();
 
     const request = () => {
         console.log(data);
-        const err = check(data, template);
+        const err = check(serviceID, data, template);
         if (err === "") {
             console.log("OK")
-            Post(connectionID, data).then(res => {
+            Post(serviceID, data).then(res => {
                 if (res.error === "") {
                     console.log(res.data);
                     enqueueSnackbar('Request Success', {variant: "success"});
@@ -79,7 +79,7 @@ export default function ConnectionAddDialogs(props: {
                 <DialogContent dividers>
                     <Grid container spacing={3}>
                         <ConnectionAddServiceSelect key={"connection_add_service_select"} baseData={baseData}
-                                                    data={data} setData={setData} setConnectionID={setConnectionID}
+                                                    data={data} setData={setData} setConnectionID={setServiceID}
                                                     setServiceCode={setServiceCode} template={template}/>
                         <br/>
                         <Grid item xs={12}>
