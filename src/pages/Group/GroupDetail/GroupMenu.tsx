@@ -18,8 +18,8 @@ export function GroupStatusButton(props: {
         setAnchorEl(null);
     };
 
-    const changePassStatus = (pass: boolean) => {
-        data.pass = pass;
+    const changePassStatus = (add_allow: boolean) => {
+        data.add_allow = add_allow;
         Put(data.ID, data).then(res => {
             if (res.error === "") {
                 console.log(res.data);
@@ -27,7 +27,7 @@ export function GroupStatusButton(props: {
                 console.log(res.error);
             }
 
-            if (pass) {
+            if (add_allow) {
                 autoMail("pass_the_examination");
             }
 
@@ -63,6 +63,19 @@ export function GroupStatusButton(props: {
                     variant="contained"
                 >
                     サービス申請許可
+                </Button>
+            }
+            {
+                data.add_allow &&
+                <Button
+                    className={classes.button1}
+                    aria-controls="simple-menu"
+                    aria-haspopup="true"
+                    onClick={() => changePassStatus(false)}
+                    color={"secondary"}
+                    variant="outlined"
+                >
+                    サービス新規申請を禁止
                 </Button>
             }
         </div>
