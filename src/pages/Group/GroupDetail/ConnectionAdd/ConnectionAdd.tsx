@@ -36,6 +36,7 @@ export default function ConnectionAddDialogs(props: {
 }) {
     const {template, open, setOpen, baseData, reload} = props
     const [data, setData] = React.useState(DefaultConnectionAddData);
+    const [connectionID, setConnectionID] = React.useState(0);
     const [internet, setInternet] = React.useState(false);
     const [serviceCode, setServiceCode] = React.useState("");
     const {enqueueSnackbar} = useSnackbar();
@@ -45,7 +46,7 @@ export default function ConnectionAddDialogs(props: {
         const err = check(data, template);
         if (err === "") {
             console.log("OK")
-            Post(baseData.ID, data).then(res => {
+            Post(connectionID, data).then(res => {
                 if (res.error === "") {
                     console.log(res.data);
                     enqueueSnackbar('Request Success', {variant: "success"});
@@ -78,7 +79,7 @@ export default function ConnectionAddDialogs(props: {
                 <DialogContent dividers>
                     <Grid container spacing={3}>
                         <ConnectionAddServiceSelect key={"connection_add_service_select"} baseData={baseData}
-                                                    data={data} setData={setData}
+                                                    data={data} setData={setData} setConnectionID={setConnectionID}
                                                     setServiceCode={setServiceCode} template={template}/>
                         <br/>
                         <Grid item xs={12}>
@@ -129,10 +130,11 @@ export function ConnectionAddServiceSelect(props: {
     baseData: GroupDetailData
     data: ConnectionAddData
     setData: Dispatch<SetStateAction<ConnectionAddData>>
+    setConnectionID: Dispatch<SetStateAction<number>>
     template: TemplateData,
     setServiceCode: Dispatch<SetStateAction<string>>
 }) {
-    const {baseData, template, data, setData, setServiceCode} = props;
+    const {baseData, template, data, setData, setConnectionID, setServiceCode} = props;
     const [ipBGPRoute, setIPBGPRoute] = React.useState(false);
     const classes = useStyles();
     const {enqueueSnackbar} = useSnackbar();
@@ -164,8 +166,10 @@ export function ConnectionAddServiceSelect(props: {
                         labelId="service_code"
                         id="service_code"
                         onChange={(event) => {
+                            console.log(event.target.value)
                             selectData(Number(event.target.value))
-                            setData({...data, connection_template_id: Number(event.target.value)})
+                            setData(DefaultConnectionAddData)
+                            setConnectionID(Number(event.target.value))
                         }}
                     >
                         {
@@ -193,6 +197,7 @@ export function ConnectionAddServiceSelect(props: {
                             id="ipv4_route"
                             value={data.ipv4_route_template_id}
                             onChange={(event) => {
+                                // setRouteTemplateID({...routeTemplateID, ipv4: Number(event.target.value)})
                                 setData({...data, ipv4_route_template_id: Number(event.target.value)})
                             }}
                         >
@@ -215,6 +220,7 @@ export function ConnectionAddServiceSelect(props: {
                             id="ipv6_route"
                             value={data.ipv6_route_template_id}
                             onChange={(event) => {
+                                // setRouteTemplateID({...routeTemplateID, ipv6: Number(event.target.value)})
                                 setData({...data, ipv6_route_template_id: Number(event.target.value)})
                             }}
                         >
@@ -253,10 +259,11 @@ export function ConnectionAddType(props: {
         <div>
             <FormControl component="fieldset">
                 <FormLabel component="legend">2. 接続方式をお選びください</FormLabel>
-                <RadioGroup aria-label="gender" name="gender1" value={data.connection_template_id}
+                <RadioGroup aria-label="connection_template" name="connection_template"
+                            value={data.connection_template_id}
                             onChange={(event) => {
                                 setData({
-                                    ...DefaultConnectionAddData,
+                                    ...data,
                                     connection_template_id: parseInt(event.target.value)
                                 })
                                 getComment(parseInt(event.target.value));
@@ -313,8 +320,8 @@ export function ConnectionAddNOC(props: {
             <FormControl className={classes.formSelect}>
                 <InputLabel>NOC</InputLabel>
                 <Select
-                    labelId="service_code"
-                    id="service_code"
+                    labelId="noc"
+                    id="noc"
                     value={data.noc_id}
                     onChange={(event) => {
                         setData({...data, noc_id: Number(event.target.value)})
@@ -397,8 +404,9 @@ export function ConnectionAddTermIP(props: {
             <br/>
             <FormControl className={classes.formSelect}>
                 <RadioGroup
-                    aria-label="gender"
-                    name="gender1"
+                    aria-label="ntt"
+                    name="ntt"
+                    id="ntt"
                     value={data.ntt_template_id}
                     onChange={(event) => {
                         setData({...data, ntt_template_id: Number(event.target.value)})
