@@ -50,18 +50,20 @@ export function MailAutoSendDialogs(props: {
         console.log(data);
         const mailArray = mails.split(',');
         for (const mail of mailArray) {
-            Post({
-                to_mail: mail,
-                subject: data.subject,
-                content: data.content
-            }).then(res => {
-                if (res.error === "") {
-                    console.log(res.data);
-                    enqueueSnackbar('Request Success', {variant: "success"});
-                } else {
-                    enqueueSnackbar(res.error, {variant: "error"});
-                }
-            })
+            if (mail !== "") {
+                Post({
+                    to_mail: mail,
+                    subject: data.subject,
+                    content: data.content
+                }).then(res => {
+                    if (res.error === "") {
+                        console.log(res.data);
+                        enqueueSnackbar('Request Success', {variant: "success"});
+                    } else {
+                        enqueueSnackbar(res.error, {variant: "error"});
+                    }
+                })
+            }
         }
         setOpen("");
     }
