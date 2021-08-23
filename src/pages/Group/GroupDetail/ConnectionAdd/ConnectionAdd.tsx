@@ -79,7 +79,7 @@ export default function ConnectionAddDialogs(props: {
                 <DialogContent dividers>
                     <Grid container spacing={3}>
                         <ConnectionAddServiceSelect key={"connection_add_service_select"} baseData={baseData}
-                                                    data={data} setData={setData} setConnectionID={setServiceID}
+                                                    data={data} setData={setData} setServiceID={setServiceID}
                                                     setServiceCode={setServiceCode} template={template}/>
                         <br/>
                         <Grid item xs={12}>
@@ -130,11 +130,11 @@ export function ConnectionAddServiceSelect(props: {
     baseData: GroupDetailData
     data: ConnectionAddData
     setData: Dispatch<SetStateAction<ConnectionAddData>>
-    setConnectionID: Dispatch<SetStateAction<number>>
+    setServiceID: Dispatch<SetStateAction<number>>
     template: TemplateData,
     setServiceCode: Dispatch<SetStateAction<string>>
 }) {
-    const {baseData, template, data, setData, setConnectionID, setServiceCode} = props;
+    const {baseData, template, data, setData, setServiceID, setServiceCode} = props;
     const [ipBGPRoute, setIPBGPRoute] = React.useState(false);
     const classes = useStyles();
     const {enqueueSnackbar} = useSnackbar();
@@ -169,7 +169,7 @@ export function ConnectionAddServiceSelect(props: {
                             console.log(event.target.value)
                             selectData(Number(event.target.value))
                             setData(DefaultConnectionAddData)
-                            setConnectionID(Number(event.target.value))
+                            setServiceID(Number(event.target.value))
                         }}
                     >
                         {
