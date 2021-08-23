@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
 import {
     Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, FormControlLabel,
     Grid, InputLabel, MenuItem, Radio, RadioGroup, Select,
@@ -9,13 +9,20 @@ import {useSnackbar} from "notistack";
 import useStyles from "./style";
 import {Post} from "../../api/Support";
 import {GetTemplate} from "../../api/Group";
+import {MailAutoSendDialogs} from "../Group/Mail";
 
-export function SupportAddDialog() {
+export function SupportAddDialog(props: {
+    setReload: Dispatch<SetStateAction<boolean>>
+}) {
+    const {setReload} = props
     const classes = useStyles();
     const [data, setData] = React.useState(DefaultTicketAddData);
     const [open, setOpen] = React.useState(false);
     const [template, setTemplate] = React.useState<TemplateData>(DefaultTemplateData);
     const {enqueueSnackbar} = useSnackbar();
+    const [openMailAutoSendDialog, setOpenMailAutoSendDialog] = useState("");
+    const [sendAutoEmail, setSendAutoEmail] = useState("");
+    const [name, setName] = useState("");
 
     useEffect(() => {
         GetTemplate().then(res => {
@@ -27,6 +34,13 @@ export function SupportAddDialog() {
             }
         })
     }, []);
+
+    useEffect(() => {
+        if (!openMailAutoSendDialog) {
+            setOpen(false);
+            setReload(true);
+        }
+    }, [openMailAutoSendDialog])
 
     const request = () => {
         console.log(data);
@@ -47,10 +61,11 @@ export function SupportAddDialog() {
             enqueueSnackbar("本文が入力されていません。", {variant: "error"});
             return;
         }
+
         Post(data).then(res => {
             if (res.error === undefined) {
                 enqueueSnackbar("OK", {variant: "success"});
-                setOpen(false);
+                setOpenMailAutoSendDialog("new_ticket_from_admin");
                 return;
             } else {
                 enqueueSnackbar(res.error, {variant: "error"});
@@ -96,7 +111,21 @@ export function SupportAddDialog() {
                                         labelId="group_id"
                                         id="group_id"
                                         onChange={(event) => {
-                                            setData({...data, group_id: Number(event.target.value)})
+                                            const grp = template.group?.filter(res => res.ID === Number(event.target.value));
+                                            if (grp !== undefined) {
+                                                setName(grp[0].org);
+                                                console.log(grp[0].users);
+                                                let mails = "";
+                                                if (grp[0].users != undefined) {
+                                                    for (const user of grp[0].users) {
+                                                        if (user.level < 3) {
+                                                            mails += user.email + ",";
+                                                        }
+                                                    }
+                                                }
+                                                setSendAutoEmail(mails);
+                                            }
+                                            setData({...data, group_id: Number(event.target.value)});
                                         }}
                                     >
                                         {
@@ -115,7 +144,12 @@ export function SupportAddDialog() {
                                         labelId="user_id"
                                         id="user_id"
                                         onChange={(event) => {
-                                            setData({...data, user_id: Number(event.target.value)})
+                                            const usr = template.user?.filter(res => res.ID === Number(event.target.value));
+                                            if (usr !== undefined) {
+                                                setName(usr[0].name);
+                                                setSendAutoEmail(usr[0].email);
+                                            }
+                                            setData({...data, user_id: Number(event.target.value)});
                                         }}
                                     >
                                         {
@@ -150,6 +184,13 @@ export function SupportAddDialog() {
                             />
                         </Grid>
                     </Grid>
+                    <MailAutoSendDialogs
+                        setOpen={setOpenMailAutoSendDialog}
+                        mails={sendAutoEmail}
+                        template={template?.mail_template}
+                        open={openMailAutoSendDialog}
+                        org={name}
+                    />
                 </DialogContent>
                 <DialogActions>
                     <Button autoFocus onClick={() => setOpen(false)} color="secondary">

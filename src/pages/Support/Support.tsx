@@ -74,7 +74,7 @@ export default function Support() {
 
     return (
         <Dashboard title="Ticket Info">
-            <SupportAddDialog/>
+            <SupportAddDialog setReload={setReload}/>
             <br/>
             <Paper component="form" className={classes.rootInput}>
                 <InputBase
