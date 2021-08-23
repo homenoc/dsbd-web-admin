@@ -18,7 +18,25 @@ export function GroupStatusButton(props: {
         setAnchorEl(null);
     };
 
-    const changePassStatus = (add_allow: boolean) => {
+    const changePassStatus = (pass: boolean) => {
+        data.pass = pass;
+        Put(data.ID, data).then(res => {
+            if (res.error === "") {
+                console.log(res.data);
+            } else {
+                console.log(res.error);
+            }
+
+            if (pass) {
+                autoMail("pass_the_examination");
+            }
+
+            handleClose();
+            reload(true);
+        })
+    };
+
+    const changeAddAllowStatus = (add_allow: boolean) => {
         data.add_allow = add_allow;
         Put(data.ID, data).then(res => {
             if (res.error === "") {
@@ -35,7 +53,6 @@ export function GroupStatusButton(props: {
             reload(true);
         })
     };
-
 
     return (
         <div>
@@ -58,7 +75,7 @@ export function GroupStatusButton(props: {
                     className={classes.button1}
                     aria-controls="simple-menu"
                     aria-haspopup="true"
-                    onClick={() => changePassStatus(true)}
+                    onClick={() => changeAddAllowStatus(true)}
                     color={"primary"}
                     variant="contained"
                 >
@@ -71,7 +88,7 @@ export function GroupStatusButton(props: {
                     className={classes.button1}
                     aria-controls="simple-menu"
                     aria-haspopup="true"
-                    onClick={() => changePassStatus(false)}
+                    onClick={() => changeAddAllowStatus(false)}
                     color={"secondary"}
                     variant="outlined"
                 >
