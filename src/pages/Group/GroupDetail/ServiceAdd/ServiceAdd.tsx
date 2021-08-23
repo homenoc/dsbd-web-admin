@@ -76,7 +76,6 @@ export default function ServiceAddDialogs(props: {
                     enqueueSnackbar(String(res.error), {variant: "error"});
                 }
             })
-            enqueueSnackbar('OK', {variant: "success"});
         } else {
             console.log("NG: " + err)
             enqueueSnackbar(err, {variant: "error"});
