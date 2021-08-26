@@ -61,7 +61,6 @@ export function ServiceJPNICTech(props: {
                             <TableRow>
                                 <TableCell/>
                                 <TableCell>ID</TableCell>
-                                <TableCell align="right">JPNIC Handle</TableCell>
                                 <TableCell align="right">Name</TableCell>
                                 <TableCell align="right">Mail</TableCell>
                             </TableRow>
@@ -90,13 +89,6 @@ export function ServiceJPNICTechRow(props: {
     const [open, setOpen] = React.useState(false);
     const classes = useStyles();
 
-    const getJPNICHandle = (v4JPNICHandle: string, v6JPNICHandle: string) => {
-        if (v4JPNICHandle === "") {
-            return v6JPNICHandle
-        }
-        return v4JPNICHandle
-    }
-
     return (
         <React.Fragment>
             <TableRow className={classes.rootTable}>
@@ -108,7 +100,6 @@ export function ServiceJPNICTechRow(props: {
                 <TableCell component="th" scope="row">
                     {jpnic.ID}
                 </TableCell>
-                <TableCell align="right">{getJPNICHandle(jpnic.v4_jpnic_handle, jpnic.v6_jpnic_handle)}</TableCell>
                 <TableCell align="right">{jpnic.name}</TableCell>
                 <TableCell align="right">{jpnic.mail}</TableCell>
             </TableRow>
