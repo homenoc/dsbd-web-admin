@@ -34,6 +34,19 @@ export default function JPNICRegistrationDialog(props: {
     const classes = useStyles();
 
     const request = () => {
+        // JPNICハンドル名が書かれている場合/グループ名が書かれている場合、通知アドレスを自動付加
+        if (data.admin_user.jpnic_handle !== "" || data.admin_user.org_jp_1 !== "") {
+            data.admin_user.notify_mail = String(restfulApiConfig.notifyEMail)
+        }
+
+        if (tech1Data.jpnic_handle !== "" || tech1Data.org_jp_1 !== "") {
+            tech1Data.notify_mail = String(restfulApiConfig.notifyEMail)
+        }
+
+        if (tech2Data.jpnic_handle !== "" || tech2Data.org_jp_1 !== "") {
+            tech2Data.notify_mail = String(restfulApiConfig.notifyEMail)
+        }
+
         data.tech_users[0] = tech1Data
         data.tech_users[1] = tech2Data
 
@@ -198,7 +211,7 @@ export default function JPNICRegistrationDialog(props: {
                                                     let plan = ip[0].ip + " " + toStrPlan(ip[0].plan) + " 1/1/1";
                                                     if (ip[0].version === 6) {
                                                         kindID = "20"
-                                                        plan = ""
+                                                        plan =""
                                                     }
 
                                                     setData({
