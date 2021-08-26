@@ -261,7 +261,7 @@ export default function JPNICRegistrationDialog(props: {
                                                         }
                                                     });
                                                     setTech1Data({...tech1Data, jpnic_handle: jpnicHandlerTech1})
-                                                    setTech2Data({...tech1Data, jpnic_handle: jpnicHandlerTech2})
+                                                    setTech2Data({...tech2Data, jpnic_handle: jpnicHandlerTech2})
                                                 }
                                             }
                                         }}
