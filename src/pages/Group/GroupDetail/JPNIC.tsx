@@ -96,13 +96,12 @@ export default function JPNICRegistrationDialog(props: {
                         },
                     }}>
                 <DialogTitle id="customized-dialog-title">
-                    JPNIC登録(Manual)
+                    JPNIC登録(β版)
                 </DialogTitle>
                 <DialogContent dividers>
                     <Grid container spacing={3}>
                         <Grid item xs={12}>
                             この機能はBetaです。
-
                         </Grid>
                         <Grid item xs={12}>
                             <FormControl component="fieldset">
@@ -213,10 +212,38 @@ export default function JPNICRegistrationDialog(props: {
                                                     console.log(ip[0])
 
                                                     let kindID = "10";
+                                                    let jpnicHandlerAdmin = "";
+                                                    let jpnicHandlerTech1 = "";
+                                                    let jpnicHandlerTech2 = "";
+
+                                                    if (service[0].jpnic_admin !== undefined) {
+                                                        if (ip[0].version === 4) {
+                                                            jpnicHandlerAdmin = service[0].jpnic_admin.v4_jpnic_handle;
+                                                        } else if (ip[0].version === 6) {
+                                                            jpnicHandlerAdmin = service[0].jpnic_admin.v6_jpnic_handle;
+                                                        }
+                                                    }
+                                                    if (service[0].jpnic_tech !== undefined) {
+                                                        if (0 < service[0].jpnic_tech.length && service[0].jpnic_tech.length < 2) {
+                                                            if (ip[0].version === 4) {
+                                                                jpnicHandlerTech1 = service[0].jpnic_tech[0].v4_jpnic_handle;
+                                                            } else if (ip[0].version === 6) {
+                                                                jpnicHandlerTech1 = service[0].jpnic_tech[0].v6_jpnic_handle;
+                                                            }
+                                                        }
+                                                        if (2 <= service[0].jpnic_tech.length) {
+                                                            if (ip[0].version === 4) {
+                                                                jpnicHandlerTech2 = service[0].jpnic_tech[1].v4_jpnic_handle;
+                                                            } else if (ip[0].version === 6) {
+                                                                jpnicHandlerTech2 = service[0].jpnic_tech[1].v6_jpnic_handle;
+                                                            }
+                                                        }
+                                                    }
+
                                                     let plan = ip[0].ip + " " + toStrPlan(ip[0].plan) + " 1/1/1";
                                                     if (ip[0].version === 6) {
                                                         kindID = "20"
-                                                        plan =""
+                                                        plan = ""
                                                     }
 
                                                     setData({
@@ -227,8 +254,14 @@ export default function JPNICRegistrationDialog(props: {
                                                             ip_address: ip[0].ip,
                                                             network_name: ip[0].name,
                                                             plan: plan,
+                                                        },
+                                                        admin_user: {
+                                                            ...data.admin_user,
+                                                            jpnic_handle: jpnicHandlerAdmin
                                                         }
                                                     });
+                                                    setTech1Data({...tech1Data, jpnic_handle: jpnicHandlerTech1})
+                                                    setTech2Data({...tech1Data, jpnic_handle: jpnicHandlerTech2})
                                                 }
                                             }
                                         }}
