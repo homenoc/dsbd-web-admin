@@ -101,15 +101,29 @@ export function JPNICDetail(props: {
                 <TextField
                     className={classes.formVeryShort}
                     required
-                    id="outlined-required"
-                    label="JPNIC Handle"
+                    id="tech_v4_jpnic_handle"
+                    label="JPNIC Handle(IPv4)"
                     InputProps={{
                         readOnly: lockInfo,
                     }}
-                    value={jpnicCopy.jpnic_handle}
+                    value={jpnicCopy.v4_jpnic_handle}
                     variant="outlined"
                     onChange={event => {
-                        setJPNICCopy({...jpnicCopy, jpnic_handle: event.target.value});
+                        setJPNICCopy({...jpnicCopy, v4_jpnic_handle: event.target.value});
+                    }}
+                />
+                <TextField
+                    className={classes.formVeryShort}
+                    required
+                    id="tech_v6_jpnic_handle"
+                    label="JPNIC Handle(IPv6)"
+                    InputProps={{
+                        readOnly: lockInfo,
+                    }}
+                    value={jpnicCopy.v6_jpnic_handle}
+                    variant="outlined"
+                    onChange={event => {
+                        setJPNICCopy({...jpnicCopy, v6_jpnic_handle: event.target.value});
                     }}
                 />
                 <br/>
@@ -375,12 +389,23 @@ export function JPNICTechAdd(props: {
                         <TextField
                             className={classes.formVeryShort}
                             required
-                            id="outlined-required"
-                            label="JPNIC Handle"
-                            value={jpnic.jpnic_handle}
+                            id="v4_jpnic_jandle"
+                            label="JPNIC Handle(IPv4)"
+                            value={jpnic.v4_jpnic_handle}
                             variant="outlined"
                             onChange={event => {
-                                setJPNIC({...jpnic, jpnic_handle: event.target.value});
+                                setJPNIC({...jpnic, v4_jpnic_handle: event.target.value});
+                            }}
+                        />
+                        <TextField
+                            className={classes.formVeryShort}
+                            required
+                            id="v6_jpnic_jandle"
+                            label="JPNIC Handle(IPv6)"
+                            value={jpnic.v6_jpnic_handle}
+                            variant="outlined"
+                            onChange={event => {
+                                setJPNIC({...jpnic, v6_jpnic_handle: event.target.value});
                             }}
                         />
                         <br/>
