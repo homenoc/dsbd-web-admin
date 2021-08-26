@@ -16,6 +16,7 @@ import ServiceAddDialogs from "./ServiceAdd/ServiceAdd";
 import ConnectionAddDialogs from "./ConnectionAdd/ConnectionAdd";
 import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
+import JPNICRegistrationDialog from "./JPNIC";
 
 function ChipAgree(props: { agree: boolean }) {
     const {agree} = props;
@@ -50,6 +51,7 @@ export function GroupProfileInfo(props: {
     const [group, setGroup] = useState(data);
     const [openAddService, setOpenAddService] = React.useState(false);
     const [openAddConnection, setOpenAddConnection] = React.useState(false);
+    const [openJPNICRegistration, setOpenJPNICRegistration] = React.useState(false);
     const {enqueueSnackbar} = useSnackbar();
     const [paymentCoupon, setPaymentCoupon] = React.useState(0);
     const [discountRate, setDiscountRate] = React.useState(0);
@@ -396,7 +398,16 @@ export function GroupProfileInfo(props: {
                     接続情報の追加
                 </Button>
                 <br/>
-                <Button size="small" className={classes.spaceTop} onClick={() => setOpenMailSendDialog(true)}>メール送信</Button>
+                <Button size="small" className={classes.spaceTop}
+                        onClick={() => setOpenMailSendDialog(true)}>メール送信</Button>
+                <Button
+                    size="small"
+                    variant="contained"
+                    color="primary"
+                    onClick={() => setOpenJPNICRegistration(true)}
+                >
+                    JPNIC登録(β)
+                </Button>
                 <ServiceAddDialogs
                     key={"service_add_dialogs"}
                     baseData={data}
@@ -412,6 +423,13 @@ export function GroupProfileInfo(props: {
                     open={openAddConnection}
                     setOpen={setOpenAddConnection}
                     reload={setReload}
+                />
+                <JPNICRegistrationDialog
+                    key={"jpnic_registration_dialogs"}
+                    setOpen={setOpenJPNICRegistration}
+                    open={openJPNICRegistration}
+                    baseData={data}
+                    setReload={setReload}
                 />
             </CardContent>
         </Card>

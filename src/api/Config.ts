@@ -4,7 +4,8 @@ const Config = () => {
         return {
             restful: {
                 apiURL: process.env.REACT_APP_STG_API_URL,
-                wsURL: process.env.REACT_APP_STG_WS_URL
+                wsURL: process.env.REACT_APP_STG_WS_URL,
+                notifyEMail: process.env.REACT_APP_STG_NOTIFY_EMAIL
             }
         }
     } else if (process.env.REACT_APP_NODE_ENV === 'prod') {
@@ -12,7 +13,8 @@ const Config = () => {
         return {
             restful: {
                 apiURL: process.env.REACT_APP_PROD_API_URL,
-                wsURL: process.env.REACT_APP_PROD_WS_URL
+                wsURL: process.env.REACT_APP_PROD_WS_URL,
+                notifyEMail: process.env.REACT_APP_PROD_NOTIFY_EMAIL
             }
         }
     } else {
@@ -20,7 +22,8 @@ const Config = () => {
         return {
             restful: {
                 apiURL: process.env.REACT_APP_DEV_API_URL,
-                wsURL: process.env.REACT_APP_DEV_WS_URL
+                wsURL: process.env.REACT_APP_DEV_WS_URL,
+                notifyEMail: process.env.REACT_APP_DEV_NOTIFY_EMAIL
             }
         }
     }

@@ -510,6 +510,70 @@ export interface MailSendData {
     content: string,
 }
 
+export interface JPNICRegistrationData {
+    network: JPNICRegistrationNetworkData,
+    admin_user: JPNICRegistrationUserData,
+    tech_users: JPNICRegistrationUserData[],
+    etc: JPNICRegistrationEtcData
+}
+
+export interface JPNICRegistrationNetworkData {
+    kind_id: string;
+    ip_address: string;
+    network_name: string;
+    infra_user_kind: string;
+    org_jp_1: string;
+    org_jp_2: string;
+    org_jp_3: string;
+    org_1: string;
+    org_2: string;
+    org_3: string;
+    zip_code: string;
+    addr_jp_1: string;
+    addr_jp_2: string;
+    addr_jp_3: string;
+    addr_1: string;
+    addr_2: string;
+    addr_3: string;
+    abuse: string;
+    ryakusho: string;
+    name_server: string;
+    notify_email: string;
+    plan: string;
+    deli_no: string;
+    return_date: string;
+}
+
+export interface JPNICRegistrationUserData {
+    jpnic_handle: string;
+    name_jp: string;
+    name: string;
+    email: string;
+    org_jp_1: string;
+    org_jp_2: string;
+    org_jp_3: string;
+    org_1: string;
+    org_2: string;
+    org_3: string;
+    zip_code: string;
+    addr_jp_1: string;
+    addr_jp_2: string;
+    addr_jp_3: string;
+    addr_1: string;
+    addr_2: string;
+    addr_3: string;
+    division_jp: string;
+    division: string;
+    phone: string;
+    fax: string;
+    notify_mail: string;
+}
+
+export interface JPNICRegistrationEtcData {
+    cert_id: string;
+    password: string;
+}
+
 export const DefaultTemplateData: TemplateData = {
     bgp_router: undefined,
     connections: undefined,
@@ -856,4 +920,133 @@ export const DefaultMailSendData: MailSendData = {
     to_mail: "",
     subject: "",
     content: ""
+}
+
+export const DefaultJPNICRegistrationData: JPNICRegistrationData = {
+    network: {
+        kind_id: "10",
+        ip_address: "",
+        network_name: "",
+        infra_user_kind: "2",
+        org_jp_1: "",
+        org_jp_2: "",
+        org_jp_3: "",
+        org_1: "",
+        org_2: "",
+        org_3: "",
+        zip_code: "",
+        addr_jp_1: "",
+        addr_jp_2: "",
+        addr_jp_3: "",
+        addr_1: "",
+        addr_2: "",
+        addr_3: "",
+        abuse: "",
+        ryakusho: "",
+        name_server: "",
+        notify_email: "",
+        plan: "",
+        deli_no: "",
+        return_date: "",
+    },
+    admin_user: {
+        jpnic_handle: "",
+        name_jp: "",
+        name: "",
+        email: "",
+        org_jp_1: "",
+        org_jp_2: "",
+        org_jp_3: "",
+        org_1: "",
+        org_2: "",
+        org_3: "",
+        zip_code: "",
+        addr_jp_1: "",
+        addr_jp_2: "",
+        addr_jp_3: "",
+        addr_1: "",
+        addr_2: "",
+        addr_3: "",
+        division_jp: "",
+        division: "",
+        phone: "",
+        fax: "",
+        notify_mail: "",
+    },
+    tech_users: [{
+        jpnic_handle: "",
+        name_jp: "",
+        name: "",
+        email: "",
+        org_jp_1: "",
+        org_jp_2: "",
+        org_jp_3: "",
+        org_1: "",
+        org_2: "",
+        org_3: "",
+        zip_code: "",
+        addr_jp_1: "",
+        addr_jp_2: "",
+        addr_jp_3: "",
+        addr_1: "",
+        addr_2: "",
+        addr_3: "",
+        division_jp: "",
+        division: "",
+        phone: "",
+        fax: "",
+        notify_mail: "",
+    }, {
+        jpnic_handle: "",
+        name_jp: "",
+        name: "",
+        email: "",
+        org_jp_1: "",
+        org_jp_2: "",
+        org_jp_3: "",
+        org_1: "",
+        org_2: "",
+        org_3: "",
+        zip_code: "",
+        addr_jp_1: "",
+        addr_jp_2: "",
+        addr_jp_3: "",
+        addr_1: "",
+        addr_2: "",
+        addr_3: "",
+        division_jp: "",
+        division: "",
+        phone: "",
+        fax: "",
+        notify_mail: "",
+    }],
+    etc: {
+        cert_id: "",
+        password: "",
+    }
+}
+
+export const DefaultJPNICUserRegistrationData: JPNICRegistrationUserData = {
+    jpnic_handle: "",
+    name_jp: "",
+    name: "",
+    email: "",
+    org_jp_1: "",
+    org_jp_2: "",
+    org_jp_3: "",
+    org_1: "",
+    org_2: "",
+    org_3: "",
+    zip_code: "",
+    addr_jp_1: "",
+    addr_jp_2: "",
+    addr_jp_3: "",
+    addr_1: "",
+    addr_2: "",
+    addr_3: "",
+    division_jp: "",
+    division: "",
+    phone: "",
+    fax: "",
+    notify_mail: "",
 }
