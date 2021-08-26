@@ -101,6 +101,10 @@ export default function JPNICRegistrationDialog(props: {
                 <DialogContent dividers>
                     <Grid container spacing={3}>
                         <Grid item xs={12}>
+                            この機能はBetaです。
+
+                        </Grid>
+                        <Grid item xs={12}>
                             <FormControl component="fieldset">
                                 <FormLabel component="legend">1.1. サービス情報を選択してください</FormLabel>
                                 <Select
@@ -190,6 +194,7 @@ export default function JPNICRegistrationDialog(props: {
                                     }
                                 </Select>
                             </FormControl>
+                            <br/>
                             <br/>
                             {
                                 serviceID !== 0 &&
@@ -281,6 +286,7 @@ export default function JPNICRegistrationDialog(props: {
                                     <MenuItem key={"infra_usr_kind_4"} value={"4"}>再割り当て</MenuItem>
                                 </Select>
                             </FormControl>
+                            <br/>
                             <br/>
                             <form className={classes.rootForm} noValidate autoComplete="off">
                                 <TextField
@@ -378,6 +384,21 @@ export default function JPNICRegistrationDialog(props: {
                                     }}
                                 />
                                 <br/>
+                                <br/>
+                                <TextField
+                                    className={classes.formMedium}
+                                    required
+                                    id="network_deli_no"
+                                    label="審議番号"
+                                    value={data.network.deli_no}
+                                    variant="outlined"
+                                    onChange={event => {
+                                        setData({
+                                            ...data,
+                                            network: {...data.network, deli_no: event.target.value}
+                                        });
+                                    }}
+                                />
                                 <TextField
                                     className={classes.formMedium}
                                     required
