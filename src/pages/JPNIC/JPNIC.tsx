@@ -1,10 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import Dashboard from "../../components/Dashboard/Dashboard";
 import useStyles from "../Dashboard/styles";
 import {
     JPNICGetData,
     JPNICSearchData,
-    PaymentDetailData
 } from "../../interface";
 import {useSnackbar} from "notistack";
 import {GetAll} from "../../api/JPNIC";
@@ -52,13 +51,15 @@ export default function JPNIC() {
     };
 
     const handleFilter = (search: string) => {
+        setSearch1(search);
         let tmp: JPNICGetData[];
         if (initJPNIC != null) {
             if (search === "") {
                 tmp = initJPNIC;
             } else {
                 tmp = initJPNIC?.filter((jpnic: JPNICGetData) => {
-                    return jpnic.network_name.toLowerCase().includes(search.toLowerCase())
+                    const data = jpnic.network_name + jpnic.org_name + jpnic.ip_address
+                    return data.toLowerCase().includes(search.toLowerCase())
                 });
             }
             setJpnics(tmp);
