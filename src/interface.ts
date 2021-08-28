@@ -603,10 +603,18 @@ export interface JPNICGetDetailData {
     network_name: string;
     org: string;
     org_en: string;
+    post_code: string;
+    address: string;
+    address_en: string;
     admin_jpnic_handle: string;
     admin_jpnic_handle_link: string;
     tech_jpnic_handle: string;
     tech_jpnic_handle_link: string;
+    name_server: string;
+    ds_record: string;
+    notify_address: string;
+    deli_no: string;
+    recep_no: string;
     assign_date: string;
     return_date: string;
     update_date: string;

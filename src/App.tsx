@@ -14,6 +14,7 @@ import Connection from "./pages/Connection/Connection";
 import User from "./pages/User/User";
 import Token from "./pages/Token/Token";
 import JPNIC from "./pages/JPNIC/JPNIC";
+import JPNICDetail from "./pages/JPNIC/Detail/JPNICDetail";
 
 export default class App extends React.Component {
     render() {
@@ -34,6 +35,7 @@ export default class App extends React.Component {
                     <Route exact path="/dashboard/user" component={User}/>
                     <Route exact path="/dashboard/token" component={Token}/>
                     <Route exact path="/dashboard/jpnic" component={JPNIC}/>
+                    <Route exact path="/dashboard/jpnic/:url" component={JPNICDetail}/>
                 </Switch>
             </BrowserRouter>
         );

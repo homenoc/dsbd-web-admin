@@ -21,13 +21,14 @@ import {
     Typography
 } from "@material-ui/core";
 import {restfulApiConfig} from "../../api/Config";
+import {useHistory} from "react-router-dom";
 
 export default function JPNIC() {
     const classes = useStyles();
+    const history = useHistory();
     const [jpnics, setJpnics] = useState<JPNICGetData[]>();
     const [initJPNIC, setInitJPNIC] = useState<JPNICGetData[]>();
     const {enqueueSnackbar} = useSnackbar();
-    const [reload, setReload] = React.useState(true);
     const [search1, setSearch1] = React.useState("");
     const [search, setSearch] = React.useState<JPNICSearchData>({
         version: 4,
@@ -63,6 +64,19 @@ export default function JPNIC() {
             setJpnics(tmp);
         }
     };
+
+    const clickDetail = (version: number, url: string) => {
+        if (version === 4) {
+            // IPv4の場合は先頭に4を付加
+            url = "/dashboard/jpnic/" + url.replace(/\/jpnic\/entryinfo_v4.do\?netwrk_id=/g, '4')
+        } else if (version === 6) {
+            // IPv6の場合は先頭に6を付加
+            url = "/dashboard/jpnic/" + url.replace(/\/jpnic\/G11320.do\?netwrk_id=/g, '6')
+        } else {
+            return;
+        }
+        history.push(url);
+    }
 
     return (
         <Dashboard title="JPNIC Info">
@@ -112,7 +126,7 @@ export default function JPNIC() {
                                 color="primary"
                                 label={jpnic.ip_address}
                             />
-                            &nbsp;&nbsp;
+                            &nbsp;
                             {
                                 jpnic.recep_no !== "" &&
                                 <Chip
@@ -133,8 +147,8 @@ export default function JPNIC() {
                             <br/> <br/>
                         </CardContent>
                         <CardActions>
-                            {/*<Button size="small" color={"secondary"}*/}
-                            {/*        onClick={() => handleRefundProcess(payment.ID)}>返金</Button>*/}
+                            <Button size="small" color={"primary"}
+                                    onClick={() => clickDetail(search.version, jpnic.detail_link)}>詳細</Button>
                         </CardActions>
                     </Card>
                 ))

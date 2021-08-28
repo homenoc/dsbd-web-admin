@@ -28,6 +28,7 @@ import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import ChatIcon from "@material-ui/icons/Chat";
 import SettingsIcon from "@material-ui/icons/Settings";
 import PermIdentityIcon from '@material-ui/icons/PermIdentity';
+import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import useStyles from "./styles";
 import useSideBarStyles from "./SideBar/styles";
 import {useHistory} from "react-router-dom";
@@ -75,6 +76,9 @@ export default function Dashboard(props: any) {
     }
     const GroupPage = () => {
         history.push("/dashboard/group");
+    }
+    const JPNICPage = () => {
+        history.push("/dashboard/jpnic");
     }
     const OrderPage = () => {
         history.push("/dashboard/order");
@@ -151,6 +155,12 @@ export default function Dashboard(props: any) {
                             <PeopleIcon/>
                         </ListItemIcon>
                         <ListItemText primary="Group"/>
+                    </ListItem>
+                    <ListItem button onClick={JPNICPage}>
+                        <ListItemIcon>
+                            <PeopleAltIcon/>
+                        </ListItemIcon>
+                        <ListItemText primary="JPNIC"/>
                     </ListItem>
                     <ListItem button onClick={OrderPage}>
                         <ListItemIcon>
