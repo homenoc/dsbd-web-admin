@@ -518,6 +518,11 @@ export interface JPNICRegistrationData {
     etc: JPNICRegistrationEtcData
 }
 
+export interface JPNICSearchData {
+    version: number,
+    org: string
+}
+
 export interface JPNICRegistrationNetworkData {
     kind_id: string;
     ip_address: string;
@@ -573,6 +578,38 @@ export interface JPNICRegistrationUserData {
 export interface JPNICRegistrationEtcData {
     cert_id: string;
     password: string;
+}
+
+export interface JPNICGetData {
+    ip_address: string;
+    detail_link: string;
+    size: string;
+    network_name: string;
+    assign_date: string;
+    return_date: string;
+    org_name: string;
+    ryakusho: string;
+    recep_no: string;
+    deli_no: string;
+    type: string;
+    kind_id: string;
+}
+
+export interface JPNICGetDetailData {
+    ip_address: string;
+    ryakusho: string;
+    type: string;
+    infra_user_kind: string;
+    network_name: string;
+    org: string;
+    org_en: string;
+    admin_jpnic_handle: string;
+    admin_jpnic_handle_link: string;
+    tech_jpnic_handle: string;
+    tech_jpnic_handle_link: string;
+    assign_date: string;
+    return_date: string;
+    update_date: string;
 }
 
 export const DefaultTemplateData: TemplateData = {

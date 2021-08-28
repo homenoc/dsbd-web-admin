@@ -13,6 +13,7 @@ import Service from "./pages/Service/Service";
 import Connection from "./pages/Connection/Connection";
 import User from "./pages/User/User";
 import Token from "./pages/Token/Token";
+import JPNIC from "./pages/JPNIC/JPNIC";
 
 export default class App extends React.Component {
     render() {
@@ -32,6 +33,7 @@ export default class App extends React.Component {
                     <Route exact path="/dashboard/connection" component={Connection}/>
                     <Route exact path="/dashboard/user" component={User}/>
                     <Route exact path="/dashboard/token" component={Token}/>
+                    <Route exact path="/dashboard/jpnic" component={JPNIC}/>
                 </Switch>
             </BrowserRouter>
         );
