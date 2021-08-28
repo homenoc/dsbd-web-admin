@@ -11,9 +11,10 @@ import cssModule from "../../Connection/ConnectionDetail/ConnectionDialog.module
 import {useSnackbar} from "notistack";
 import Dashboard from "../../../components/Dashboard/Dashboard";
 import {Get} from "../../../api/JPNIC";
-import {useParams} from "react-router-dom";
+import {useHistory, useParams} from "react-router-dom";
 
 export default function JPNICDetail() {
+    const history = useHistory();
     const [data, setData] = React.useState<JPNICGetDetailData>();
     const classes = useStyles();
     const {enqueueSnackbar} = useSnackbar();
@@ -31,6 +32,13 @@ export default function JPNICDetail() {
             }
         })
     }, []);
+
+    const clickHandlePage = (handleURL: string) => {
+        const version = url.substr(0, 1);
+        url = "/dashboard/jpnic/handle/" + handleURL.replace(/entryinfo_handle.do\?jpnic_hdl=/g, version);
+
+        history.push(url);
+    }
 
     return (
         <Dashboard title="JPNIC Detail Info">
@@ -81,7 +89,10 @@ export default function JPNICDetail() {
                                 <tr>
                                     <th>技術連絡担当者</th>
                                     <td>{data.tech_jpnic_handle}</td>
-                                    <td>{data.tech_jpnic_handle_link}</td>
+                                    <td>
+                                        <Button size="small" variant="outlined"
+                                                onClick={() => clickHandlePage(data.tech_jpnic_handle_link)}>詳細</Button>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th>NameServer</th>

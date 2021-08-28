@@ -620,6 +620,24 @@ export interface JPNICGetDetailData {
     update_date: string;
 }
 
+export interface JPNICGetHandleData {
+    is_jpnic_handle: boolean;
+    jpnic_handle: string;
+    name: string;
+    name_en: string;
+    email: string;
+    org: string;
+    org_en: string;
+    division: string;
+    division_en: string;
+    title: string;
+    title_en: string;
+    tel: string;
+    fax: string;
+    notify_address: string;
+    update_date: string;
+}
+
 export const DefaultTemplateData: TemplateData = {
     bgp_router: undefined,
     connections: undefined,
