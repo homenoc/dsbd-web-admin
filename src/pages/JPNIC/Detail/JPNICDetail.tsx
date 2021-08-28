@@ -84,7 +84,10 @@ export default function JPNICDetail() {
                                 <tr>
                                     <th>管理者連絡窓口</th>
                                     <td>{data.admin_jpnic_handle}</td>
-                                    <td>{data.admin_jpnic_handle_link}</td>
+                                    <td>
+                                        <Button size="small" variant="outlined"
+                                                onClick={() => clickHandlePage(data.admin_jpnic_handle_link)}>詳細</Button>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th>技術連絡担当者</th>
