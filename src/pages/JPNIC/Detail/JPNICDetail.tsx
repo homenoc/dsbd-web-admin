@@ -4,14 +4,16 @@ import {
     Typography,
 } from "@material-ui/core";
 import {
+    DefaultJPNICReturnData,
     JPNICGetDetailData,
 } from "../../../interface";
 import useStyles from "../../Dashboard/styles";
 import cssModule from "../../Connection/ConnectionDetail/ConnectionDialog.module.scss";
 import {useSnackbar} from "notistack";
 import Dashboard from "../../../components/Dashboard/Dashboard";
-import {Get} from "../../../api/JPNIC";
+import {Get, ReturnAddress} from "../../../api/JPNIC";
 import {useHistory, useParams} from "react-router-dom";
+import {restfulApiConfig} from "../../../api/Config";
 
 export default function JPNICDetail() {
     const history = useHistory();
@@ -22,10 +24,8 @@ export default function JPNICDetail() {
     ({url} = useParams());
 
     useEffect(() => {
-        console.log(url)
         Get(url).then(res => {
             if (res.error === "") {
-                console.log(res);
                 setData(res.data);
             } else {
                 enqueueSnackbar("" + res.error, {variant: "error"});
@@ -33,11 +33,42 @@ export default function JPNICDetail() {
         })
     }, []);
 
+    const handleReturnProcess = () => {
+        let returnData = DefaultJPNICReturnData;
+        returnData.version = Number(url.substr(0, 1));
+        if (data?.ip_address !== undefined) {
+            returnData.address[0] = data.ip_address;
+        }
+        if (data?.network_name !== undefined) {
+            returnData.network_name = data.network_name;
+        }
+        returnData.notify_e_mail = String(restfulApiConfig.notifyEMail);
+
+        ReturnAddress(returnData).then(res => {
+            if (res.error === "") {
+                enqueueSnackbar("" + res.error, {variant: "error"});
+                history.push('/dashboard/jpnic');
+            } else {
+                enqueueSnackbar("" + res.error, {variant: "error"});
+            }
+        })
+    }
+
     const clickHandlePage = (handleURL: string) => {
         const version = url.substr(0, 1);
         url = "/dashboard/jpnic/handle/" + handleURL.replace(/entryinfo_handle.do\?jpnic_hdl=/g, version);
 
         history.push(url);
+    }
+
+    const getVersion = () => {
+        const version = url.substr(0, 1);
+        if (version === "4") {
+            return "IPv4";
+        } else if (version === "6") {
+            return "IPv6";
+        }
+        return "";
     }
 
     return (
@@ -58,6 +89,10 @@ export default function JPNICDetail() {
                                 <thead>
                                 <tr>
                                     <th colSpan={3}>内容</th>
+                                </tr>
+                                <tr>
+                                    <th>IP Version</th>
+                                    <td colSpan={2}> {getVersion()}</td>
                                 </tr>
                                 <tr>
                                     <th>アドレス種別</th>
@@ -128,8 +163,7 @@ export default function JPNICDetail() {
                         <br/>
                     </CardContent>
                     <CardActions>
-                        {/*<Button size="small" color={"secondary"}*/}
-                        {/*        onClick={() => handleRefundProcess(payment.ID)}>返金</Button>*/}
+                        <Button size="small" color={"secondary"} onClick={() => handleReturnProcess()}>アドレスの返却</Button>
                     </CardActions>
                 </Card>
             }

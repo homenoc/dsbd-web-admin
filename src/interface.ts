@@ -518,6 +518,14 @@ export interface JPNICRegistrationData {
     etc: JPNICRegistrationEtcData
 }
 
+export interface JPNICReturnData {
+    version: number,
+    address: string[],
+    network_name: string,
+    return_date: string,
+    notify_e_mail: string
+}
+
 export interface JPNICSearchData {
     version: number,
     org: string
@@ -1114,4 +1122,12 @@ export const DefaultJPNICUserRegistrationData: JPNICRegistrationUserData = {
     phone: "",
     fax: "",
     notify_mail: "",
+}
+
+export const DefaultJPNICReturnData: JPNICReturnData = {
+    version: 0,
+    address: [],
+    network_name: "",
+    return_date: "",
+    notify_e_mail: ""
 }
