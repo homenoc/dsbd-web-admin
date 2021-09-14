@@ -88,6 +88,7 @@ export default function SupportDetail() {
             <div className={classes.container}>
                 <Paper className={classes.paper}>
                     <Paper id="style-1" className={classes.messagesBody}>
+                        <b>このチャットはMarkdownに準拠しております。</b>
                         {
                             baseChatData.map((chat, index) =>
                                 chat.admin ?
