@@ -204,6 +204,7 @@ export interface ConnectionDetailData {
     noc_id: number,
     bgp_router_id: number,
     bgp_router?: BGPRouterDetailData,
+    group?: GroupDetailData,
     service?: ServiceDetailData,
     connection_number: number,
     tunnel_endpoint_router_ip_id: number,

@@ -10,6 +10,7 @@ import {
 } from "@material-ui/core";
 import Select from 'react-select';
 import {
+    ConnectionDetailData,
     DefaultNoticeRegisterData,
     TemplateData,
 } from "../../../interface";
@@ -18,6 +19,7 @@ import {KeyboardDateTimePicker, MuiPickersUtilsProvider} from "@material-ui/pick
 import DateFnsUtils from "@date-io/date-fns";
 import {Post} from "../../../api/Notice";
 import {useSnackbar} from "notistack";
+import {MailAutoNoticeSendDialogs} from "../../Group/Mail";
 
 type OptionType = {
     label: string
@@ -26,14 +28,17 @@ type OptionType = {
 
 export default function NoticeAddDialogs(props: {
     template: TemplateData,
+    connection: ConnectionDetailData[] | undefined,
     setReload: Dispatch<SetStateAction<boolean>>
-    reloadTemplate: boolean
+    reload: boolean
 }) {
-    const {template, reloadTemplate, setReload} = props
+    const {template, connection, reload, setReload} = props
     const [open, setOpen] = React.useState(false);
     const nowDate = new Date()
-    const [checkBoxEndDatePermanent, setCheckBoxEndDatePermanent] = React.useState(false);
+    const [checkBoxEndDatePermanent, setCheckBoxEndDatePermanent] = React.useState(true);
     const [data, setData] = React.useState(DefaultNoticeRegisterData);
+    const [email, setEmail] = React.useState<string>("");
+    const [openMailSendDialog, setOpenMailSendDialog] = React.useState(false)
     const [templateUser, setTemplateUser] = React.useState<OptionType[]>([]);
     const [templateGroup, setTemplateGroup] = React.useState <OptionType[]>([]);
     const [templateNOC, setTemplateNOC] = React.useState<OptionType[]>([]);
@@ -42,33 +47,36 @@ export default function NoticeAddDialogs(props: {
     const tmpSelectTheme = GetSelectTheme(useTheme());
 
     useEffect(() => {
-        setData({
-            ...data, start_time: nowDate.getFullYear() + '-' + ('00' + (nowDate.getMonth() + 1)).slice(-2) +
-                '-' + ('00' + (nowDate.getDate())).slice(-2) + " " + nowDate.getHours() + ":" + nowDate.getMinutes() +
-                ":00"
-        });
-        if (template.user !== undefined) {
-            let templateTmp: OptionType[] = []
-            for (const tmp of template.user) {
-                templateTmp.push({value: tmp.ID, label: tmp.name + "(" + tmp.name_en + ")"})
+        if (template !== undefined) {
+            setData({
+                ...data, start_time: nowDate.getFullYear() + '-' + ('00' + (nowDate.getMonth() + 1)).slice(-2) +
+                    '-' + ('00' + (nowDate.getDate())).slice(-2) + " " + ('00' + (nowDate.getHours())).slice(-2) +
+                    ":" + ('00' + (nowDate.getMinutes())).slice(-2) + ":00"
+            });
+            if (template.user !== undefined) {
+                let templateTmp: OptionType[] = []
+                for (const tmp of template.user) {
+                    templateTmp.push({value: tmp.ID, label: tmp.name + "(" + tmp.name_en + ")"})
+                }
+                setTemplateUser(templateTmp);
             }
-            setTemplateUser(templateTmp);
-        }
-        if (template.group !== undefined) {
-            let templateTmp: OptionType[] = []
-            for (const tmp of template.group) {
-                templateTmp.push({value: tmp.ID, label: tmp.org + "(" + tmp.org_en + ")"})
+            if (template.group !== undefined) {
+                let templateTmp: OptionType[] = []
+                for (const tmp of template.group) {
+                    templateTmp.push({value: tmp.ID, label: tmp.org + "(" + tmp.org_en + ")"})
+                }
+                setTemplateGroup(templateTmp);
             }
-            setTemplateGroup(templateTmp);
-        }
-        if (template.nocs !== undefined) {
-            let templateTmp: OptionType[] = []
-            for (const tmp of template.nocs) {
-                templateTmp.push({value: tmp.ID, label: tmp.name})
+            if (template.nocs !== undefined) {
+                let templateTmp: OptionType[] = []
+                for (const tmp of template.nocs) {
+                    templateTmp.push({value: tmp.ID, label: tmp.name})
+                }
+                setTemplateNOC(templateTmp);
             }
-            setTemplateNOC(templateTmp);
         }
-    }, [reloadTemplate]);
+        setReload(false);
+    }, [reload]);
 
     const handleBeginDateChange = (date: Date | null) => {
         if (date !== null) {
@@ -100,17 +108,57 @@ export default function NoticeAddDialogs(props: {
         }
     }
 
+    const getEMail = () => {
+        // Mail用
+        let emails = ""
+
+        for (const tmpUserID of data.user_id) {
+            const u = template.user?.filter(d => d.ID === tmpUserID);
+            if (u !== undefined) {
+                if (emails.indexOf(u[0].email) === -1) {
+                    console.log(u[0].email)
+                    emails += "," + u[0].email;
+                }
+            }
+        }
+        for (const tmpGroupID of data.group_id) {
+            const tmpUser = template.user?.filter(d => d.group_id === tmpGroupID && d.level < 3);
+            if (tmpUser !== undefined) {
+                if (emails.indexOf(tmpUser[0].email) === -1) {
+                    emails += "," + tmpUser[0].email
+                }
+            }
+        }
+        for (const tmpNOCID of data.noc_id) {
+            // const tmpBGP
+            const tmpConnections = connection?.filter(d => d.bgp_router?.noc_id === tmpNOCID);
+            if (tmpConnections !== undefined) {
+                for (const tmpConnection of tmpConnections) {
+                    const tmpUser = template.user?.filter(d => d.group_id === tmpConnection.service?.group_id && d.level < 3);
+                    if (tmpUser !== undefined) {
+                        if (emails.indexOf(tmpUser[0].email) === -1) {
+                            emails += "," + tmpUser[0].email;
+                        }
+                    }
+                }
+            }
+        }
+        return emails.slice(1);
+    }
+
     const request = () => {
         console.log(data);
-        const tmp = new Date(data.start_time);
-        console.log(tmp);
+
+        setEmail(getEMail());
+
         Post(data).then(res => {
             if (res.error === "") {
                 enqueueSnackbar("登録しました。", {variant: "success"});
+                setOpenMailSendDialog(true);
+                // setOpen(false);
             } else {
                 enqueueSnackbar(String(res.error), {variant: "error"});
             }
-            setOpen(false);
             setReload(true);
         })
     }
@@ -350,8 +398,19 @@ export default function NoticeAddDialogs(props: {
                     <Button autoFocus onClick={() => request()} color="primary">
                         登録
                     </Button>
+                    <Button autoFocus onClick={() => enqueueSnackbar("E-Mail: " + getEMail(), {variant: "info"})}>
+                        送信メールアドレスの確認
+                    </Button>
                 </DialogActions>
             </Dialog>
+            <MailAutoNoticeSendDialogs
+                setOpen={setOpenMailSendDialog}
+                open={openMailSendDialog}
+                mails={email}
+                template={template?.mail_template}
+                title={data.title}
+                body={data.data}
+            />
         </div>
     );
 }

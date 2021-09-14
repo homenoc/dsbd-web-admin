@@ -13,11 +13,17 @@ import {
     Typography
 } from "@material-ui/core";
 import {Delete, GetAll} from "../../api/Notice";
-import {DefaultNoticeDataArray, DefaultTemplateData, NoticeData} from "../../interface";
+import {
+    ConnectionDetailData,
+    DefaultNoticeDataArray,
+    DefaultTemplateData,
+    NoticeData
+} from "../../interface";
 import {useSnackbar} from "notistack";
 import {GetTemplate} from "../../api/Group";
 import NoticeAddDialogs from "./NoticeAdd/NoticeAdd";
 import NoticeDetailDialogs from "./NoticeDetail/NoticeDetail";
+import {GetAll as ConnectionGetAll} from "../../api/Connection";
 
 
 export default function Notice() {
@@ -25,6 +31,7 @@ export default function Notice() {
     const [tickets, setTickets] = useState(DefaultNoticeDataArray);
     const [initTickets, setInitTickets] = useState(DefaultNoticeDataArray);
     const [template, setTemplate] = useState(DefaultTemplateData);
+    const [connection, setConnection] = useState<ConnectionDetailData[]>()
     const [reload, setReload] = useState(true);
     const {enqueueSnackbar} = useSnackbar();
     const [value, setValue] = React.useState(2);
@@ -51,7 +58,15 @@ export default function Notice() {
             if (res.error === "") {
                 console.log(res);
                 setTemplate(res.data);
-                setLoaded(true);
+                ConnectionGetAll().then(res => {
+                    if (res.error === "") {
+                        console.log(res);
+                        setConnection(res.data);
+                        setLoaded(true);
+                    } else {
+                        enqueueSnackbar("" + res.error, {variant: "error"});
+                    }
+                })
             } else {
                 enqueueSnackbar("" + res.error, {variant: "error"});
             }
@@ -126,8 +141,11 @@ export default function Notice() {
                 />
             </Paper>
             {
-                loaded && <NoticeAddDialogs key={"notice_add_dialogs"} setReload={setReload} template={template}
-                                            reloadTemplate={true}/>
+                loaded && <NoticeAddDialogs key={"notice_add_dialogs"}
+                                            setReload={setReload}
+                                            connection={connection}
+                                            template={template}
+                                            reload={reload}/>
             }
             <FormControl component="fieldset">
                 <RadioGroup row aria-label="gender" name="gender1" value={value} onChange={handleChange}>
