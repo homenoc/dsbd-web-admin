@@ -131,7 +131,7 @@ export default function NoticeAddDialogs(props: {
         }
         for (const tmpNOCID of data.noc_id) {
             // const tmpBGP
-            const tmpConnections = connection?.filter(d => d.bgp_router?.noc_id === tmpNOCID);
+            const tmpConnections = connection?.filter(d => d.bgp_router?.noc_id === tmpNOCID && d.enable);
             if (tmpConnections !== undefined) {
                 for (const tmpConnection of tmpConnections) {
                     const tmpUser = template.user?.filter(d => d.group_id === tmpConnection.service?.group_id && d.level < 3);
