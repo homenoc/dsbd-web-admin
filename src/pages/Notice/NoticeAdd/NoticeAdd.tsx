@@ -108,6 +108,50 @@ export default function NoticeAddDialogs(props: {
         }
     }
 
+    const getUser = () => {
+        // Mail用
+        let emails = ""
+
+        for (const tmpUserID of data.user_id) {
+            const u = template.user?.filter(d => d.ID === tmpUserID);
+            if (u !== undefined) {
+                if (emails.indexOf(u[0].email) === -1) {
+                    console.log(u[0].email)
+                    emails += "," + u[0].email;
+                }
+            }
+        }
+        for (const tmpGroupID of data.group_id) {
+            const tmpUser = template.user?.filter(d => d.group_id === tmpGroupID && d.level < 3);
+            if (tmpUser !== undefined) {
+                if (emails.indexOf(tmpUser[0].email) === -1) {
+                    emails += "," + tmpUser[0].email
+                }
+            }
+        }
+        for (const tmpNOCID of data.noc_id) {
+            // const tmpBGP
+            const tmpConnections = connection?.filter(d => d.bgp_router?.noc_id === tmpNOCID && d.enable);
+            if (tmpConnections !== undefined) {
+                for (const tmpConnection of tmpConnections) {
+                    const tmpUser = template.user?.filter(d => d.group_id === tmpConnection.service?.group_id && d.level < 3);
+                    if (tmpUser !== undefined) {
+                        if (emails.indexOf(tmpUser[0].email) === -1) {
+                            emails += "," + tmpUser[0].email;
+                            const serviceCode = tmpUser[0].group_id + "-" + tmpConnection.service?.service_template.type + ('000' + tmpConnection.service?.service_number).slice(-3) +
+                                "-" + tmpConnection.connection_template?.type + ('000' + tmpConnection.connection_number).slice(-3);
+                            const tmpGroup = template.group?.filter(d => d.ID === tmpUser[0].group_id);
+                            if (tmpGroup !== undefined){
+                                console.log(tmpUser[0].name + "," + tmpUser[0].email + "," + tmpGroup[0].org + "," + serviceCode);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        console.log(emails.slice(1));
+    }
+
     const getEMail = () => {
         // Mail用
         let emails = ""
@@ -400,6 +444,9 @@ export default function NoticeAddDialogs(props: {
                     </Button>
                     <Button autoFocus onClick={() => enqueueSnackbar("E-Mail: " + getEMail(), {variant: "info"})}>
                         送信メールアドレスの確認
+                    </Button>
+                    <Button autoFocus onClick={() => getUser()}>
+                        Test(F12)
                     </Button>
                 </DialogActions>
             </Dialog>
