@@ -1,4 +1,14 @@
-import {Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField} from "@mui/material";
+import {
+    Button,
+    Checkbox,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    FormControlLabel,
+    Grid,
+    TextField
+} from "@mui/material";
 import React, {Dispatch, SetStateAction, useEffect, useState} from "react";
 import {DefaultServiceJPNICData, JPNICData} from "../../../interface";
 import {useSnackbar} from "notistack";
@@ -103,6 +113,27 @@ export function JPNICDetail(props: {
     return (
         <StyledDivRoot2>
             <StyledRootForm noValidate autoComplete="off">
+                <FormControlLabel
+                    value="グループハンドル"
+                    control={<Checkbox />}
+                    label="グループハンドル"
+                    labelPlacement="end"
+                    checked={jpnicCopy.is_group}
+                    onChange={event => {
+                        setJPNICCopy({...jpnicCopy, hidden: !jpnicCopy.is_group});
+                    }}
+                />
+                <FormControlLabel
+                    value="非公開"
+                    control={<Checkbox />}
+                    label="非公開"
+                    labelPlacement="end"
+                    checked={jpnicCopy.hidden}
+                    onChange={event => {
+                        setJPNICCopy({...jpnicCopy, hidden: !jpnicCopy.hidden});
+                    }}
+                />
+                <br/>
                 <StyledTextFieldVeryShort1
                     required
                     id="tech_v4_jpnic_handle"
@@ -255,6 +286,33 @@ export function JPNICDetail(props: {
                 <StyledTextFieldVeryShort1
                     required
                     id="outlined-required"
+                    label="Title"
+                    InputProps={{
+                        readOnly: lockInfo,
+                    }}
+                    value={jpnicCopy.title}
+                    variant="outlined"
+                    onChange={event => {
+                        setJPNICCopy({...jpnicCopy, title: event.target.value});
+                    }}
+                />
+                <StyledTextFieldVeryShort1
+                    required
+                    id="outlined-required"
+                    label="Title(English)"
+                    InputProps={{
+                        readOnly: lockInfo,
+                    }}
+                    value={jpnicCopy.title_en}
+                    variant="outlined"
+                    onChange={event => {
+                        setJPNICCopy({...jpnicCopy, title_en: event.target.value});
+                    }}
+                />
+                <br/>
+                <StyledTextFieldVeryShort1
+                    required
+                    id="outlined-required"
                     label="電話番号"
                     InputProps={{
                         readOnly: lockInfo,
@@ -375,6 +433,27 @@ export function JPNICTechAdd(props: {
                 </DialogTitle>
                 <DialogContent dividers>
                     <StyledRootForm noValidate autoComplete="off">
+                        <FormControlLabel
+                            value="グループハンドル"
+                            control={<Checkbox />}
+                            label="グループハンドル"
+                            labelPlacement="end"
+                            checked={jpnic.is_group}
+                            onChange={event => {
+                                setJPNIC({...jpnic, is_group: !jpnic.is_group});
+                            }}
+                        />
+                        <FormControlLabel
+                            value="非公開"
+                            control={<Checkbox />}
+                            label="非公開"
+                            labelPlacement="end"
+                            checked={jpnic.hidden}
+                            onChange={event => {
+                                setJPNIC({...jpnic, hidden: !jpnic.hidden});
+                            }}
+                        />
+                        <br/>
                         <StyledTextFieldVeryShort1
                             required
                             id="v4_jpnic_jandle"
@@ -486,6 +565,27 @@ export function JPNICTechAdd(props: {
                             variant="outlined"
                             onChange={event => {
                                 setJPNIC({...jpnic, dept_en: event.target.value});
+                            }}
+                        />
+                        <br/>
+                        <StyledTextFieldVeryShort1
+                            required
+                            id="outlined-required"
+                            label="Title"
+                            value={jpnic.title}
+                            variant="outlined"
+                            onChange={event => {
+                                setJPNIC({...jpnic, title: event.target.value});
+                            }}
+                        />
+                        <StyledTextFieldVeryShort1
+                            required
+                            id="outlined-required"
+                            label="Title(English)"
+                            value={jpnic.title_en}
+                            variant="outlined"
+                            onChange={event => {
+                                setJPNIC({...jpnic, title_en: event.target.value});
                             }}
                         />
                         <br/>
