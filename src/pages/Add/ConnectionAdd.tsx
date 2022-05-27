@@ -38,6 +38,7 @@ export default function ConnectionAdd() {
     const [ipv6BGPRoute, setIPv6BGPRoute] = React.useState(false);
     const [isComment, setIsComment] = React.useState(false);
     const [isInternet, setIsInternet] = React.useState(false);
+    const [isGlobalAs, setIsGlobalAs] = React.useState(false);
     let groupID: string | undefined;
     ({id: groupID} = useParams());
 
@@ -204,6 +205,7 @@ export default function ConnectionAdd() {
                                     checkBgpRoute(Number(event.target.value));
                                     const tmpService = group.services?.filter(data => data.ID === Number(event.target.value));
                                     if (tmpService != null) {
+                                        setIsGlobalAs(tmpService[0].service_template.need_global_as);
                                         setServiceCode(getServiceCode(groupID, tmpService[0]));
                                     }
                                     setServiceID(Number(event.target.value));
@@ -224,7 +226,7 @@ export default function ConnectionAdd() {
                             <FormLabel component="legend">1.1. BGPで当団体から広報する経路種類を選択してください。</FormLabel>
 
                             {
-                                ipBGPRoute && ipv4BGPRoute &&
+                                ((ipBGPRoute && ipv4BGPRoute)||(ipBGPRoute && isGlobalAs)) &&
                                 <StyledFormControlFormSelect>
                                     <FormLabel component="legend">IPv4 BGP広報経路</FormLabel>
                                     <FormHelperText>
@@ -257,7 +259,7 @@ export default function ConnectionAdd() {
                                 </StyledFormControlFormSelect>
                             }
                             {
-                                ipBGPRoute && ipv6BGPRoute &&
+                                ((ipBGPRoute && ipv6BGPRoute)||(ipBGPRoute && isGlobalAs)) &&
                                 <StyledFormControlFormSelect>
                                     <FormLabel component="legend">IPv6 BGP広報経路</FormLabel>
                                     <FormHelperText>

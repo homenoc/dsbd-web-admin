@@ -73,24 +73,6 @@ export default function ServiceAdd() {
                 .moreThan(0, 'サービスを選択してください'),
             acceptTerms: Yup.bool().oneOf([true], '利用の規約に同意しないと次へ進めません。'),
             hidden: Yup.bool(),
-            org: Yup.string()
-                .required('Org is required')
-                .max(255, 'Org must not exceed 255 characters'),
-            org_en: Yup.string()
-                .required('Org(English) is required')
-                .max(255, 'Org(English) must not exceed 255 characters'),
-            postcode: Yup.string()
-                .required('PostCode is required')
-                .min(8, 'PostCode must be at least 8 characters')
-                .max(8, 'PostCode must not exceed 8 characters'),
-            address: Yup.string()
-                .required('Address is required')
-                .min(6, 'Address must be at least 6 characters')
-                .max(255, 'Address must not exceed 255 characters'),
-            address_en: Yup.string()
-                .required('Address(English) is required')
-                .min(6, 'Address(English) must be at least 6 characters')
-                .max(255, 'Address(English) must not exceed 255 characters'),
             start_date: Yup.date()
                 .required("利用開始日を入力してください"),
             end_date: Yup.date(),
@@ -115,6 +97,24 @@ export default function ServiceAdd() {
 
         // L2, L3 Static, L3 BGP, CoLocation
         if ((0 < values.service_template_id && values.service_template_id <= 3) || (5 <= values.service_template_id && values.service_template_id <= 7)) {
+            obj["org"] = Yup.string()
+                .required('Org is required')
+                .max(255, 'Org must not exceed 255 characters')
+            obj["org_en"] = Yup.string()
+                .required('Org(English) is required')
+                .max(255, 'Org(English) must not exceed 255 characters')
+            obj["postcode"] = Yup.string()
+                .required('PostCode is required')
+                .min(8, 'PostCode must be at least 8 characters')
+                .max(8, 'PostCode must not exceed 8 characters')
+            obj["address"] = Yup.string()
+                .required('Address is required')
+                .min(6, 'Address must be at least 6 characters')
+                .max(255, 'Address must not exceed 255 characters')
+            obj["address_en"] = Yup.string()
+                .required('Address(English) is required')
+                .min(6, 'Address(English) must be at least 6 characters')
+                .max(255, 'Address(English) must not exceed 255 characters')
             obj["jpnic_admin"] = Yup.object().shape({
                 hidden: Yup.bool(),
                 is_group: Yup.bool(),
