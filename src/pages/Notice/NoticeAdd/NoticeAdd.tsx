@@ -299,7 +299,7 @@ export default function NoticeAddDialogs(props: {
                                         color="primary"
                                     />
                                 }
-                                label="接続終了日が未定"
+                                label="掲載終了期間が未定"
                             />
                             <br/>
                             {

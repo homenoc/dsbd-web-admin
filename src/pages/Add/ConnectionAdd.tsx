@@ -230,8 +230,8 @@ export default function ConnectionAdd() {
                             >
                                 {
                                     group.services?.filter(tmp => tmp.add_allow).map((row, index) => (
-                                        <MenuItem key={"service_code_" + index}
-                                                  value={row.ID}>{groupID + "-" + row.service_type + ('000' + row.service_number).slice(-3)}</MenuItem>
+                                        <MenuItem key={"service_code_" + index} value={row.ID}>
+                                            {groupID + "-" + row.service_type + ('000' + row.service_number).slice(-3)}</MenuItem>
                                     ))
                                 }
                             </Select>
@@ -244,8 +244,8 @@ export default function ConnectionAdd() {
                         <FormLabel component="legend">1.1. BGPで当団体から広報する経路種類を選択してください。</FormLabel>
                           {
                               (
-                                  (group.services?.find(service => service.ID === serviceID)!.ip!.filter(ip => ip.version === 4)?.length ?? 0) > 0
-                                  &&
+                                  ((group.services?.find(service => service.ID === serviceID)!.ip!.filter(ip => ip.version === 4)?.length ?? 0) > 0)
+                                  ||
                                   template.services?.find(serviceTemplate => serviceTemplate.type === serviceType)?.need_global_as
                               )
                               &&
@@ -278,8 +278,8 @@ export default function ConnectionAdd() {
                           }
                           {
                               (
-                                  (group.services?.find(service => service.ID === serviceID)!.ip!.filter(ip => ip.version === 6)?.length ?? 0) > 0
-                                  &&
+                                  ((group.services?.find(service => service.ID === serviceID)!.ip!.filter(ip => ip.version === 6)?.length ?? 0) > 0)
+                                  ||
                                   template.services?.find(serviceTemplate => serviceTemplate.type === serviceType)?.need_global_as
                               ) &&
                             <StyledFormControlFormSelect>
