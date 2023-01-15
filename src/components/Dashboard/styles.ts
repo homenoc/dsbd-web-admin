@@ -1,18 +1,18 @@
-import {FormControl, ListItem, styled} from "@mui/material";
+import { FormControl, ListItem, styled } from '@mui/material'
 
-export const StyledDivDashboardRoot = styled(FormControl)(({theme}) => ({
-    display: 'flex',
+export const StyledDivDashboardRoot = styled(FormControl)(() => ({
+  display: 'flex',
 }))
 
-export const StyledDivDashboardToolBarIcon = styled('div')(({theme}) => ({
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: '0 8px',
-    ...theme.mixins.toolbar,
+export const StyledDivDashboardToolBarIcon = styled('div')(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'flex-end',
+  padding: '0 8px',
+  ...theme.mixins.toolbar,
 }))
 
-export const StyledListItemSideBarNested = styled(ListItem)(({theme}) => ({
-    paddingTop: theme.spacing(1),
-    paddingBottom: theme.spacing(1),
+export const StyledListItemSideBarNested = styled(ListItem)(({ theme }) => ({
+  paddingTop: theme.spacing(1),
+  paddingBottom: theme.spacing(1),
 }))

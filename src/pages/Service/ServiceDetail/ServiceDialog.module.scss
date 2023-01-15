@@ -7,10 +7,10 @@
     border-collapse: collapse;
     margin: 0 auto;
     width: 80%;
-
   }
 
-  td, th {
+  td,
+  th {
     border: 1px solid #ccc;
     padding: 10px;
   }
@@ -36,5 +36,4 @@
   button {
     margin-left: 10px;
   }
-
 }

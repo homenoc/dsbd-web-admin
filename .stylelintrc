@@ -1,0 +1,17 @@
+{
+  "plugins": [
+    "stylelint-prettier"
+  ],
+  "extends": [
+    "stylelint-prettier/recommended",
+    "stylelint-config-prettier",
+    "stylelint-config-standard"
+  ],
+  "ignoreFiles": [
+    "**/node_modules/**"
+  ],
+  "rules": {
+    "selector-id-pattern": null,
+    "selector-class-pattern": null
+  }
+}
