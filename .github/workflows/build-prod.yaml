@@ -6,6 +6,15 @@ on:
       - master
     tags:
       - 'v*'
+    paths:
+    - '.github/**'
+    - 'docker/**'
+    - 'public/**'
+    - 'src/**'
+    - 'package.json'
+    - 'package-lock.json'
+    - 'Dockerfile'
+    - 'Dockerfile-dev'
 
 jobs:
   push_to_registry:
