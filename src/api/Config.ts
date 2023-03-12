@@ -1,33 +1,10 @@
 const Config = () => {
-  if (process.env.REACT_APP_NODE_ENV === 'staging') {
-    // staging
-    return {
-      restful: {
-        apiURL: process.env.REACT_APP_STG_API_URL,
-        wsURL: process.env.REACT_APP_STG_WS_URL,
-        notifyEMail: process.env.REACT_APP_STG_NOTIFY_EMAIL,
-        initJPNICSearch: process.env.REACT_APP_STG_INIT_JPNIC_SEARCH,
-      },
-    }
-  }
-  if (process.env.REACT_APP_NODE_ENV === 'prod') {
-    // production
-    return {
-      restful: {
-        apiURL: process.env.REACT_APP_PROD_API_URL,
-        wsURL: process.env.REACT_APP_PROD_WS_URL,
-        notifyEMail: process.env.REACT_APP_PROD_NOTIFY_EMAIL,
-        initJPNICSearch: process.env.REACT_APP_PROD_INIT_JPNIC_SEARCH,
-      },
-    }
-  }
-  // development
   return {
     restful: {
-      apiURL: process.env.REACT_APP_DEV_API_URL,
-      wsURL: process.env.REACT_APP_DEV_WS_URL,
-      notifyEMail: process.env.REACT_APP_DEV_NOTIFY_EMAIL,
-      initJPNICSearch: process.env.REACT_APP_DEV_INIT_JPNIC_SEARCH,
+      apiURL: import.meta.env.VITE_API_URL,
+      wsURL: import.meta.env.VITE_WS_URL,
+      notifyEMail: import.meta.env.VITE_NOTIFY_EMAIL,
+      initJPNICSearch: import.meta.env.VITE_INIT_JPNIC_SEARCH,
     },
   }
 }
