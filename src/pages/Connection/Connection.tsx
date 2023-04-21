@@ -7,14 +7,15 @@ import {
   StyledTypographyTitle,
 } from '../Dashboard/styles'
 import {
+  Button,
   CardActions,
   CardContent,
   FormControl,
   FormControlLabel,
   Radio,
-  RadioGroup,
-  Typography,
-} from '@mui/material'
+  RadioGroup, Stack,
+  Typography
+} from "@mui/material";
 import { GetAll } from '../../api/Connection'
 import { useSnackbar } from 'notistack'
 import ConnectionGetDialogs from './ConnectionDetail/ConnectionDialog'
@@ -25,8 +26,11 @@ import {
 import { GetTemplate } from '../../api/Group'
 import { useRecoilState } from 'recoil'
 import { TemplateState } from '../../api/Recoil'
+import ServiceGetDialogs from "../Service/ServiceDetail/ServiceDialog";
+import { useNavigate } from "react-router-dom";
 
 export default function Connection() {
+  const navigate = useNavigate()
   const [connections, setConnections] = useState(
     DefaultConnectionDetailDataArray
   )
@@ -102,7 +106,7 @@ export default function Connection() {
   }
 
   return (
-    <Dashboard title="Connection Info">
+    <Dashboard title="Connection List">
       <StyledPaperRootInput>
         <StyledInputBase
           placeholder="Search…"
@@ -147,14 +151,25 @@ export default function Connection() {
               {/*Group: {service.gr?.org}({service.group?.org_en})*/}
             </CardContent>
             <CardActions>
-              {connection.service !== undefined && (
-                <ConnectionGetDialogs
-                  key={'connection_get_dialog'}
-                  connection={connection}
-                  reload={setReload}
-                  service={connection.service}
-                />
-              )}
+              <Stack direction="row" spacing={1}>
+                {connection.service !== undefined && (
+                  <ConnectionGetDialogs
+                    key={'connection_get_dialog'}
+                    connection={connection}
+                    reload={setReload}
+                    service={connection.service}
+                  />
+                )}
+                <Button
+                  size="small"
+                  variant="outlined"
+                  onClick={() =>
+                    navigate('/dashboard/group/' + connection.service?.group_id)
+                  }
+                >
+                  Group
+                </Button>
+              </Stack>
             </CardActions>
           </StyledCard>
         ))}

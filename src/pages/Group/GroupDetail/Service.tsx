@@ -1,4 +1,4 @@
-import { GroupDetailData, ServiceDetailData } from '../../../interface'
+import { GroupDetailData, ServiceDetailData } from "../../../interface";
 import {
   Accordion,
   AccordionSummary,
@@ -18,38 +18,38 @@ import {
   TableCell,
   TableContainer,
   TableHead,
-  TableRow,
-} from '@mui/material'
-import React, { Dispatch, SetStateAction } from 'react'
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
-import ServiceGetDialogs from '../../Service/ServiceDetail/ServiceDialog'
-import { Delete, Put } from '../../../api/Service'
-import { useSnackbar } from 'notistack'
-import { RowConnectionCheck } from './Connection'
+  TableRow
+} from "@mui/material";
+import React, { Dispatch, SetStateAction } from "react";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import ServiceGetDialogs from "../../Service/ServiceDetail/ServiceDialog";
+import { Delete, Put } from "../../../api/Service";
+import { useSnackbar } from "notistack";
+import { RowConnectionCheck } from "./Connection";
 import {
   StyledAccordionDetails,
   StyledDiv1,
   StyledTableRowRoot,
-  StyledTypographyHeading,
-} from '../../../style'
-import { GetServiceWithTemplate } from '../../../api/Tool'
+  StyledTypographyHeading
+} from "../../../style";
+import { GetServiceWithTemplate } from "../../../api/Tool";
 
 export function ChipGet(props: {
   open: boolean
   pass: boolean
   enable: boolean
 }) {
-  const { pass, enable } = props
+  const { pass, enable } = props;
 
   if (!enable) {
-    return <Chip size="small" color="secondary" label="無効" />
+    return <Chip size="small" color="secondary" label="無効" />;
   }
   if (!pass) {
-    return <Chip size="small" color="secondary" label="未審査" />
+    return <Chip size="small" color="secondary" label="未審査" />;
   }
-  return <Chip size="small" color="primary" label="審査OK" />
+  return <Chip size="small" color="primary" label="審査OK" />;
 }
 
 function RowService(props: {
@@ -58,13 +58,13 @@ function RowService(props: {
   groupID: number
   reload: Dispatch<SetStateAction<boolean>>
 }) {
-  const { service, autoMail, groupID, reload } = props
-  const [open, setOpen] = React.useState(false)
+  const { service, autoMail, groupID, reload } = props;
+  const [open, setOpen] = React.useState(false);
   const serviceCode =
     groupID +
-    '-' +
+    "-" +
     service.service_type +
-    ('000' + service.service_number).slice(-3)
+    ("000" + service.service_number).slice(-3);
 
   return (
     <React.Fragment>
@@ -99,7 +99,7 @@ function RowService(props: {
           <Box display="flex" justifyContent="flex-end">
             {!service.pass && (
               <ExaminationDialog
-                key={'service_examination_dialog_' + service.ID}
+                key={"service_examination_dialog_" + service.ID}
                 autoMail={autoMail}
                 id={service.ID}
                 service={service}
@@ -108,19 +108,19 @@ function RowService(props: {
             )}
             &nbsp;
             <ServiceGetDialogs
-              key={'service_get_dialog_' + service.ID}
+              key={"service_get_dialog_" + service.ID}
               service={service}
               reload={reload}
             />
             &nbsp;
             <DeleteDialog
-              key={'service_delete_alert_dialog_' + service.ID}
+              key={"service_delete_alert_dialog_" + service.ID}
               id={service.ID}
               reload={reload}
             />
             &nbsp;
             <EnableDialog
-              key={'service_enable_alert_dialog_' + service.ID}
+              key={"service_enable_alert_dialog_" + service.ID}
               service={service}
               reload={reload}
             />
@@ -132,7 +132,7 @@ function RowService(props: {
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
               <RowConnectionCheck
-                key={service.ID + 'Connection'}
+                key={service.ID + "Connection"}
                 service={service}
                 groupID={groupID}
                 reload={reload}
@@ -142,7 +142,7 @@ function RowService(props: {
         </TableCell>
       </TableRow>
     </React.Fragment>
-  )
+  );
 }
 
 export function ExaminationDialog(props: {
@@ -151,40 +151,40 @@ export function ExaminationDialog(props: {
   service: ServiceDetailData
   reload: Dispatch<SetStateAction<boolean>>
 }) {
-  const { id, autoMail, service, reload } = props
-  const [open, setOpen] = React.useState(false)
-  const { enqueueSnackbar } = useSnackbar()
+  const { id, autoMail, service, reload } = props;
+  const [open, setOpen] = React.useState(false);
+  const { enqueueSnackbar } = useSnackbar();
 
   const updateService = () => {
-    service.pass = true
+    service.pass = true;
     Put(id, service).then((res) => {
-      if (res.error === '') {
-        enqueueSnackbar('Request Success', { variant: 'success' })
+      if (res.error === "") {
+        enqueueSnackbar("Request Success", { variant: "success" });
       } else {
-        enqueueSnackbar(String(res.error), { variant: 'error' })
+        enqueueSnackbar(String(res.error), { variant: "error" });
       }
       if (autoMail !== undefined) {
-        autoMail('pass_service')
+        autoMail("pass_service");
       }
-      setOpen(false)
-      reload(true)
-    })
-  }
+      setOpen(false);
+      reload(true);
+    });
+  };
 
   const handleClickOpen = () => {
-    setOpen(true)
-  }
+    setOpen(true);
+  };
 
   const handleClose = () => {
-    setOpen(false)
-  }
+    setOpen(false);
+  };
 
   return (
     <div>
       <Button
         size="small"
         variant="outlined"
-        color={'primary'}
+        color={"primary"}
         onClick={handleClickOpen}
       >
         審査OK
@@ -212,43 +212,43 @@ export function ExaminationDialog(props: {
         </DialogActions>
       </Dialog>
     </div>
-  )
+  );
 }
 
 export function DeleteDialog(props: {
   id: number
   reload: Dispatch<SetStateAction<boolean>>
 }) {
-  const { id, reload } = props
-  const [open, setOpen] = React.useState(false)
-  const { enqueueSnackbar } = useSnackbar()
+  const { id, reload } = props;
+  const [open, setOpen] = React.useState(false);
+  const { enqueueSnackbar } = useSnackbar();
 
   const deleteService = () => {
     Delete(id).then((res) => {
-      if (res.error === '') {
-        enqueueSnackbar('Request Success', { variant: 'success' })
+      if (res.error === "") {
+        enqueueSnackbar("Request Success", { variant: "success" });
       } else {
-        enqueueSnackbar(String(res.error), { variant: 'error' })
+        enqueueSnackbar(String(res.error), { variant: "error" });
       }
-      setOpen(false)
-      reload(true)
-    })
-  }
+      setOpen(false);
+      reload(true);
+    });
+  };
 
   const handleClickOpen = () => {
-    setOpen(true)
-  }
+    setOpen(true);
+  };
 
   const handleClose = () => {
-    setOpen(false)
-  }
+    setOpen(false);
+  };
 
   return (
     <div>
       <Button
         size="small"
         variant="outlined"
-        color={'secondary'}
+        color={"secondary"}
         onClick={handleClickOpen}
       >
         Delete
@@ -276,44 +276,44 @@ export function DeleteDialog(props: {
         </DialogActions>
       </Dialog>
     </div>
-  )
+  );
 }
 
 export function EnableDialog(props: {
   service: ServiceDetailData
   reload: Dispatch<SetStateAction<boolean>>
 }) {
-  const { service, reload } = props
-  const [open, setOpen] = React.useState(false)
-  const { enqueueSnackbar } = useSnackbar()
+  const { service, reload } = props;
+  const [open, setOpen] = React.useState(false);
+  const { enqueueSnackbar } = useSnackbar();
 
   const updateService = () => {
-    const tmp = service
-    tmp.enable = !service.enable
+    const tmp = service;
+    tmp.enable = !service.enable;
     Put(service.ID, tmp).then((res) => {
-      if (res.error === '') {
-        enqueueSnackbar('Request Success', { variant: 'success' })
+      if (res.error === "") {
+        enqueueSnackbar("Request Success", { variant: "success" });
       } else {
-        enqueueSnackbar(String(res.error), { variant: 'error' })
+        enqueueSnackbar(String(res.error), { variant: "error" });
       }
-      setOpen(false)
-      reload(true)
-    })
-  }
+      setOpen(false);
+      reload(true);
+    });
+  };
 
   const handleClickOpen = () => {
-    setOpen(true)
-  }
+    setOpen(true);
+  };
 
   const handleClose = () => {
-    setOpen(false)
-  }
+    setOpen(false);
+  };
 
   return (
     <div>
       <Button size="small" variant="outlined" onClick={handleClickOpen}>
-        {service.enable && 'Disable'}
-        {!service.enable && 'Enable'}
+        {service.enable && "Disable"}
+        {!service.enable && "Enable"}
       </Button>
       <Dialog
         open={open}
@@ -325,8 +325,8 @@ export function EnableDialog(props: {
         <DialogTitle id="alert-dialog-enable-title">Enable</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-enable-text">
-            {service.enable && '有効から無効に変更します。'}
-            {!service.enable && '無効から有効に変更します。'}
+            {service.enable && "有効から無効に変更します。"}
+            {!service.enable && "無効から有効に変更します。"}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -339,7 +339,7 @@ export function EnableDialog(props: {
         </DialogActions>
       </Dialog>
     </div>
-  )
+  );
 }
 
 export default function Service(props: {
@@ -347,7 +347,7 @@ export default function Service(props: {
   autoMail: Dispatch<SetStateAction<string>>
   reload: Dispatch<SetStateAction<boolean>>
 }): any {
-  const { data, autoMail, reload } = props
+  const { data, autoMail, reload } = props;
 
   if (data.services !== undefined) {
     return (
@@ -378,7 +378,7 @@ export default function Service(props: {
               <TableBody>
                 {data.services.map((row: ServiceDetailData) => (
                   <RowService
-                    key={'service_row_' + row.ID}
+                    key={"service_row_" + row.ID}
                     autoMail={autoMail}
                     service={row}
                     groupID={data.ID}
@@ -390,6 +390,6 @@ export default function Service(props: {
           </TableContainer>
         </StyledAccordionDetails>
       </Accordion>
-    )
+    );
   }
 }

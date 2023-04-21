@@ -15,6 +15,7 @@ import Token from './pages/Token/Token'
 import ServiceAdd from './pages/Add/ServiceAdd'
 import ConnectionAdd from './pages/Add/ConnectionAdd'
 import NotFound from './pages/Etc/404'
+import UserDetail from './pages/User/UserDetail/UserDetail'
 
 export default class App extends React.Component {
   render() {
@@ -41,6 +42,7 @@ export default class App extends React.Component {
           <Route path="/dashboard/service" element={<Service />} />
           <Route path="/dashboard/connection" element={<Connection />} />
           <Route path="/dashboard/user" element={<User />} />
+          <Route path="/dashboard/user/:id" element={<UserDetail />} />
           <Route path="/dashboard/token" element={<Token />} />
         </Routes>
       </BrowserRouter>

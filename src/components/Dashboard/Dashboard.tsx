@@ -7,7 +7,6 @@ import {
   Divider,
   IconButton,
   List,
-  ListItem,
   ListItemIcon,
   ListItemText,
   MenuItem,
@@ -20,6 +19,7 @@ import {
   Box,
   Typography,
   Container,
+  ListItemButton,
 } from '@mui/material'
 import MuiDrawer from '@mui/material/Drawer'
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar'
@@ -37,11 +37,7 @@ import VpnKeyIcon from '@mui/icons-material/VpnKey'
 import ChatIcon from '@mui/icons-material/Chat'
 import SettingsIcon from '@mui/icons-material/Settings'
 import PermIdentityIcon from '@mui/icons-material/PermIdentity'
-import {
-  StyledDivDashboardToolBarIcon,
-  StyledDivDashboardRoot,
-  StyledListItemSideBarNested,
-} from './styles'
+import { StyledDivDashboardToolBarIcon, StyledDivDashboardRoot } from './styles'
 import { useNavigate } from 'react-router-dom'
 import { Logout } from '../../api/Auth'
 import { muiColorTheme } from '../Theme'
@@ -213,73 +209,74 @@ export default function Dashboard(props: any) {
             </IconButton>
           </StyledDivDashboardToolBarIcon>
           <Divider />
-          <ListItem button onClick={DashboardPage}>
-            <ListItemIcon>
-              <DashboardIcon />
-            </ListItemIcon>
-            <ListItemText primary="Dashboard" />
-          </ListItem>
-          <ListItem button onClick={NoticePage}>
-            <ListItemIcon>
-              <NotificationsIcon />
-            </ListItemIcon>
-            <ListItemText primary="Notice" />
-          </ListItem>
-          <ListItem button onClick={GroupPage}>
-            <ListItemIcon>
-              <PeopleIcon />
-            </ListItemIcon>
-            <ListItemText primary="Group" />
-          </ListItem>
-          <ListItem button onClick={SupportPage}>
-            <ListItemIcon>
-              <ChatIcon />
-            </ListItemIcon>
-            <ListItemText primary="Chat" />
-          </ListItem>
-          <ListItem button onClick={handleClick}>
-            <ListItemIcon>
-              <LayersIcon />
-            </ListItemIcon>
-            <ListItemText primary="Other" />
-            {openOther ? <ExpandLess /> : <ExpandMore />}
-          </ListItem>
-          <Collapse in={openOther} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              <StyledListItemSideBarNested onClick={UserPage}>
-                <ListItemIcon>
-                  <PersonIcon />
-                </ListItemIcon>
-                <ListItemText primary="User" />
-              </StyledListItemSideBarNested>
-              <StyledListItemSideBarNested onClick={ServicePage}>
-                <ListItemIcon>
-                  <ClassIcon />
-                </ListItemIcon>
-                <ListItemText primary="Service" />
-              </StyledListItemSideBarNested>
-              <StyledListItemSideBarNested onClick={ConnectionPage}>
-                <ListItemIcon>
-                  <AccountTreeIcon />
-                </ListItemIcon>
-                <ListItemText primary="Connection" />
-              </StyledListItemSideBarNested>
-              <StyledListItemSideBarNested onClick={TokenPage}>
-                <ListItemIcon>
-                  <VpnKeyIcon />
-                </ListItemIcon>
-                <ListItemText primary="Token" />
-              </StyledListItemSideBarNested>
-            </List>
-          </Collapse>
-          <ListItem button>
-            <ListItemIcon>
-              <SettingsIcon />
-            </ListItemIcon>
-            <ListItemText primary="Setting" />
-          </ListItem>
-          <Divider />
-          {/*<List>{secondaryList}</List>*/}
+          <List component="nav">
+            <ListItemButton onClick={DashboardPage}>
+              <ListItemIcon>
+                <DashboardIcon />
+              </ListItemIcon>
+              <ListItemText primary="Dashboard" />
+            </ListItemButton>
+            <ListItemButton onClick={NoticePage}>
+              <ListItemIcon>
+                <NotificationsIcon />
+              </ListItemIcon>
+              <ListItemText primary="Notice" />
+            </ListItemButton>
+            <ListItemButton onClick={GroupPage}>
+              <ListItemIcon>
+                <PeopleIcon />
+              </ListItemIcon>
+              <ListItemText primary="Group" />
+            </ListItemButton>
+            <ListItemButton onClick={SupportPage}>
+              <ListItemIcon>
+                <ChatIcon />
+              </ListItemIcon>
+              <ListItemText primary="Chat" />
+            </ListItemButton>
+            <ListItemButton onClick={handleClick}>
+              <ListItemIcon>
+                <LayersIcon />
+              </ListItemIcon>
+              <ListItemText primary="Other" />
+              {openOther ? <ExpandLess /> : <ExpandMore />}
+            </ListItemButton>
+            <Collapse in={openOther} timeout="auto" unmountOnExit>
+              <List component="div" disablePadding>
+                <ListItemButton onClick={UserPage}>
+                  <ListItemIcon>
+                    <PersonIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="User" />
+                </ListItemButton>
+                <ListItemButton onClick={ServicePage}>
+                  <ListItemIcon>
+                    <ClassIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Service" />
+                </ListItemButton>
+                <ListItemButton onClick={ConnectionPage}>
+                  <ListItemIcon>
+                    <AccountTreeIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Connection" />
+                </ListItemButton>
+                <ListItemButton onClick={TokenPage}>
+                  <ListItemIcon>
+                    <VpnKeyIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Token" />
+                </ListItemButton>
+              </List>
+            </Collapse>
+            <ListItemButton>
+              <ListItemIcon>
+                <SettingsIcon />
+              </ListItemIcon>
+              <ListItemText primary="Setting" />
+            </ListItemButton>
+            <Divider />
+          </List>
         </Drawer>
         {!loading && (
           <Container component="main" sx={{ mt: 10 }}>

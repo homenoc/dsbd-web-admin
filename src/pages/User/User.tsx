@@ -7,6 +7,7 @@ import {
   StyledTypographyTitle,
 } from '../Dashboard/styles'
 import {
+  Button,
   CardActions,
   CardContent,
   FormControl,
@@ -18,8 +19,10 @@ import {
 import { GetAll } from '../../api/User'
 import { DefaultUserDetailDataArray, UserDetailData } from '../../interface'
 import { useSnackbar } from 'notistack'
+import { useNavigate } from 'react-router-dom'
 
 export default function User() {
+  const navigate = useNavigate()
   const [users, setUsers] = useState(DefaultUserDetailDataArray)
   const [initUsers, setInitUsers] = useState(DefaultUserDetailDataArray)
   const { enqueueSnackbar } = useSnackbar()
@@ -109,6 +112,13 @@ export default function User() {
               <br />
             </CardContent>
             <CardActions>
+              <Button
+                size="small"
+                variant="outlined"
+                onClick={() => navigate('/dashboard/user/' + user.ID)}
+              >
+                Group
+              </Button>
               {/*<Button size="small" onClick={() => clickDetailPage(notice.ID)}>Detail</Button>*/}
             </CardActions>
           </StyledCard>

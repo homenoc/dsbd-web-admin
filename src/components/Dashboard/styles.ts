@@ -1,4 +1,4 @@
-import { FormControl, ListItem, styled } from '@mui/material'
+import { FormControl, styled } from '@mui/material'
 
 export const StyledDivDashboardRoot = styled(FormControl)(() => ({
   display: 'flex',
@@ -10,9 +10,4 @@ export const StyledDivDashboardToolBarIcon = styled('div')(({ theme }) => ({
   justifyContent: 'flex-end',
   padding: '0 8px',
   ...theme.mixins.toolbar,
-}))
-
-export const StyledListItemSideBarNested = styled(ListItem)(({ theme }) => ({
-  paddingTop: theme.spacing(1),
-  paddingBottom: theme.spacing(1),
 }))

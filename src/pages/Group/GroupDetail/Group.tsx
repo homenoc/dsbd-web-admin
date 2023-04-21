@@ -321,15 +321,15 @@ export function GroupProfileInfo(props: {
                 dateAdapter={AdapterDateFns}
               >
                 <DesktopDatePicker
-                  mask="____/__/__"
                   label="Membership期限"
                   key="membership-date-picker"
                   value={memberExpiredDate}
-                  inputFormat="yyyy/MM/dd"
+                  slotProps={{
+                    textField: {
+                      helperText: 'yyyy/MM/dd',
+                    },
+                  }}
                   onChange={handleMemberExpiredDateChange}
-                  renderInput={(params: any) => (
-                    <TextField {...params} helperText={null} />
-                  )}
                 />
               </LocalizationProvider>
               <FormControl variant="standard">

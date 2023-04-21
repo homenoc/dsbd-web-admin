@@ -7,12 +7,14 @@ import {
   StyledTypographyTitle,
 } from '../Dashboard/styles'
 import {
+  Button,
   CardActions,
   CardContent,
   FormControl,
   FormControlLabel,
   Radio,
   RadioGroup,
+  Stack,
   Typography,
 } from '@mui/material'
 import { GetAll } from '../../api/Service'
@@ -24,8 +26,10 @@ import {
 import { useSnackbar } from 'notistack'
 import ServiceGetDialogs from './ServiceDetail/ServiceDialog'
 import { GetTemplate } from '../../api/Group'
+import { useNavigate } from 'react-router-dom'
 
 export default function Service() {
+  const navigate = useNavigate()
   const [services, setServices] = useState(DefaultServiceDetailDataArray)
   const [initServices, setInitServices] = useState(
     DefaultServiceDetailDataArray
@@ -100,7 +104,7 @@ export default function Service() {
   }
 
   return (
-    <Dashboard title="Service Info">
+    <Dashboard title="Service List">
       <StyledPaperRootInput>
         <StyledInputBase
           placeholder="Search…"
@@ -147,11 +151,22 @@ export default function Service() {
               </Typography>
             </CardContent>
             <CardActions>
-              <ServiceGetDialogs
-                key={service.ID + 'Dialog'}
-                service={service}
-                reload={setReload}
-              />
+              <Stack direction="row" spacing={1}>
+                <ServiceGetDialogs
+                  key={service.ID + 'Dialog'}
+                  service={service}
+                  reload={setReload}
+                />
+                <Button
+                  size="small"
+                  variant="outlined"
+                  onClick={() =>
+                    navigate('/dashboard/group/' + service.group_id)
+                  }
+                >
+                  Group
+                </Button>
+              </Stack>
             </CardActions>
           </StyledCard>
         ))}
