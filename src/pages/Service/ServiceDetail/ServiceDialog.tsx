@@ -8,7 +8,11 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  FormControl,
   Grid,
+  InputLabel,
+  MenuItem,
+  Select,
 } from '@mui/material'
 import cssModule from '../../Connection/ConnectionDetail/ConnectionDialog.module.scss'
 import { ServiceDetailData } from '../../../interface'
@@ -24,6 +28,7 @@ import {
   StyledDivRoot1,
   StyledRootForm,
   StyledTextFieldMedium,
+  StyledTextFieldLong,
   StyledTextFieldVeryShort1,
 } from '../../../style'
 import { useRecoilValue } from 'recoil'
@@ -102,9 +107,9 @@ export default function ServiceGetDialogs(props: {
                 <ServiceEtc1 key={'ServiceEtc1'} service={service} />
               </div>
             </Grid>
-            {template.services!.find(
+            {template.services?.find(
               (ser) => ser.type === service.service_type
-            )!.need_jpnic && (
+            )?.need_jpnic && (
               <Grid item xs={6}>
                 <ServiceIPBase
                   key={'ServiceIPBase'}
@@ -117,9 +122,9 @@ export default function ServiceGetDialogs(props: {
             <Grid item xs={12}>
               <ServiceEtc2 key={'ServiceEtc2'} service={service} />
             </Grid>
-            {template.services!.find(
+            {template.services?.find(
               (ser) => ser.type === service.service_type
-            )!.need_jpnic && (
+            )?.need_jpnic && (
               <Grid item xs={12}>
                 <ServiceJPNICBase
                   key={'ServiceJPNICBase'}
@@ -139,7 +144,7 @@ export default function ServiceGetDialogs(props: {
                 />
               </Grid>
             )}
-            {template.services!.find((ser) => ser.type === service.service_type)
+            {template.services?.find((ser) => ser.type === service.service_type)
               ?.need_jpnic && (
               <Grid item xs={6}>
                 <ServiceJPNICTechBase
@@ -151,6 +156,13 @@ export default function ServiceGetDialogs(props: {
                 />
               </Grid>
             )}
+            <Grid item xs={12}>
+              <ServiceBase
+                key={'ServiceBase'}
+                service={service}
+                setReload={reload}
+              />
+            </Grid>
             <Grid>
               <div className={cssModule.contract}></div>
             </Grid>
@@ -548,6 +560,20 @@ export function ServiceJPNICDetail(props: {
             setServiceCopy({ ...serviceCopy, address_en: event.target.value })
           }}
         />
+        <br />
+        <StyledTextFieldLong
+          required
+          id="outlined-required"
+          label="Abuse"
+          InputProps={{
+            readOnly: lock,
+          }}
+          value={serviceCopy.abuse}
+          variant="outlined"
+          onChange={(event) => {
+            setServiceCopy({ ...serviceCopy, abuse: event.target.value })
+          }}
+        />
       </StyledRootForm>
       <Button
         size="small"
@@ -564,5 +590,113 @@ export function ServiceJPNICDetail(props: {
         Apply
       </Button>
     </StyledDivRoot1>
+  )
+}
+
+export function ServiceBase(props: {
+  service: ServiceDetailData
+  setReload: Dispatch<SetStateAction<boolean>>
+}): any {
+  const { service, setReload } = props
+  const [lock, setLockInfo] = React.useState(true)
+  const [serviceCopy, setServiceCopy] = useState(service)
+  const { enqueueSnackbar } = useSnackbar()
+  const template = useRecoilValue(TemplateState)
+
+  const clickLockInfo = () => {
+    setLockInfo(!lock)
+  }
+  const resetAction = () => {
+    setServiceCopy(service)
+    setLockInfo(true)
+  }
+
+  // Update Group Information
+  const updateInfo = () => {
+    Put(service.ID, serviceCopy).then((res) => {
+      if (res.error === '') {
+        enqueueSnackbar('Request Success', { variant: 'success' })
+        setLockInfo(true)
+      } else {
+        enqueueSnackbar(String(res.error), { variant: 'error' })
+      }
+
+      setReload(true)
+    })
+  }
+
+  return (
+    <Card>
+      <CardContent>
+        <Grid item xs={12}>
+          <h3>その他情報</h3>
+        </Grid>
+        <Grid item xs={12}>
+          <h4>Comment</h4>
+          {service.comment !== '' && <p>{service.comment}</p>}
+          {service.comment === '' && <p>なし</p>}
+        </Grid>
+        <Grid item xs={12}>
+          <h4>Comment(BGP接続)</h4>
+          {service.bgp_comment !== '' && <p>{service.bgp_comment}</p>}
+          {service.bgp_comment === '' && <p>なし</p>}
+        </Grid>
+        <Grid item xs={12}>
+          <h3>情報編集</h3>
+        </Grid>
+        <Grid item xs={12}>
+          <FormControl fullWidth>
+            <InputLabel id={'connection_type_label'}>
+              サービスタイプ(注意)
+            </InputLabel>
+            <Select
+              labelId="connection_type_label"
+              id="connection_type"
+              aria-label="gender"
+              onChange={(event) => {
+                setServiceCopy({
+                  ...serviceCopy,
+                  service_type: event.target.value,
+                })
+              }}
+              value={serviceCopy.service_type}
+              inputProps={{
+                readOnly: lock,
+              }}
+            >
+              {template.services?.map((service_type, index) => (
+                <MenuItem
+                  key={'service_template' + index}
+                  value={service_type.type}
+                >
+                  {service_type.name}({service_type.comment})
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12}>
+          <Button
+            size="small"
+            color="secondary"
+            disabled={!lock}
+            onClick={clickLockInfo}
+          >
+            ロック解除
+          </Button>
+          <Button size="small" onClick={resetAction} disabled={lock}>
+            Reset
+          </Button>
+          <Button
+            size="small"
+            color="primary"
+            disabled={lock}
+            onClick={updateInfo}
+          >
+            Apply
+          </Button>
+        </Grid>
+      </CardContent>
+    </Card>
   )
 }

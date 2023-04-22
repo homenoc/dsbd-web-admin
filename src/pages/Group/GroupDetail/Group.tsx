@@ -595,11 +595,14 @@ export function GroupStatus(props: {
       case 1:
         paymentMemberStatus += '通常会員'
         break
+      case 40:
+        paymentMemberStatus += '運営委員(有償)'
+        break
       case 70:
         paymentMemberStatus += '学生会員'
         break
       case 90:
-        paymentMemberStatus += '運営委員'
+        paymentMemberStatus += '運営委員(無償)'
         break
       default:
         break

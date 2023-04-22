@@ -90,6 +90,7 @@ export interface ServiceDetailData {
   postcode: string
   address: string
   address_en: string
+  abuse: string
   start_date: string
   end_date?: string
   avg_downstream: number
@@ -719,6 +720,7 @@ export const DefaultServiceDetailData: ServiceDetailData = {
   postcode: '',
   address: '',
   address_en: '',
+  abuse: '',
   start_date: '',
   end_date: undefined,
   avg_downstream: 0,
