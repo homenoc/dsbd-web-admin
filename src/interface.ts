@@ -97,7 +97,7 @@ export interface ServiceDetailData {
   avg_upstream: number
   max_downstream: number
   max_upstream: number
-  max_bandwidth_as: number
+  max_bandwidth_as: string
   service_type: string
   service_number: number
   service_comment: string
@@ -727,7 +727,7 @@ export const DefaultServiceDetailData: ServiceDetailData = {
   avg_upstream: 0,
   max_downstream: 0,
   max_upstream: 0,
-  max_bandwidth_as: 0,
+  max_bandwidth_as: "",
   service_type: '',
   service_number: 0,
   service_comment: '',
