@@ -472,6 +472,7 @@ export default function ServiceAdd() {
 
     const request: any = {
       service_type: data.service_type,
+      abuse: data.abuse,
       org: data.org,
       org_en: data.org_en,
       postcode: data.postcode,
