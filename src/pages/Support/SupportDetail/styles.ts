@@ -1,20 +1,31 @@
 import { Paper, styled } from '@mui/material'
 import ReactMarkdown from 'react-markdown'
 
-export const StyledMessageTimeStampRight = styled('div')(() => ({
-  color: 'black',
+export const StyledMessageTimeStampLeft = styled('div')(() => ({
+  color: 'lightgray',
   position: 'absolute',
   fontSize: '.85em',
   fontWeight: 300,
   marginTop: '10px',
-  bottom: '-3px',
-  right: '5px',
+  bottom: '2px',
+  left: "8px"
 }))
 
-export const StyledReactMarkdownMessageContent = styled(ReactMarkdown)(() => ({
+export const StyledReactMarkdownMessageContentLeft = styled(ReactMarkdown)(() => ({
   padding: 0,
   margin: 0,
-  color: 'black',
+  paddingBottom: "10px",
+  color: 'white',
+  // overflowWrap: "normal",
+  // overflowY: 'scroll',
+  overflowX: 'auto',
+}))
+
+export const StyledReactMarkdownMessageContentRight = styled(ReactMarkdown)(() => ({
+  padding: 0,
+  margin: 0,
+  paddingBottom: "10px",
+  color: 'white',
   // overflowWrap: "normal",
   // overflowY: 'scroll',
   overflowX: 'auto',
@@ -35,15 +46,16 @@ export const StyledDisplayName = styled('div')(() => ({
 
 export const StyledMessageBlue = styled('div')(() => ({
   position: 'relative',
-  marginLeft: '20px',
+  marginLeft: '8px',
   marginBottom: '10px',
   padding: '10px',
-  backgroundColor: '#d2d2cc',
-  // width: "40%",
+  backgroundColor: '#343a40',
+  width: "100%",
   textAlign: 'left',
   font: "400 .9em 'Open Sans', sans-serif",
-  border: '1px solid #d2d2cc',
-  borderRadius: '10px',
+  // border: '1px solid #d2d2cc',
+  borderRadius: '15px',
+  /*
   '&:after': {
     content: "''",
     position: 'absolute',
@@ -66,19 +78,21 @@ export const StyledMessageBlue = styled('div')(() => ({
     top: '-1px',
     left: '-17px',
   },
+  */
 }))
 
 export const StyledMessageOrange = styled('div')(() => ({
   position: 'relative',
-  marginRight: '20px',
+  marginRight: '10px',
   marginBottom: '10px',
   padding: '10px',
-  backgroundColor: '#85e249',
-  width: '60%',
+  backgroundColor: '#6c757d',
+  width: '80%',
   textAlign: 'left',
   font: "400 .9em 'Open Sans', sans-serif",
-  border: '1px solid #85e249',
-  borderRadius: '10px',
+  // border: '1px solid #85e249',
+  borderRadius: '15px',
+  /*
   '&:after': {
     content: "''",
     position: 'absolute',
@@ -101,6 +115,7 @@ export const StyledMessageOrange = styled('div')(() => ({
     top: '-1px',
     right: '-17px',
   },
+  */
 }))
 
 export const StyledPaper = styled(Paper)(() => ({
@@ -115,12 +130,13 @@ export const StyledPaper = styled(Paper)(() => ({
 }))
 
 export const StyledPaperMessageBody = styled(Paper)(() => ({
-  width: 'calc( 100% - 20px )',
-  margin: 10,
-  backgroundColor: 'rgb(113, 147, 193)',
+  width: '100%',
+  // margin: 10,
+  backgroundColor: '#000000',
   // overflowX: 'hidden',
   overflowY: 'scroll',
-  height: 'calc( 100% - 80px )',
+  height: "calc(100vh - 305px)",
+  borderRadius: '10px',
 }))
 
 export const StyledDivContainer = styled('div')(() => ({

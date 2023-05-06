@@ -83,10 +83,10 @@ export default function GroupDetail() {
         </StyledDivRoot1>
       ) : (
         <Grid container spacing={3}>
-          <Grid item xs={3}>
+          <Grid item xs={12} sm={6} md={3}>
             <GroupStatus key={'group_status'} data={group} reload={reload} />
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={12} sm={6} md={3}>
             <GroupMemo key={'group_memo'} data={group} reload={setReload} />
             <GroupMainMenu
               key={'group_main_menu'}
@@ -95,7 +95,7 @@ export default function GroupDetail() {
               reload={setReload}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} sm={12} md={6}>
             <GroupProfileInfo
               key={'group_profile_info'}
               data={group}
@@ -121,7 +121,7 @@ export default function GroupDetail() {
               setReload={setReload}
             />
           </Grid>
-          <Grid item xs={8}>
+          <Grid item xs={12}>
             <Users key={'users'} data={group} />
           </Grid>
           <Grid item xs={12}>

@@ -6,8 +6,9 @@ import {
   StyledMessageOrange,
   StyledMessageRowLeft,
   StyledMessageRowRight,
-  StyledMessageTimeStampRight,
-  StyledReactMarkdownMessageContent,
+  StyledMessageTimeStampLeft,
+  StyledReactMarkdownMessageContentRight,
+  StyledReactMarkdownMessageContentLeft,
 } from './styles'
 
 export const MessageLeft = (props: {
@@ -29,16 +30,17 @@ export const MessageLeft = (props: {
             ref={divRef}
             style={{
               borderRadius: 15,
-              width: '50vw',
+              minWidth: '50vw',
+              maxWidth: "70px",
             }}
           >
-            <StyledReactMarkdownMessageContent
+            <StyledReactMarkdownMessageContentLeft
               children={message}
               skipHtml={true}
               remarkPlugins={[remarkGfm]}
             />
           </div>
-          <StyledMessageTimeStampRight>{timestamp}</StyledMessageTimeStampRight>
+          <StyledMessageTimeStampLeft>{timestamp}</StyledMessageTimeStampLeft>
         </StyledMessageBlue>
       </div>
     </StyledMessageRowLeft>
@@ -58,17 +60,18 @@ export const MessageRight = (props: { message: string; timestamp: string }) => {
           ref={divRef}
           style={{
             borderRadius: 15,
-            width: '50vw',
+            minWidth: '50vw',
+            maxWidth: "70px",
           }}
         >
-          <StyledReactMarkdownMessageContent
+          <StyledReactMarkdownMessageContentRight
             children={message}
             skipHtml={true}
             remarkPlugins={[remarkGfm]}
             // escapeHtml={false}
           />
         </div>
-        <StyledMessageTimeStampRight>{timestamp}</StyledMessageTimeStampRight>
+        <StyledMessageTimeStampLeft>{timestamp}</StyledMessageTimeStampLeft>
       </StyledMessageOrange>
     </StyledMessageRowRight>
   )

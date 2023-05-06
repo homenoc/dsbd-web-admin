@@ -16,6 +16,8 @@ import { useSnackbar } from 'notistack'
 import { StyledTextFieldWrap, StyledTextFieldWrapTitle } from '../../../style'
 import { LocalizationProvider, DateTimePicker } from '@mui/x-date-pickers'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 
 export default function NoticeDetailDialogs(props: {
   template: TemplateData
@@ -152,7 +154,7 @@ export default function NoticeDetailDialogs(props: {
             <Grid item xs={12}>
               <StyledTextFieldWrap
                 id="message"
-                label="Message"
+                label="Message - Markdown準拠"
                 placeholder="Message"
                 style={{ margin: 8 }}
                 value={data.data}
@@ -167,6 +169,18 @@ export default function NoticeDetailDialogs(props: {
               <br />
               <br />
               <br />
+              <br />
+              <br />
+            </Grid>
+            <Grid item xs={12}>
+              <h2>プレビュー ↓</h2>
+              <ReactMarkdown
+                skipHtml={true}
+                remarkPlugins={[remarkGfm]}
+              >
+                {data.data}
+              </ReactMarkdown>
+              プレビュー ↑
             </Grid>
             <Grid item xs={12}>
               <h2>通知期間</h2>

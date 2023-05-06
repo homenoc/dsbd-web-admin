@@ -82,11 +82,14 @@ export default function Dashboard() {
       <Grid container spacing={3}>
         {!reload && (
           <Grid item xs={12}>
-            <Card sx={{ minWidth: 275 }}>
+            <Card sx={{ minWidth: 200 }}>
               <CardContent>
-                <Stack direction="row" spacing={1}>
+                <Stack direction={{ xs: "column", sm: "row"}} spacing={1} useFlexGap flexWrap="wrap">
                   <Chip
                     color="primary"
+                    style={{
+                      paddingTop: 1
+                    }}
                     label={`有効GROUP: ${
                       group?.filter(
                         (g: GroupDetailData) => g.expired_status === 0
@@ -106,14 +109,26 @@ export default function Dashboard() {
                     }`}
                   />
                   <Chip
-                    color="error"
+                    color={
+                      // 数によって色を変える
+                      ticket?.filter((item: TicketDetailData) => !item.solved).length !== 0
+                        ? "error"
+                        : "success"}
                     label={`未対処チケット数: ${
                       ticket?.filter((item: TicketDetailData) => !item.solved)
                         .length
                     }`}
                   />
                   <Chip
-                    color="error"
+                    color={
+                      // 数によって色を変える
+                      request?.filter(
+                        (item: TicketDetailData) =>
+                          !item.solved && !item.request_reject
+                      ).length !== 0
+                        ? "error"
+                        : "success"
+                    }
                     label={`未対処リクエスト数: ${
                       request?.filter(
                         (item: TicketDetailData) =>

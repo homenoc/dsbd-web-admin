@@ -23,6 +23,8 @@ import NoticeAddDialogs from './NoticeAdd/NoticeAdd'
 import NoticeDetailDialogs from './NoticeDetail/NoticeDetail'
 import { useRecoilValue } from 'recoil'
 import { TemplateState } from '../../api/Recoil'
+import { ReactMarkdown } from 'react-markdown/lib/react-markdown'
+import remarkGfm from 'remark-gfm'
 
 export default function Notice() {
   const [tickets, setTickets] = useState(DefaultNoticeDataArray)
@@ -158,7 +160,12 @@ export default function Notice() {
                 {notice.title}
               </Typography>
               <br />
-              {notice.data}
+              <ReactMarkdown
+                skipHtml={true}
+                remarkPlugins={[remarkGfm]}
+              >
+                {notice.data}
+              </ReactMarkdown>
             </CardContent>
             <CardActions>
               <NoticeDetailDialogs

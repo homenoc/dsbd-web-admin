@@ -2,6 +2,7 @@ import {
   AccordionDetails,
   Avatar,
   Button,
+  colors,
   Card,
   Chip,
   FormControl,
@@ -11,6 +12,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material'
+import { borderRadius } from "@mui/system"
 
 export const SubmitButton = styled(Button)(({ theme }) => ({
   margin: theme.spacing(3, 0, 2),
@@ -42,9 +44,12 @@ export const StyledTable2 = styled(Table)(() => ({
 export const StyledWrapForm = styled('form')(({ theme }) => ({
   display: 'flex',
   justifyContent: 'center',
-  width: '95%',
+  width: '100%',
   margin: `${theme.spacing(0)} auto`,
   height: '150px',
+  backgroundColor: "#000000",
+  borderRadius: '10px',
+  borderTop: "1px solid #5c5c5c",
 }))
 
 export const StyledWrapText = styled(TextField)(() => ({

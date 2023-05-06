@@ -12,6 +12,7 @@ import { TextInput } from './TextInput'
 import { Get } from '../../../api/Support'
 import { useSnackbar } from 'notistack'
 import { useParams } from 'react-router-dom'
+import DashboardComponent from '../../../components/Dashboard/Dashboard'
 
 export default function SupportDetail() {
   let id: string | undefined
@@ -99,35 +100,33 @@ export default function SupportDetail() {
   }, [sendPush])
 
   return (
-    <StyledDivContainer>
-      <StyledPaper>
-        <StyledPaperMessageBody id="style-1">
-          <b>このチャットはMarkdownに準拠しております。</b>
-          {baseChatData.map((chat, index) =>
-            chat.admin ? (
-              <MessageRight
-                key={index}
-                message={chat.data}
-                timestamp={chat.time}
-              />
-            ) : (
-              <MessageLeft
-                key={index}
-                message={chat.data}
-                timestamp={chat.time}
-                displayName={chat.user_name}
-              />
-            )
-          )}
-          <div ref={ref} />
-        </StyledPaperMessageBody>
-        <TextInput
-          key={'textInput'}
-          inputChat={inputChatData}
-          setInputChat={setInputChatData}
-          setSendPush={setSendPush}
-        />
-      </StyledPaper>
-    </StyledDivContainer>
+    <DashboardComponent sx={{ padding: "7px" }} forceDrawerClosed={true}>
+      <StyledPaperMessageBody id="style-1">
+        <b>このチャットはMarkdownに準拠しております。</b>
+        {baseChatData.map((chat, index) =>
+          chat.admin ? (
+            <MessageRight
+              key={index}
+              message={chat.data}
+              timestamp={chat.time}
+            />
+          ) : (
+            <MessageLeft
+              key={index}
+              message={chat.data}
+              timestamp={chat.time}
+              displayName={chat.user_name}
+            />
+          )
+        )}
+        <div ref={ref} />
+      </StyledPaperMessageBody>
+      <TextInput
+        key={'textInput'}
+        inputChat={inputChatData}
+        setInputChat={setInputChatData}
+        setSendPush={setSendPush}
+      />
+    </DashboardComponent>
   )
 }

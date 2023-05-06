@@ -76,17 +76,17 @@ export default function ConnectionGetDialogs(props: {
         </DialogTitle>
         <DialogContent dividers>
           <Grid container spacing={3}>
-            <Grid item xs={3}>
+            <Grid item xs={12} md={6} lg={3}>
               <ConnectionStatus
                 key={'connectionStatus'}
                 connection={connection}
                 service={service}
               />
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={12} md={6} lg={3}>
               <ConnectionEtc key={'connectionETC'} connection={connection} />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} lg={6}>
               <ConnectionOpen
                 key={'connection_open'}
                 connection={connection}
@@ -94,14 +94,14 @@ export default function ConnectionGetDialogs(props: {
                 setReload={reload}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12}>
               <ConnectionUserDisplay
                 key={'connection_user_display'}
                 service={service}
                 connection={connection}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12}>
               <ConnectionEtc2
                 key={'connection_etc2'}
                 service={service}

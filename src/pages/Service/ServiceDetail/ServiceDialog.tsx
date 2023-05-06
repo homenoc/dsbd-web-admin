@@ -68,24 +68,24 @@ export default function ServiceGetDialogs(props: {
         <DialogTitle id="customized-dialog-title">Service Dialog</DialogTitle>
         <DialogContent dividers>
           <Grid container spacing={3}>
-            <Grid item xs={3}>
+            <Grid item xs={12} sm={6} md={4} lg={3}>
               <ServiceStatus key={'ServiceStatus'} service={service} />
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={12} sm={6} md={4} lg={3}>
               <ServiceOpen
                 key={'ServiceOpen'}
                 service={service}
                 reload={reload}
               />
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={12} sm={6} md={4} lg={3}>
               <ServiceMainMenu
                 key={'ServiceMainMenu'}
                 service={service}
                 reload={reload}
               />
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={12} sm={6} lg={3}>
               <StyledCardRoot1>
                 <CardContent>
                   <h3>Help</h3>
@@ -102,7 +102,7 @@ export default function ServiceGetDialogs(props: {
                 </CardContent>
               </StyledCardRoot1>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12}>
               <div className={cssModule.contract}>
                 <ServiceEtc1 key={'ServiceEtc1'} service={service} />
               </div>

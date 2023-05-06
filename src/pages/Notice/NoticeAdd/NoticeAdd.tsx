@@ -26,6 +26,8 @@ import { useRecoilValue } from 'recoil'
 import { TemplateState } from '../../../api/Recoil'
 import { GetAll as ServiceGetAll } from '../../../api/Service'
 import { GetAll as ConnectionGetAll } from '../../../api/Connection'
+import { ReactMarkdown } from 'react-markdown/lib/react-markdown'
+import remarkGfm from 'remark-gfm'
 
 type OptionType = {
   label: string
@@ -320,7 +322,7 @@ export default function NoticeAddDialogs(props: {
             <Grid item xs={12}>
               <StyledTextFieldWrap
                 id="message"
-                label="Message"
+                label="Message - Markdown準拠"
                 placeholder="Message"
                 style={{ margin: 8 }}
                 value={data.body}
@@ -335,6 +337,18 @@ export default function NoticeAddDialogs(props: {
               <br />
               <br />
               <br />
+              <br />
+              <br />
+            </Grid>
+            <Grid item xs={12}>
+              <h2>プレビュー ↓</h2>
+              <ReactMarkdown
+                skipHtml={true}
+                remarkPlugins={[remarkGfm]}
+              >
+                {data.body}
+              </ReactMarkdown>
+              プレビュー ↑
             </Grid>
             <Grid item xs={12}>
               <h2>通知期間</h2>

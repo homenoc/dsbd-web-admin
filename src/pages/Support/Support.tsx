@@ -145,7 +145,7 @@ export default function Support() {
               {ticket.solved && (
                 <Button
                   size="small"
-                  color="primary"
+                  color="secondary"
                   onClick={() => clickSolvedStatus(ticket.ID, false)}
                 >
                   未解決
