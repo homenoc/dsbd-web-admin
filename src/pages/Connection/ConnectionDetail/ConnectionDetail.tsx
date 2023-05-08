@@ -8,6 +8,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  Stack,
 } from '@mui/material'
 import {
   BGPRouterDetailData,
@@ -16,10 +17,11 @@ import {
   TunnelEndPointRouterIPTemplateData,
 } from '../../../interface'
 import classes from './ConnectionDialog.module.scss'
-import { useSnackbar } from 'notistack'
+import { enqueueSnackbar, useSnackbar } from 'notistack'
 import { Update } from '../../../api/Connection'
 import { Open } from '../../../components/Dashboard/Open/Open'
 import {
+  StyledButton1,
   StyledCardRoot3,
   StyledChip1,
   StyledChip2,
@@ -36,7 +38,7 @@ import { useRecoilState, useRecoilValue } from 'recoil'
 import { TemplateState } from '../../../api/Recoil'
 import Dashboard from '../../../components/Dashboard/Dashboard'
 import { Get, Put } from '../../../api/Connection'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { GenServiceCode } from '../../../components/Tool'
 
 export default function ConnectionDetail() {
@@ -122,6 +124,7 @@ export function ConnectionOpenButton(props: {
       <Button
         size="small"
         color="primary"
+        variant="contained"
         disabled={lock}
         onClick={() => updateInfo(true)}
       >
@@ -133,6 +136,7 @@ export function ConnectionOpenButton(props: {
     <Button
       size="small"
       color="secondary"
+      variant="contained"
       disabled={lock}
       onClick={() => updateInfo(false)}
     >
@@ -156,6 +160,19 @@ export function ConnectionOpen(props: {
   const resetAction = () => {
     setConnectionCopy(connection)
     setLock(true)
+  }
+  const updateInfo = () => {
+    connection.bgp_router = undefined
+    connection.tunnel_endpoint_router_ip = undefined
+    Update(connection).then((res) => {
+      if (res.error === '') {
+        enqueueSnackbar('Request Success', { variant: 'success' })
+      } else {
+        enqueueSnackbar(String(res.error), { variant: 'error' })
+      }
+
+      setReload(true)
+    })
   }
 
   return (
@@ -234,23 +251,33 @@ export function ConnectionOpen(props: {
             </Select>
           </StyledFormControlFormLong>
           <br />
-          <Button
-            size="small"
-            color="secondary"
-            disabled={!lock}
-            onClick={clickLockInfo}
-          >
-            ロック解除
-          </Button>
-          <Button size="small" disabled={lock} onClick={resetAction}>
-            Reset
-          </Button>
-          <ConnectionOpenButton
-            key={'connection_open_button'}
-            connection={connectionCopy}
-            lock={lock}
-            setReload={setReload}
-          />
+          <Stack direction="row" spacing={1}>
+            <Button
+              size="small"
+              color="secondary"
+              disabled={!lock}
+              onClick={clickLockInfo}
+            >
+              ロック解除
+            </Button>
+            <Button size="small" disabled={lock} onClick={resetAction}>
+              Reset
+            </Button>
+            <Button
+              size="small"
+              color="primary"
+              disabled={lock}
+              onClick={() => updateInfo()}
+            >
+              保存
+            </Button>
+            <ConnectionOpenButton
+              key={'connection_open_button'}
+              connection={connectionCopy}
+              lock={lock}
+              setReload={setReload}
+            />
+          </Stack>
         </CardContent>
       </StyledCardRoot3>
     </div>
@@ -418,6 +445,9 @@ export function ConnectionStatus(props: { connection: ConnectionDetailData }) {
 
 export function ConnectionEtc(props: { connection: ConnectionDetailData }) {
   const { connection } = props
+  const navigate = useNavigate()
+  const clickGroupPage = () =>
+    navigate('/dashboard/group/' + connection.service?.group_id)
 
   return (
     <StyledCardRoot3>
@@ -447,6 +477,18 @@ export function ConnectionEtc(props: { connection: ConnectionDetailData }) {
               key={'ConnectionMonitor'}
               monitor={connection.monitor}
             />
+          </Grid>
+          <Grid item xs={12}>
+            <Stack direction="row" spacing={1}>
+              <Button
+                size={'small'}
+                onClick={() => clickGroupPage()}
+                color={'primary'}
+                variant="contained"
+              >
+                Group
+              </Button>
+            </Stack>
           </Grid>
         </Grid>
       </CardContent>

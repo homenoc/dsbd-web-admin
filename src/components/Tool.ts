@@ -30,6 +30,18 @@ export const GenServiceCode = (connection: ConnectionDetailData) =>
   connection.connection_type +
   ('000' + connection.connection_number).slice(-3)
 
+export const GenServiceCodeFromService = (
+  service: ServiceDetailData,
+  connection: ConnectionDetailData
+) =>
+  service.group_id +
+  '-' +
+  service.service_type +
+  ('000' + service.service_number).slice(-3) +
+  '-' +
+  connection.connection_type +
+  ('000' + connection.connection_number).slice(-3)
+
 export const getStringFromDate = (data: string | undefined): string => {
   let str = '無期限'
   if (data === undefined) {

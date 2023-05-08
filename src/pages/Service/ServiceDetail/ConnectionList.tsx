@@ -1,4 +1,4 @@
-import { ConnectionDetailData } from '../../../interface'
+import { ConnectionDetailData, ServiceDetailData } from '../../../interface'
 import React, { Dispatch, SetStateAction } from 'react'
 import {
   Card,
@@ -9,14 +9,17 @@ import {
   TableRow,
   Typography,
 } from '@mui/material'
-import { RowConnection } from "../../Group/GroupDetail/Connection";
+import { RowConnection } from '../../Group/GroupDetail/Connection'
+import {
+  GenServiceCode,
+  GenServiceCodeFromService,
+} from '../../../components/Tool'
 
 export function ConnectionList(props: {
-  connections: ConnectionDetailData[]
+  service: ServiceDetailData
   setReload: Dispatch<SetStateAction<boolean>>
 }) {
-  const { connections, setReload } = props
-
+  const { service, setReload } = props
   return (
     <Card>
       <Typography variant="h6" gutterBottom component="div">
@@ -33,10 +36,11 @@ export function ConnectionList(props: {
           </TableRow>
         </TableHead>
         <TableBody>
-          {connections.map((connection: ConnectionDetailData) => (
+          {service.connections?.map((connection: ConnectionDetailData) => (
             <RowConnection
               key={'connection_' + connection.ID}
               connection={connection}
+              serviceCode={GenServiceCodeFromService(service, connection)}
               setReload={setReload}
             />
           ))}

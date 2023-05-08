@@ -26,12 +26,14 @@ import {
   StyledTextFieldMedium,
   StyledTextFieldLong,
   StyledTextFieldVeryShort1,
+  StyledButton1,
 } from '../../../style'
 import { useRecoilValue } from 'recoil'
 import { TemplateState } from '../../../api/Recoil'
 import Dashboard from '../../../components/Dashboard/Dashboard'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { GenServiceCodeOnlyService } from '../../../components/Tool'
+import { ConnectionList } from './ConnectionList'
 
 export default function ServiceDetail() {
   const template = useRecoilValue(TemplateState)
@@ -152,6 +154,15 @@ export default function ServiceDetail() {
         <Grid>
           <div className={cssModule.contract}></div>
         </Grid>
+        <Grid item xs={12}>
+          <ConnectionList
+            key={'connection_list'}
+            service={service}
+            setReload={setReload}
+          />
+        </Grid>
+        <Grid item xs={12}></Grid>
+        <Grid item xs={12}></Grid>
       </Grid>
     </Dashboard>
   )
@@ -192,6 +203,9 @@ export function ServiceMainMenu(props: {
   setReload: Dispatch<SetStateAction<boolean>>
 }) {
   const { service, setReload } = props
+  const navigate = useNavigate()
+
+  const clickGroupPage = () => navigate('/dashboard/group/' + service.group_id)
 
   return (
     <StyledCardRoot1>
@@ -203,6 +217,15 @@ export function ServiceMainMenu(props: {
           setReload={setReload}
         />
         <br />
+        <StyledButton1
+          aria-controls="simple-menu"
+          aria-haspopup="true"
+          onClick={() => clickGroupPage()}
+          color={'primary'}
+          variant="contained"
+        >
+          Group
+        </StyledButton1>
       </CardContent>
     </StyledCardRoot1>
   )
@@ -644,7 +667,8 @@ export function ServiceBase(props: {
                   key={'service_template' + index}
                   value={service_type.type}
                 >
-                  {service_type.name}({service_type.comment})
+                  {service_type.type}: {service_type.name}(
+                  {service_type.comment})
                 </MenuItem>
               ))}
             </Select>

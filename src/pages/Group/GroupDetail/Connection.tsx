@@ -55,6 +55,7 @@ export function RowConnectionCheck(props: {
             <RowConnection
               key={rowConnection.ID}
               connection={rowConnection}
+              serviceCode={GenServiceCode(rowConnection)}
               setReload={setReload}
             />
           ))}
@@ -66,11 +67,11 @@ export function RowConnectionCheck(props: {
 
 export function RowConnection(props: {
   connection: ConnectionDetailData
+  serviceCode: string
   setReload: Dispatch<SetStateAction<boolean>>
 }) {
   const navigate = useNavigate()
-  const { connection, setReload } = props
-  const serviceCode = GenServiceCode(connection)
+  const { connection, serviceCode, setReload } = props
   const clickConnectionPage = (id: number) =>
     navigate('/dashboard/connection/' + id)
 
