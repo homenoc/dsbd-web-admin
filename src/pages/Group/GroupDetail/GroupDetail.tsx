@@ -83,15 +83,15 @@ export default function GroupDetail() {
       ) : (
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6} md={3}>
-            <GroupStatus key={'group_status'} data={group} reload={reload} />
+            <GroupStatus key={'group_status'} data={group} setReload={reload} />
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
-            <GroupMemo key={'group_memo'} data={group} reload={setReload} />
+            <GroupMemo key={'group_memo'} data={group} setReload={setReload} />
             <GroupMainMenu
               key={'group_main_menu'}
               data={group}
               autoMail={setOpenMailAutoSendDialog}
-              reload={setReload}
+              setReload={setReload}
             />
           </Grid>
           <Grid item xs={12} sm={12} md={6}>
@@ -107,7 +107,7 @@ export default function GroupDetail() {
               key={'service'}
               services={group.services}
               autoMail={setOpenMailAutoSendDialog}
-              reload={setReload}
+              setReload={setReload}
             />
           </Grid>
           <Grid item xs={12}>

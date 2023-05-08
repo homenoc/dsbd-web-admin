@@ -7,9 +7,9 @@ import { JPNICDetail } from '../../../../components/Dashboard/JPNIC/JPNIC'
 export function ServiceJPNICAdminBase(props: {
   serviceID: number
   jpnic: JPNICData | undefined
-  reload: Dispatch<SetStateAction<boolean>>
+  setReload: Dispatch<SetStateAction<boolean>>
 }) {
-  const { jpnic, serviceID, reload } = props
+  const { jpnic, serviceID, setReload } = props
 
   if (jpnic === undefined) {
     return (
@@ -32,7 +32,7 @@ export function ServiceJPNICAdminBase(props: {
           jpnicAdmin={true}
           serviceID={serviceID}
           jpnic={jpnic}
-          reload={reload}
+          setReload={setReload}
         />
       </CardContent>
     </Card>

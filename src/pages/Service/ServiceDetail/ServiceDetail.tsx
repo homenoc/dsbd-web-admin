@@ -63,14 +63,14 @@ export default function ServiceDetail() {
           <ServiceOpen
             key={'ServiceOpen'}
             service={service}
-            reload={setReload}
+            setReload={setReload}
           />
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={3}>
           <ServiceMainMenu
             key={'ServiceMainMenu'}
             service={service}
-            reload={setReload}
+            setReload={setReload}
           />
         </Grid>
         <Grid item xs={12} sm={6} lg={3}>
@@ -102,7 +102,7 @@ export default function ServiceDetail() {
               key={'ServiceIPBase'}
               ip={service.ip}
               serviceID={service.ID}
-              reload={setReload}
+              setReload={setReload}
             />
           </Grid>
         )}
@@ -115,7 +115,7 @@ export default function ServiceDetail() {
             <ServiceJPNICBase
               key={'ServiceJPNICBase'}
               service={service}
-              reload={setReload}
+              setReload={setReload}
             />
           </Grid>
         )}
@@ -126,7 +126,7 @@ export default function ServiceDetail() {
               key={'ServiceJPNICAdminBase'}
               serviceID={service.ID}
               jpnic={service.jpnic_admin}
-              reload={setReload}
+              setReload={setReload}
             />
           </Grid>
         )}
@@ -138,7 +138,7 @@ export default function ServiceDetail() {
               serviceID={service.ID}
               jpnicAdmin={service.jpnic_admin}
               jpnicTech={service.jpnic_tech}
-              reload={setReload}
+              setReload={setReload}
             />
           </Grid>
         )}
@@ -189,9 +189,9 @@ export function ServiceStatus(props: { service: ServiceDetailData }) {
 
 export function ServiceMainMenu(props: {
   service: ServiceDetailData
-  reload: Dispatch<SetStateAction<boolean>>
+  setReload: Dispatch<SetStateAction<boolean>>
 }) {
-  const { service, reload } = props
+  const { service, setReload } = props
 
   return (
     <StyledCardRoot1>
@@ -200,7 +200,7 @@ export function ServiceMainMenu(props: {
         <ServiceAddAllowButton
           key={'serviceAddAllowButton'}
           service={service}
-          reload={reload}
+          setReload={setReload}
         />
         <br />
       </CardContent>
@@ -211,9 +211,9 @@ export function ServiceMainMenu(props: {
 export function ServiceOpenButton(props: {
   service: ServiceDetailData
   lockInfo: boolean
-  reload: Dispatch<SetStateAction<boolean>>
+  setReload: Dispatch<SetStateAction<boolean>>
 }) {
-  const { service, lockInfo, reload } = props
+  const { service, lockInfo, setReload } = props
   const { enqueueSnackbar } = useSnackbar()
 
   // Update Service Information
@@ -226,7 +226,7 @@ export function ServiceOpenButton(props: {
         enqueueSnackbar(String(res.error), { variant: 'error' })
       }
 
-      reload(true)
+      setReload(true)
     })
   }
 
@@ -256,9 +256,9 @@ export function ServiceOpenButton(props: {
 
 export function ServiceOpen(props: {
   service: ServiceDetailData
-  reload: Dispatch<SetStateAction<boolean>>
+  setReload: Dispatch<SetStateAction<boolean>>
 }) {
-  const { service, reload } = props
+  const { service, setReload } = props
   const [serviceCopy, setServiceCopy] = useState(service)
   const serviceCode = GenServiceCodeOnlyService(service)
   const [lock, setLockInfo] = React.useState(true)
@@ -318,7 +318,7 @@ export function ServiceOpen(props: {
         <ServiceOpenButton
           service={serviceCopy}
           lockInfo={lock}
-          reload={reload}
+          setReload={setReload}
         />
       </CardContent>
     </StyledCardRoot1>
@@ -417,9 +417,9 @@ export function ServiceEtc2(props: { service: ServiceDetailData }) {
 
 export function ServiceJPNICBase(props: {
   service: ServiceDetailData
-  reload: Dispatch<SetStateAction<boolean>>
+  setReload: Dispatch<SetStateAction<boolean>>
 }) {
-  const { service, reload } = props
+  const { service, setReload } = props
 
   return (
     <Card className={cssModule.contract}>
@@ -428,7 +428,7 @@ export function ServiceJPNICBase(props: {
         <ServiceJPNICDetail
           key={'ServiceJPNICDetail'}
           service={service}
-          reload={reload}
+          setReload={setReload}
         />
       </CardContent>
     </Card>
@@ -437,9 +437,9 @@ export function ServiceJPNICBase(props: {
 
 export function ServiceJPNICDetail(props: {
   service: ServiceDetailData
-  reload: Dispatch<SetStateAction<boolean>>
+  setReload: Dispatch<SetStateAction<boolean>>
 }) {
-  const { service, reload } = props
+  const { service, setReload } = props
   const [lock, setLockInfo] = React.useState(true)
   const [serviceCopy, setServiceCopy] = useState(service)
   const { enqueueSnackbar } = useSnackbar()
@@ -462,7 +462,7 @@ export function ServiceJPNICDetail(props: {
         enqueueSnackbar(String(res.error), { variant: 'error' })
       }
 
-      reload(true)
+      setReload(true)
     })
   }
 

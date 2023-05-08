@@ -6,9 +6,9 @@ import { StyledButton1 } from '../../../style'
 
 export function ServiceAddAllowButton(props: {
   service: ServiceDetailData
-  reload: Dispatch<SetStateAction<boolean>>
+  setReload: Dispatch<SetStateAction<boolean>>
 }) {
-  const { service, reload } = props
+  const { service, setReload } = props
   const { enqueueSnackbar } = useSnackbar()
 
   const changeLock = (add_allow: boolean) => {
@@ -21,7 +21,7 @@ export function ServiceAddAllowButton(props: {
         enqueueSnackbar(String(res.error), { variant: 'error' })
       }
 
-      reload(true)
+      setReload(true)
     })
   }
 

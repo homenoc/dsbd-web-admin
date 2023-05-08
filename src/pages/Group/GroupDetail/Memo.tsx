@@ -27,19 +27,19 @@ import { StyledButton1, StyledCardRoot1, StyledDivMemo } from '../../../style'
 
 export function GroupMemo(props: {
   data: GroupDetailData
-  reload: Dispatch<SetStateAction<boolean>>
+  setReload: Dispatch<SetStateAction<boolean>>
 }) {
   const [detailOpenMemoDialog, setDetailOpenMemoDialog] = React.useState(false)
   const [openAddMemoDialog, setAddOpenMemoDialog] = React.useState(false)
   const [memoData, setMemoData] = React.useState<MemoData>()
-  const { data, reload } = props
+  const { data, setReload } = props
   const { enqueueSnackbar } = useSnackbar()
 
   const handleDelete = (id: number) => {
     Delete(id).then((res) => {
       if (res.error === '') {
         enqueueSnackbar('Request Success', { variant: 'success' })
-        reload(true)
+        setReload(true)
       } else {
         enqueueSnackbar(String(res.error), { variant: 'error' })
       }
@@ -94,7 +94,7 @@ export function GroupMemo(props: {
           open={openAddMemoDialog}
           setOpen={setAddOpenMemoDialog}
           baseData={data}
-          reload={reload}
+          setReload={setReload}
         />
         {memoData !== undefined && (
           <MemoDetailDialogs
@@ -114,9 +114,9 @@ export function MemoAddDialogs(props: {
   open: boolean
   setOpen: Dispatch<SetStateAction<boolean>>
   baseData: GroupDetailData
-  reload: Dispatch<SetStateAction<boolean>>
+  setReload: Dispatch<SetStateAction<boolean>>
 }) {
-  const { open, setOpen, baseData, reload } = props
+  const { open, setOpen, baseData, setReload } = props
   const [data, setData] = React.useState(DefaultMemoAddData)
   const { enqueueSnackbar } = useSnackbar()
 
@@ -126,7 +126,7 @@ export function MemoAddDialogs(props: {
       if (res.error === '') {
         enqueueSnackbar('Request Success', { variant: 'success' })
         setOpen(false)
-        reload(true)
+        setReload(true)
       } else {
         enqueueSnackbar(res.error, { variant: 'error' })
       }

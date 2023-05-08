@@ -131,13 +131,13 @@ export function StatusTable(props: {
                     <DeleteDialog
                       key={'connection_delete_alert_dialog_' + row.ID}
                       id={row.ID}
-                      reload={setReload}
+                      setReload={setReload}
                     />
                     &nbsp;
                     <EnableDialog
                       key={'connection_enable_alert_dialog_' + row.ID}
                       connection={row}
-                      reload={setReload}
+                      setReload={setReload}
                     />
                     &nbsp;
                     <Button

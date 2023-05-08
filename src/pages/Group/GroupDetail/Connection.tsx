@@ -24,9 +24,9 @@ import { GenServiceCode } from '../../../components/Tool'
 
 export function RowConnectionCheck(props: {
   service: ServiceDetailData
-  reload: Dispatch<SetStateAction<boolean>>
+  setReload: Dispatch<SetStateAction<boolean>>
 }) {
-  const { service, reload } = props
+  const { service, setReload } = props
 
   if (service.connections === undefined) {
     return (
@@ -54,9 +54,8 @@ export function RowConnectionCheck(props: {
           {service.connections.map((rowConnection: ConnectionDetailData) => (
             <RowConnection
               key={rowConnection.ID}
-              service={service}
               connection={rowConnection}
-              reload={reload}
+              setReload={setReload}
             />
           ))}
         </TableBody>
@@ -65,13 +64,12 @@ export function RowConnectionCheck(props: {
   )
 }
 
-function RowConnection(props: {
-  service: ServiceDetailData
+export function RowConnection(props: {
   connection: ConnectionDetailData
-  reload: Dispatch<SetStateAction<boolean>>
+  setReload: Dispatch<SetStateAction<boolean>>
 }) {
   const navigate = useNavigate()
-  const { service, connection, reload } = props
+  const { connection, setReload } = props
   const serviceCode = GenServiceCode(connection)
   const clickConnectionPage = (id: number) =>
     navigate('/dashboard/connection/' + id)
@@ -109,13 +107,13 @@ function RowConnection(props: {
           <DeleteDialog
             key={'connection_delete_alert_dialog_' + connection.ID}
             id={connection.ID}
-            reload={reload}
+            setReload={setReload}
           />
           &nbsp;
           <EnableDialog
             key={'connection_enable_alert_dialog_' + connection.ID}
             connection={connection}
-            reload={reload}
+            setReload={setReload}
           />
         </Box>
       </TableCell>
@@ -125,9 +123,9 @@ function RowConnection(props: {
 
 export function DeleteDialog(props: {
   id: number
-  reload: Dispatch<SetStateAction<boolean>>
+  setReload: Dispatch<SetStateAction<boolean>>
 }) {
-  const { id, reload } = props
+  const { id, setReload } = props
   const [open, setOpen] = React.useState(false)
   const { enqueueSnackbar } = useSnackbar()
 
@@ -139,7 +137,7 @@ export function DeleteDialog(props: {
         enqueueSnackbar(String(res.error), { variant: 'error' })
       }
       setOpen(false)
-      reload(true)
+      setReload(true)
     })
   }
 
@@ -189,9 +187,9 @@ export function DeleteDialog(props: {
 
 export function EnableDialog(props: {
   connection: ConnectionDetailData
-  reload: Dispatch<SetStateAction<boolean>>
+  setReload: Dispatch<SetStateAction<boolean>>
 }) {
-  const { connection, reload } = props
+  const { connection, setReload } = props
   const [open, setOpen] = React.useState(false)
   const { enqueueSnackbar } = useSnackbar()
 
@@ -205,7 +203,7 @@ export function EnableDialog(props: {
         enqueueSnackbar(String(res.error), { variant: 'error' })
       }
       setOpen(false)
-      reload(true)
+      setReload(true)
     })
   }
 

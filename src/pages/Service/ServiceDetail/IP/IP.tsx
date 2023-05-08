@@ -37,10 +37,10 @@ export function IPOpenButton(props: {
   ip: IPData
   lockInfo: boolean
   setLockInfo: Dispatch<SetStateAction<boolean>>
-  reload: Dispatch<SetStateAction<boolean>>
+  setReload: Dispatch<SetStateAction<boolean>>
   template: TemplateData
 }) {
-  const { ip, lockInfo, setLockInfo, reload } = props
+  const { ip, lockInfo, setLockInfo, setReload } = props
   const { enqueueSnackbar } = useSnackbar()
 
   // Update IP Information
@@ -54,7 +54,7 @@ export function IPOpenButton(props: {
       }
 
       setLockInfo(true)
-      reload(true)
+      setReload(true)
     })
   }
 
@@ -85,9 +85,9 @@ export function IPOpenButton(props: {
 export function ServiceIPBase(props: {
   serviceID: number
   ip: IPData[] | undefined
-  reload: Dispatch<SetStateAction<boolean>>
+  setReload: Dispatch<SetStateAction<boolean>>
 }) {
-  const { ip, serviceID, reload } = props
+  const { ip, serviceID, setReload } = props
   const template = useRecoilValue(TemplateState)
 
   if (ip === undefined) {
@@ -107,7 +107,7 @@ export function ServiceIPBase(props: {
       key={serviceID}
       serviceID={serviceID}
       ip={ip}
-      reload={reload}
+      setReload={setReload}
       template={template}
     />
   )
@@ -116,10 +116,10 @@ export function ServiceIPBase(props: {
 export function ServiceIP(props: {
   serviceID: number
   ip: IPData[]
-  reload: Dispatch<SetStateAction<boolean>>
+  setReload: Dispatch<SetStateAction<boolean>>
   template: TemplateData
 }) {
-  const { ip, serviceID, reload, template } = props
+  const { ip, serviceID, setReload, template } = props
 
   return (
     <StyledCardRoot2>
@@ -129,7 +129,7 @@ export function ServiceIP(props: {
           <AddAssignIPDialog
             key={'add_assign_ip_dialog'}
             serviceID={serviceID}
-            reload={reload}
+            setReload={setReload}
           />
           <Table aria-label="collapsible table">
             <TableHead>
@@ -147,7 +147,7 @@ export function ServiceIP(props: {
                   key={row.ID}
                   serviceID={serviceID}
                   ip={row}
-                  reload={reload}
+                  setReload={setReload}
                   template={template}
                 />
               ))}
@@ -162,10 +162,10 @@ export function ServiceIP(props: {
 export function ServiceIPRow(props: {
   serviceID: number
   ip: IPData
-  reload: Dispatch<SetStateAction<boolean>>
+  setReload: Dispatch<SetStateAction<boolean>>
   template: TemplateData
 }) {
-  const { ip, serviceID, reload, template } = props
+  const { ip, serviceID, setReload, template } = props
   const [open, setOpen] = React.useState(false)
   const [lockInfo, setLockInfo] = React.useState(true)
   const [ipCopy, setIPCopy] = useState(ip)
@@ -189,7 +189,7 @@ export function ServiceIPRow(props: {
       }
 
       setLockInfo(true)
-      reload(true)
+      setReload(true)
     })
   }
 
@@ -201,7 +201,7 @@ export function ServiceIPRow(props: {
         } else {
           enqueueSnackbar(String(res.error), { variant: 'error' })
         }
-        reload(true)
+        setReload(true)
       })
       setDeleteIP(false)
     }
@@ -281,7 +281,7 @@ export function ServiceIPRow(props: {
                     ip={ipCopy}
                     lockInfo={lockInfo}
                     setLockInfo={setLockInfo}
-                    reload={reload}
+                    setReload={setReload}
                     template={template}
                   />
                   <Button size="small" disabled={lockInfo} onClick={updateInfo}>
@@ -308,9 +308,10 @@ export function ServiceIPRow(props: {
                 </TableHead>
                 <TableBody>
                   <ServiceIPPlanBase
+                    key={'service_ip_plan_base'}
                     serviceID={serviceID}
                     plan={ip.plan}
-                    reload={reload}
+                    setReload={setReload}
                   />
                 </TableBody>
               </Table>
@@ -325,33 +326,37 @@ export function ServiceIPRow(props: {
 export function ServiceIPPlanBase(props: {
   serviceID: number
   plan: PlanData[] | undefined
-  reload: Dispatch<SetStateAction<boolean>>
+  setReload: Dispatch<SetStateAction<boolean>>
 }) {
-  const { plan, serviceID, reload } = props
+  const { plan, serviceID, setReload } = props
 
-  if (plan === undefined || plan === null) {
+  if (plan === undefined) {
     return (
       <p>
         <b>情報なし</b>
       </p>
     )
   }
-  return plan.map((row) => (
-    <ServiceIPPlanRow
-      key={row.ID}
-      serviceID={serviceID}
-      plan={row}
-      reload={reload}
-    />
-  ))
+  return (
+    <>
+      {plan.map((row) => (
+        <ServiceIPPlanRow
+          key={'ip_plan_' + row.ID}
+          serviceID={serviceID}
+          plan={row}
+          setReload={setReload}
+        />
+      ))}
+    </>
+  )
 }
 
 export function ServiceIPPlanRow(props: {
   serviceID: number
   plan: PlanData
-  reload: Dispatch<SetStateAction<boolean>>
+  setReload: Dispatch<SetStateAction<boolean>>
 }) {
-  const { plan, reload } = props
+  const { plan, setReload } = props
   const [open, setOpen] = React.useState(false)
   const [lockInfo, setLockInfo] = React.useState(true)
   const [ipPlanCopy, setIPPlanCopy] = useState(plan)
@@ -376,7 +381,7 @@ export function ServiceIPPlanRow(props: {
       }
 
       setLockInfo(true)
-      reload(true)
+      setReload(true)
     })
   }
 
@@ -389,7 +394,7 @@ export function ServiceIPPlanRow(props: {
         } else {
           enqueueSnackbar(String(res.error), { variant: 'error' })
         }
-        reload(true)
+        setReload(true)
       })
       setDeleteIPPlan(false)
     }

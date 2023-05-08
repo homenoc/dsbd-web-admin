@@ -31,9 +31,9 @@ export function JPNICDetail(props: {
   serviceID: number
   jpnic: JPNICData
   jpnicAdmin: boolean
-  reload: Dispatch<SetStateAction<boolean>>
+  setReload: Dispatch<SetStateAction<boolean>>
 }) {
-  const { jpnic, jpnicAdmin, serviceID, reload } = props
+  const { jpnic, jpnicAdmin, serviceID, setReload } = props
   const [lockInfo, setLockInfo] = React.useState(true)
   const [jpnicCopy, setJPNICCopy] = useState(jpnic)
   const [deleteJPNICTech, setDeleteJPNICTech] = useState(false)
@@ -61,7 +61,7 @@ export function JPNICDetail(props: {
           }
 
           setLockInfo(true)
-          reload(true)
+          setReload(true)
         })
       } else {
         PutJPNICAdmin(jpnicCopy.ID, jpnicCopy).then((res) => {
@@ -73,7 +73,7 @@ export function JPNICDetail(props: {
           }
 
           setLockInfo(true)
-          reload(true)
+          setReload(true)
         })
       }
     } else {
@@ -86,7 +86,7 @@ export function JPNICDetail(props: {
         }
 
         setLockInfo(true)
-        reload(true)
+        setReload(true)
       })
     }
   }
@@ -100,7 +100,7 @@ export function JPNICDetail(props: {
         } else {
           enqueueSnackbar(String(res.error), { variant: 'error' })
         }
-        reload(true)
+        setReload(true)
       })
       setDeleteJPNICTech(false)
     }
@@ -398,9 +398,9 @@ export function JPNICDetail(props: {
 export function JPNICTechAdd(props: {
   serviceID: number
   jpnicAdmin: JPNICData | undefined
-  reload: Dispatch<SetStateAction<boolean>>
+  setReload: Dispatch<SetStateAction<boolean>>
 }) {
-  const { jpnicAdmin, serviceID, reload } = props
+  const { jpnicAdmin, serviceID, setReload } = props
   const [jpnic, setJPNIC] = useState(DefaultServiceJPNICData)
   const [open, setOpen] = useState(false)
   const { enqueueSnackbar } = useSnackbar()
@@ -420,7 +420,7 @@ export function JPNICTechAdd(props: {
         enqueueSnackbar(String(res.error), { variant: 'error' })
       }
 
-      reload(true)
+      setReload(true)
       setOpen(false)
     })
   }

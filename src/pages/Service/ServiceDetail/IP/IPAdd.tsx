@@ -38,9 +38,9 @@ import { TemplateState } from '../../../../api/Recoil'
 
 export function AddAssignIPDialog(props: {
   serviceID: number
-  reload: Dispatch<SetStateAction<boolean>>
+  setReload: Dispatch<SetStateAction<boolean>>
 }) {
-  const { serviceID, reload } = props
+  const { serviceID, setReload } = props
   const template = useRecoilValue(TemplateState)
   const [checkBoxIPv4, setCheckBoxIPv4] = React.useState(false)
   const [data, setData] = React.useState(DefaultAddIP)
@@ -111,7 +111,7 @@ export function AddAssignIPDialog(props: {
         enqueueSnackbar(String(res.error), { variant: 'error' })
       }
 
-      reload(true)
+      setReload(true)
       setOpen(false)
     })
   }

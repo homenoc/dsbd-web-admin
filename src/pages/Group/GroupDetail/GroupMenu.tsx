@@ -8,9 +8,9 @@ import { StyledButton1 } from '../../../style'
 export function GroupStatusButton(props: {
   data: GroupDetailData
   autoMail: Dispatch<SetStateAction<string>>
-  reload: Dispatch<SetStateAction<boolean>>
+  setReload: Dispatch<SetStateAction<boolean>>
 }) {
-  const { data, autoMail, reload } = props
+  const { data, autoMail, setReload } = props
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
 
   const handleClose = () => {
@@ -29,7 +29,7 @@ export function GroupStatusButton(props: {
       }
 
       handleClose()
-      reload(true)
+      setReload(true)
     })
   }
 
@@ -41,7 +41,7 @@ export function GroupStatusButton(props: {
       }
 
       handleClose()
-      reload(true)
+      setReload(true)
     })
   }
 
@@ -86,9 +86,9 @@ export function GroupStatusButton(props: {
 
 export function GroupLockButton(props: {
   data: GroupDetailData
-  reload: Dispatch<SetStateAction<boolean>>
+  setReload: Dispatch<SetStateAction<boolean>>
 }) {
-  const { data, reload } = props
+  const { data, setReload } = props
   const { enqueueSnackbar } = useSnackbar()
 
   const changeLock = (pass: boolean) => {
@@ -101,7 +101,7 @@ export function GroupLockButton(props: {
         enqueueSnackbar(String(res.error), { variant: 'error' })
       }
 
-      reload(true)
+      setReload(true)
     })
   }
 

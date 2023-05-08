@@ -56,9 +56,9 @@ export function ChipGet(props: {
 function RowService(props: {
   service: ServiceDetailData
   autoMail: Dispatch<SetStateAction<string>>
-  reload: Dispatch<SetStateAction<boolean>>
+  setReload: Dispatch<SetStateAction<boolean>>
 }) {
-  const { service, autoMail, reload } = props
+  const { service, autoMail, setReload } = props
   const [open, setOpen] = React.useState(false)
   const navigate = useNavigate()
   const serviceCode = GenServiceCodeOnlyService(service)
@@ -101,7 +101,7 @@ function RowService(props: {
                 key={'service_examination_dialog_' + service.ID}
                 autoMail={autoMail}
                 service={service}
-                reload={reload}
+                setReload={setReload}
               />
             )}
             &nbsp;
@@ -116,13 +116,13 @@ function RowService(props: {
             <DeleteDialog
               key={'service_delete_alert_dialog_' + service.ID}
               id={service.ID}
-              reload={reload}
+              setReload={setReload}
             />
             &nbsp;
             <EnableDialog
               key={'service_enable_alert_dialog_' + service.ID}
               service={service}
-              reload={reload}
+              setReload={setReload}
             />
           </Box>
         </TableCell>
@@ -134,7 +134,7 @@ function RowService(props: {
               <RowConnectionCheck
                 key={service.ID + 'Connection'}
                 service={service}
-                reload={reload}
+                setReload={setReload}
               />
             </Box>
           </Collapse>
@@ -147,9 +147,9 @@ function RowService(props: {
 export function ExaminationDialog(props: {
   autoMail?: Dispatch<SetStateAction<string>>
   service: ServiceDetailData
-  reload: Dispatch<SetStateAction<boolean>>
+  setReload: Dispatch<SetStateAction<boolean>>
 }) {
-  const { autoMail, service, reload } = props
+  const { autoMail, service, setReload } = props
   const [open, setOpen] = React.useState(false)
   const { enqueueSnackbar } = useSnackbar()
 
@@ -165,7 +165,7 @@ export function ExaminationDialog(props: {
         autoMail('pass_service')
       }
       setOpen(false)
-      reload(true)
+      setReload(true)
     })
   }
 
@@ -215,9 +215,9 @@ export function ExaminationDialog(props: {
 
 export function DeleteDialog(props: {
   id: number
-  reload: Dispatch<SetStateAction<boolean>>
+  setReload: Dispatch<SetStateAction<boolean>>
 }) {
-  const { id, reload } = props
+  const { id, setReload } = props
   const [open, setOpen] = React.useState(false)
   const { enqueueSnackbar } = useSnackbar()
 
@@ -229,7 +229,7 @@ export function DeleteDialog(props: {
         enqueueSnackbar(String(res.error), { variant: 'error' })
       }
       setOpen(false)
-      reload(true)
+      setReload(true)
     })
   }
 
@@ -279,9 +279,9 @@ export function DeleteDialog(props: {
 
 export function EnableDialog(props: {
   service: ServiceDetailData
-  reload: Dispatch<SetStateAction<boolean>>
+  setReload: Dispatch<SetStateAction<boolean>>
 }) {
-  const { service, reload } = props
+  const { service, setReload } = props
   const [open, setOpen] = React.useState(false)
   const { enqueueSnackbar } = useSnackbar()
 
@@ -295,7 +295,7 @@ export function EnableDialog(props: {
         enqueueSnackbar(String(res.error), { variant: 'error' })
       }
       setOpen(false)
-      reload(true)
+      setReload(true)
     })
   }
 
@@ -348,9 +348,9 @@ export function EnableDialog(props: {
 export function Service(props: {
   services: ServiceDetailData[] | undefined
   autoMail: Dispatch<SetStateAction<string>>
-  reload: Dispatch<SetStateAction<boolean>>
+  setReload: Dispatch<SetStateAction<boolean>>
 }) {
-  const { services, autoMail, reload } = props
+  const { services, autoMail, setReload } = props
 
   if (services !== undefined) {
     return (
@@ -384,7 +384,7 @@ export function Service(props: {
                     key={'service_row_' + row.ID}
                     autoMail={autoMail}
                     service={row}
-                    reload={reload}
+                    setReload={setReload}
                   />
                 ))}
               </TableBody>

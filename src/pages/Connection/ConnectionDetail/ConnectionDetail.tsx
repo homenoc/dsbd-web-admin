@@ -96,9 +96,9 @@ export default function ConnectionDetail() {
 export function ConnectionOpenButton(props: {
   connection: ConnectionDetailData
   lock: boolean
-  reload: Dispatch<SetStateAction<boolean>>
+  setReload: Dispatch<SetStateAction<boolean>>
 }) {
-  const { connection, lock, reload } = props
+  const { connection, lock, setReload } = props
   const { enqueueSnackbar } = useSnackbar()
 
   // Update Service Information
@@ -113,7 +113,7 @@ export function ConnectionOpenButton(props: {
         enqueueSnackbar(String(res.error), { variant: 'error' })
       }
 
-      reload(true)
+      setReload(true)
     })
   }
 
@@ -249,7 +249,7 @@ export function ConnectionOpen(props: {
             key={'connection_open_button'}
             connection={connectionCopy}
             lock={lock}
-            reload={setReload}
+            setReload={setReload}
           />
         </CardContent>
       </StyledCardRoot3>

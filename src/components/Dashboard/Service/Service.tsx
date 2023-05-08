@@ -120,7 +120,7 @@ export function StatusTable(props: {
                       <ExaminationDialog
                         key={'service_examination_dialog_' + index}
                         service={row}
-                        reload={setReload}
+                        setReload={setReload}
                       />
                     )}
                     &nbsp;
@@ -135,13 +135,13 @@ export function StatusTable(props: {
                     <DeleteDialog
                       key={'service_delete_dialog_' + index}
                       id={row.ID}
-                      reload={setReload}
+                      setReload={setReload}
                     />
                     &nbsp;
                     <EnableDialog
                       key={'service_enable_dialog_' + row.ID}
                       service={row}
-                      reload={setReload}
+                      setReload={setReload}
                     />
                     &nbsp;
                     <Button

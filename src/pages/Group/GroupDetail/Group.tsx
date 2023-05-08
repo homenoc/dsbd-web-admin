@@ -59,8 +59,6 @@ export function GroupProfileInfo(props: {
     React.useState(true)
   const template = useRecoilValue(TemplateState)
   const [group, setGroup] = useState(data)
-  const [openJPNICRegistration, setOpenJPNICRegistration] =
-    React.useState(false)
   const { enqueueSnackbar } = useSnackbar()
   const [paymentCoupon, setPaymentCoupon] = React.useState('')
   const [memberType, setMemberType] = React.useState(0)
@@ -447,7 +445,7 @@ export function GroupProfileInfo(props: {
           size="small"
           variant="contained"
           color="primary"
-          onClick={() => setOpenJPNICRegistration(true)}
+          // onClick={() => setOpenJPNICRegistration(true)}
         >
           JPNIC登録(β)
         </Button>
@@ -459,9 +457,9 @@ export function GroupProfileInfo(props: {
 export function GroupMainMenu(props: {
   data: GroupDetailData
   autoMail: Dispatch<SetStateAction<string>>
-  reload: Dispatch<SetStateAction<boolean>>
+  setReload: Dispatch<SetStateAction<boolean>>
 }) {
-  const { data, autoMail, reload } = props
+  const { data, autoMail, setReload } = props
 
   return (
     <StyledCardRoot1>
@@ -470,12 +468,12 @@ export function GroupMainMenu(props: {
           key={'group_status_button'}
           data={data}
           autoMail={autoMail}
-          reload={reload}
+          setReload={setReload}
         />
         <GroupLockButton
           key={'group_lock_button'}
           data={data}
-          reload={reload}
+          setReload={setReload}
         />
         <GroupAbolition key={'group_abolition'} />
       </CardContent>
@@ -485,9 +483,9 @@ export function GroupMainMenu(props: {
 
 export function GroupStatus(props: {
   data: GroupDetailData
-  reload: boolean
+  setReload: boolean
 }) {
-  const { data, reload } = props
+  const { data, setReload } = props
   const [createDate, setCreateDate] = useState('')
   const [updateDate, setUpdateDate] = useState('')
   const [membershipLabel, setMembershipLabel] = useState<{
@@ -610,7 +608,7 @@ export function GroupStatus(props: {
       color: 'primary',
       label: paymentMemberStatus,
     })
-  }, [reload])
+  }, [setReload])
 
   return (
     <StyledCardRoot1>

@@ -26,9 +26,9 @@ export function ServiceJPNICTechBase(props: {
   serviceID: number
   jpnicAdmin: JPNICData | undefined
   jpnicTech: JPNICData[] | undefined
-  reload: Dispatch<SetStateAction<boolean>>
+  setReload: Dispatch<SetStateAction<boolean>>
 }) {
-  const { jpnicAdmin, jpnicTech, serviceID, reload } = props
+  const { jpnicAdmin, jpnicTech, serviceID, setReload } = props
 
   if (jpnicTech === undefined) {
     return (
@@ -48,7 +48,7 @@ export function ServiceJPNICTechBase(props: {
       serviceID={serviceID}
       jpnicAdmin={jpnicAdmin}
       jpnicTech={jpnicTech}
-      reload={reload}
+      setReload={setReload}
     />
   )
 }
@@ -57,9 +57,9 @@ export function ServiceJPNICTech(props: {
   serviceID: number
   jpnicAdmin: JPNICData | undefined
   jpnicTech: JPNICData[]
-  reload: Dispatch<SetStateAction<boolean>>
+  setReload: Dispatch<SetStateAction<boolean>>
 }) {
-  const { jpnicAdmin, jpnicTech, serviceID, reload } = props
+  const { jpnicAdmin, jpnicTech, serviceID, setReload } = props
 
   return (
     <StyledCardRoot2>
@@ -69,7 +69,7 @@ export function ServiceJPNICTech(props: {
           key={'jpnic_tech_add'}
           serviceID={serviceID}
           jpnicAdmin={jpnicAdmin}
-          reload={reload}
+          setReload={setReload}
         />
         <TableContainer component={Paper}>
           <Table aria-label="collapsible table">
@@ -87,7 +87,7 @@ export function ServiceJPNICTech(props: {
                   key={'service_jpnic_tech_row_' + row.ID}
                   serviceID={serviceID}
                   jpnic={row}
-                  reload={reload}
+                  setReload={setReload}
                 />
               ))}
             </TableBody>
@@ -101,9 +101,9 @@ export function ServiceJPNICTech(props: {
 export function ServiceJPNICTechRow(props: {
   serviceID: number
   jpnic: JPNICData
-  reload: Dispatch<SetStateAction<boolean>>
+  setReload: Dispatch<SetStateAction<boolean>>
 }) {
-  const { jpnic, serviceID, reload } = props
+  const { jpnic, serviceID, setReload } = props
   const [open, setOpen] = React.useState(false)
 
   return (
@@ -133,7 +133,7 @@ export function ServiceJPNICTechRow(props: {
                 jpnicAdmin={false}
                 serviceID={serviceID}
                 jpnic={jpnic}
-                reload={reload}
+                setReload={setReload}
               />
             </Box>
           </Collapse>
