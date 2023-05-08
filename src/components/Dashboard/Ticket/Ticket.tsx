@@ -22,7 +22,7 @@ import { StyledTable2, StyledTypographyHeading } from '../../../style'
 export default function Ticket(props: {
   data: TicketDetailData[] | undefined
   setReload: Dispatch<SetStateAction<boolean>>
-}): any {
+}) {
   const { data, setReload } = props
 
   return (

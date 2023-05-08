@@ -16,7 +16,7 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { StyledTable2, StyledTypographyHeading } from '../../../style'
 
-export default function User(props: { data: GroupDetailData }): any {
+export default function User(props: { data: GroupDetailData }) {
   const { data } = props
 
   return (

@@ -15,8 +15,7 @@ import { useParams } from 'react-router-dom'
 import DashboardComponent from '../../../components/Dashboard/Dashboard'
 
 export default function SupportDetail() {
-  let id: string | undefined
-  ;({ id } = useParams())
+  const { id } = useParams()
   const { sendMessage, lastMessage } = useWebSocket(
     restfulApiConfig.wsURL +
       '/support' +

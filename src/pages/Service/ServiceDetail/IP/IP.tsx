@@ -39,7 +39,7 @@ export function IPOpenButton(props: {
   setLockInfo: Dispatch<SetStateAction<boolean>>
   reload: Dispatch<SetStateAction<boolean>>
   template: TemplateData
-}): any {
+}) {
   const { ip, lockInfo, setLockInfo, reload } = props
   const { enqueueSnackbar } = useSnackbar()
 
@@ -86,7 +86,7 @@ export function ServiceIPBase(props: {
   serviceID: number
   ip: IPData[] | undefined
   reload: Dispatch<SetStateAction<boolean>>
-}): any {
+}) {
   const { ip, serviceID, reload } = props
   const template = useRecoilValue(TemplateState)
 
@@ -118,7 +118,7 @@ export function ServiceIP(props: {
   ip: IPData[]
   reload: Dispatch<SetStateAction<boolean>>
   template: TemplateData
-}): any {
+}) {
   const { ip, serviceID, reload, template } = props
 
   return (
@@ -164,7 +164,7 @@ export function ServiceIPRow(props: {
   ip: IPData
   reload: Dispatch<SetStateAction<boolean>>
   template: TemplateData
-}): any {
+}) {
   const { ip, serviceID, reload, template } = props
   const [open, setOpen] = React.useState(false)
   const [lockInfo, setLockInfo] = React.useState(true)
@@ -326,7 +326,7 @@ export function ServiceIPPlanBase(props: {
   serviceID: number
   plan: PlanData[] | undefined
   reload: Dispatch<SetStateAction<boolean>>
-}): any {
+}) {
   const { plan, serviceID, reload } = props
 
   if (plan === undefined || plan === null) {
@@ -350,7 +350,7 @@ export function ServiceIPPlanRow(props: {
   serviceID: number
   plan: PlanData
   reload: Dispatch<SetStateAction<boolean>>
-}): any {
+}) {
   const { plan, reload } = props
   const [open, setOpen] = React.useState(false)
   const [lockInfo, setLockInfo] = React.useState(true)

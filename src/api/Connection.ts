@@ -98,6 +98,28 @@ export function Update(
     })
 }
 
+export function Get(id: number): Promise<{ error: string; data: any }> {
+  return axios
+    .get(restfulApiConfig.apiURL + '/connection/' + id, {
+      headers: {
+        'Content-Type': 'application/json',
+        ACCESS_TOKEN: sessionStorage.getItem('AccessToken')!,
+      },
+    })
+    .then((res) => {
+      return {
+        error: '',
+        data: res.data.connection[0],
+      }
+    })
+    .catch((err) => {
+      return {
+        error: '[' + err.response.status + '] ' + err.response.data.error,
+        data: null,
+      }
+    })
+}
+
 export function GetAll(): Promise<{ error: string; data: any }> {
   return axios
     .get(restfulApiConfig.apiURL + '/connection', {

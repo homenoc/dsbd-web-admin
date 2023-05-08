@@ -1,13 +1,9 @@
-import React, { Dispatch, SetStateAction, useState } from 'react'
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import {
   Button,
   Card,
   CardContent,
   Chip,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
   FormControl,
   Grid,
   InputLabel,
@@ -15,10 +11,10 @@ import {
   Select,
 } from '@mui/material'
 import cssModule from '../../Connection/ConnectionDetail/ConnectionDialog.module.scss'
-import { ServiceDetailData } from '../../../interface'
+import { DefaultServiceDetailData, ServiceDetailData } from '../../../interface'
 import { ServiceAddAllowButton } from './ServiceMenu'
 import { useSnackbar } from 'notistack'
-import { Put } from '../../../api/Service'
+import { Get, Put } from '../../../api/Service'
 import { ServiceJPNICTechBase } from './JPNICTech/JPNICTech'
 import { ServiceJPNICAdminBase } from './JPNICAdmin/JPNICAdmin'
 import { ServiceIPBase } from './IP/IP'
@@ -33,152 +29,135 @@ import {
 } from '../../../style'
 import { useRecoilValue } from 'recoil'
 import { TemplateState } from '../../../api/Recoil'
+import Dashboard from '../../../components/Dashboard/Dashboard'
+import { useParams } from 'react-router-dom'
+import { GenServiceCodeOnlyService } from '../../../components/Tool'
 
-export default function ServiceGetDialogs(props: {
-  service: ServiceDetailData
-  reload: Dispatch<SetStateAction<boolean>>
-}) {
-  const { service, reload } = props
-  const [open, setOpen] = React.useState(false)
+export default function ServiceDetail() {
   const template = useRecoilValue(TemplateState)
+  const [reload, setReload] = useState(true)
+  const [service, setService] = useState(DefaultServiceDetailData)
+  const { enqueueSnackbar } = useSnackbar()
+  const { id } = useParams()
 
-  const handleClickOpen = () => {
-    setOpen(true)
-  }
-  const handleClose = () => {
-    setOpen(false)
-  }
+  useEffect(() => {
+    if (reload) {
+      Get(Number(id)).then((res) => {
+        if (res.error !== '') {
+          enqueueSnackbar('' + res.error, { variant: 'error' })
+          return
+        }
+        setService(res.data)
+        setReload(false)
+      })
+    }
+  }, [template, reload])
 
   return (
-    <div>
-      <Button size="small" variant="outlined" onClick={handleClickOpen}>
-        Detail
-      </Button>
-      <Dialog
-        onClose={handleClose}
-        fullScreen={true}
-        aria-labelledby="customized-dialog-title"
-        open={open}
-        PaperProps={{
-          style: {
-            backgroundColor: '#2b2a2a',
-          },
-        }}
-      >
-        <DialogTitle id="customized-dialog-title">Service Dialog</DialogTitle>
-        <DialogContent dividers>
-          <Grid container spacing={3}>
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-              <ServiceStatus key={'ServiceStatus'} service={service} />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-              <ServiceOpen
-                key={'ServiceOpen'}
-                service={service}
-                reload={reload}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-              <ServiceMainMenu
-                key={'ServiceMainMenu'}
-                service={service}
-                reload={reload}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} lg={3}>
-              <StyledCardRoot1>
-                <CardContent>
-                  <h3>Help</h3>
-                  <h4>開通に向けて手順</h4>
-                  <div>1. 該当のサービスを審査OKにする</div>
-                  <div>
-                    2.
-                    登録されたIPアドレスを確認/JPNICへの登録が完了すれば、該当のIPステータスを開通にする。
-                  </div>
-                  <div>3. 接続情報を元に、開通作業を行う</div>
-                  <div>
-                    4. 開通が完了すれば、接続情報からステータスを開通にする。
-                  </div>
-                </CardContent>
-              </StyledCardRoot1>
-            </Grid>
-            <Grid item xs={12}>
-              <div className={cssModule.contract}>
-                <ServiceEtc1 key={'ServiceEtc1'} service={service} />
+    <Dashboard title="Service Dialog">
+      <Grid container spacing={3}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <ServiceStatus key={'ServiceStatus'} service={service} />
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <ServiceOpen
+            key={'ServiceOpen'}
+            service={service}
+            reload={setReload}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <ServiceMainMenu
+            key={'ServiceMainMenu'}
+            service={service}
+            reload={setReload}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} lg={3}>
+          <StyledCardRoot1>
+            <CardContent>
+              <h3>Help</h3>
+              <h4>開通に向けて手順</h4>
+              <div>1. 該当のサービスを審査OKにする</div>
+              <div>
+                2.
+                登録されたIPアドレスを確認/JPNICへの登録が完了すれば、該当のIPステータスを開通にする。
               </div>
-            </Grid>
-            {template.services?.find(
-              (ser) => ser.type === service.service_type
-            )?.need_jpnic && (
-              <Grid item xs={6}>
-                <ServiceIPBase
-                  key={'ServiceIPBase'}
-                  ip={service.ip}
-                  serviceID={service.ID}
-                  reload={reload}
-                />
-              </Grid>
-            )}
-            <Grid item xs={12}>
-              <ServiceEtc2 key={'ServiceEtc2'} service={service} />
-            </Grid>
-            {template.services?.find(
-              (ser) => ser.type === service.service_type
-            )?.need_jpnic && (
-              <Grid item xs={12}>
-                <ServiceJPNICBase
-                  key={'ServiceJPNICBase'}
-                  service={service}
-                  reload={reload}
-                />
-              </Grid>
-            )}
-            {template.services?.find((ser) => ser.type === service.service_type)
-              ?.need_jpnic && (
-              <Grid item xs={6}>
-                <ServiceJPNICAdminBase
-                  key={'ServiceJPNICAdminBase'}
-                  serviceID={service.ID}
-                  jpnic={service.jpnic_admin}
-                  reload={reload}
-                />
-              </Grid>
-            )}
-            {template.services?.find((ser) => ser.type === service.service_type)
-              ?.need_jpnic && (
-              <Grid item xs={6}>
-                <ServiceJPNICTechBase
-                  key={'ServiceJPNICTechBase'}
-                  serviceID={service.ID}
-                  jpnicAdmin={service.jpnic_admin}
-                  jpnicTech={service.jpnic_tech}
-                  reload={reload}
-                />
-              </Grid>
-            )}
-            <Grid item xs={12}>
-              <ServiceBase
-                key={'ServiceBase'}
-                service={service}
-                setReload={reload}
-              />
-            </Grid>
-            <Grid>
-              <div className={cssModule.contract}></div>
-            </Grid>
+              <div>3. 接続情報を元に、開通作業を行う</div>
+              <div>
+                4. 開通が完了すれば、接続情報からステータスを開通にする。
+              </div>
+            </CardContent>
+          </StyledCardRoot1>
+        </Grid>
+        <Grid item xs={12}>
+          <div className={cssModule.contract}>
+            <ServiceEtc1 key={'ServiceEtc1'} service={service} />
+          </div>
+        </Grid>
+        {template.services?.find((ser) => ser.type === service.service_type)
+          ?.need_jpnic && (
+          <Grid item xs={6}>
+            <ServiceIPBase
+              key={'ServiceIPBase'}
+              ip={service.ip}
+              serviceID={service.ID}
+              reload={setReload}
+            />
           </Grid>
-        </DialogContent>
-        <DialogActions>
-          <Button autoFocus onClick={handleClose} color="secondary">
-            Close
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </div>
+        )}
+        <Grid item xs={12}>
+          <ServiceEtc2 key={'ServiceEtc2'} service={service} />
+        </Grid>
+        {template.services?.find((ser) => ser.type === service.service_type)
+          ?.need_jpnic && (
+          <Grid item xs={12}>
+            <ServiceJPNICBase
+              key={'ServiceJPNICBase'}
+              service={service}
+              reload={setReload}
+            />
+          </Grid>
+        )}
+        {template.services?.find((ser) => ser.type === service.service_type)
+          ?.need_jpnic && (
+          <Grid item xs={6}>
+            <ServiceJPNICAdminBase
+              key={'ServiceJPNICAdminBase'}
+              serviceID={service.ID}
+              jpnic={service.jpnic_admin}
+              reload={setReload}
+            />
+          </Grid>
+        )}
+        {template.services?.find((ser) => ser.type === service.service_type)
+          ?.need_jpnic && (
+          <Grid item xs={6}>
+            <ServiceJPNICTechBase
+              key={'ServiceJPNICTechBase'}
+              serviceID={service.ID}
+              jpnicAdmin={service.jpnic_admin}
+              jpnicTech={service.jpnic_tech}
+              reload={setReload}
+            />
+          </Grid>
+        )}
+        <Grid item xs={12}>
+          <ServiceBase
+            key={'ServiceBase'}
+            service={service}
+            setReload={setReload}
+          />
+        </Grid>
+        <Grid>
+          <div className={cssModule.contract}></div>
+        </Grid>
+      </Grid>
+    </Dashboard>
   )
 }
 
-export function ServiceStatus(props: { service: ServiceDetailData }): any {
+export function ServiceStatus(props: { service: ServiceDetailData }) {
   const { service } = props
   const createDate = '作成日: ' + service.CreatedAt
   const updateDate = '更新日: ' + service.UpdatedAt
@@ -211,7 +190,7 @@ export function ServiceStatus(props: { service: ServiceDetailData }): any {
 export function ServiceMainMenu(props: {
   service: ServiceDetailData
   reload: Dispatch<SetStateAction<boolean>>
-}): any {
+}) {
   const { service, reload } = props
 
   return (
@@ -233,7 +212,7 @@ export function ServiceOpenButton(props: {
   service: ServiceDetailData
   lockInfo: boolean
   reload: Dispatch<SetStateAction<boolean>>
-}): any {
+}) {
   const { service, lockInfo, reload } = props
   const { enqueueSnackbar } = useSnackbar()
 
@@ -278,14 +257,10 @@ export function ServiceOpenButton(props: {
 export function ServiceOpen(props: {
   service: ServiceDetailData
   reload: Dispatch<SetStateAction<boolean>>
-}): any {
+}) {
   const { service, reload } = props
   const [serviceCopy, setServiceCopy] = useState(service)
-  const serviceCode =
-    service.group_id +
-    '-' +
-    service.service_type +
-    ('000' + service.service_number).slice(-3)
+  const serviceCode = GenServiceCodeOnlyService(service)
   const [lock, setLockInfo] = React.useState(true)
 
   const clickLockInfo = () => {
@@ -350,7 +325,7 @@ export function ServiceOpen(props: {
   )
 }
 
-export function ServiceEtc1(props: { service: ServiceDetailData }): any {
+export function ServiceEtc1(props: { service: ServiceDetailData }) {
   const { service } = props
 
   return (
@@ -393,7 +368,7 @@ export function ServiceEtc1(props: { service: ServiceDetailData }): any {
   )
 }
 
-export function ServiceEtc2(props: { service: ServiceDetailData }): any {
+export function ServiceEtc2(props: { service: ServiceDetailData }) {
   const { service } = props
 
   return (
@@ -443,7 +418,7 @@ export function ServiceEtc2(props: { service: ServiceDetailData }): any {
 export function ServiceJPNICBase(props: {
   service: ServiceDetailData
   reload: Dispatch<SetStateAction<boolean>>
-}): any {
+}) {
   const { service, reload } = props
 
   return (
@@ -463,7 +438,7 @@ export function ServiceJPNICBase(props: {
 export function ServiceJPNICDetail(props: {
   service: ServiceDetailData
   reload: Dispatch<SetStateAction<boolean>>
-}): any {
+}) {
   const { service, reload } = props
   const [lock, setLockInfo] = React.useState(true)
   const [serviceCopy, setServiceCopy] = useState(service)
@@ -596,7 +571,7 @@ export function ServiceJPNICDetail(props: {
 export function ServiceBase(props: {
   service: ServiceDetailData
   setReload: Dispatch<SetStateAction<boolean>>
-}): any {
+}) {
   const { service, setReload } = props
   const [lock, setLockInfo] = React.useState(true)
   const [serviceCopy, setServiceCopy] = useState(service)

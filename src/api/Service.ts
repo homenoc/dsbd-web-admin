@@ -322,7 +322,7 @@ export function PutJPNICTech(
     })
 }
 
-export function Get(id: string): Promise<{ error: string; data: any }> {
+export function Get(id: number): Promise<{ error: string; data: any }> {
   return axios
     .get(restfulApiConfig.apiURL + '/service/' + id, {
       headers: {
@@ -333,7 +333,7 @@ export function Get(id: string): Promise<{ error: string; data: any }> {
     .then((res) => {
       return {
         error: '',
-        data: res.data.service,
+        data: res.data.service[0],
       }
     })
     .catch((err) => {

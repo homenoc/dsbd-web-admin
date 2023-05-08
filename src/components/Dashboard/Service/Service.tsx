@@ -14,7 +14,6 @@ import {
   Toolbar,
 } from '@mui/material'
 import React, { Dispatch, SetStateAction } from 'react'
-import ServiceGetDialogs from '../../../pages/Service/ServiceDetail/ServiceDialog'
 import {
   DeleteDialog,
   EnableDialog,
@@ -22,12 +21,13 @@ import {
 } from '../../../pages/Group/GroupDetail/Service'
 import { useNavigate } from 'react-router-dom'
 import { StyledTable2, StyledTypographyHeading } from '../../../style'
+import { GenServiceCodeOnlyService } from '../../Tool'
 
 export default function Service(props: {
   data: ServiceDetailData[] | undefined
   template: TemplateData | undefined
   setReload: Dispatch<SetStateAction<boolean>>
-}): any {
+}) {
   const { data, template, setReload } = props
 
   return (
@@ -76,11 +76,8 @@ export function StatusTable(props: {
     setPage(0)
   }
 
-  const getServiceCode = (groupID: number, type: string, serviceNum: number) =>
-    groupID + '-' + type + ('000' + serviceNum).slice(-3)
-  const GroupDetailPage = (groupID: number) => {
-    navigate('/dashboard/group/' + groupID)
-  }
+  const clickGroupPage = (id: number) => navigate('/dashboard/group/' + id)
+  const clickServicePage = (id: number) => navigate('/dashboard/service/' + id)
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -104,12 +101,7 @@ export function StatusTable(props: {
             ).map((row, index) => (
               <TableRow key={'service_detail_' + index}>
                 <TableCell style={{ width: 300 }} component="th" scope="row">
-                  {row.ID}:{' '}
-                  {getServiceCode(
-                    row.group_id,
-                    row.service_type,
-                    row.service_number
-                  )}
+                  {row.ID}: {GenServiceCodeOnlyService(row)}
                 </TableCell>
                 <TableCell style={{ width: 300 }} align="right">
                   {row.CreatedAt}
@@ -127,17 +119,18 @@ export function StatusTable(props: {
                     {!row.pass && (
                       <ExaminationDialog
                         key={'service_examination_dialog_' + index}
-                        id={row.ID}
                         service={row}
                         reload={setReload}
                       />
                     )}
                     &nbsp;
-                    <ServiceGetDialogs
-                      key={'service_get_dialog_' + index}
-                      service={row}
-                      reload={setReload}
-                    />
+                    <Button
+                      size="small"
+                      variant="outlined"
+                      onClick={() => clickServicePage(row.ID)}
+                    >
+                      Detail
+                    </Button>
                     &nbsp;
                     <DeleteDialog
                       key={'service_delete_dialog_' + index}
@@ -154,7 +147,7 @@ export function StatusTable(props: {
                     <Button
                       size="small"
                       variant="outlined"
-                      onClick={() => GroupDetailPage(row.group_id)}
+                      onClick={() => clickGroupPage(row.group_id)}
                     >
                       Group
                     </Button>

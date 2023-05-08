@@ -7,7 +7,7 @@ import { StyledButton1 } from '../../../style'
 export function ServiceAddAllowButton(props: {
   service: ServiceDetailData
   reload: Dispatch<SetStateAction<boolean>>
-}): any {
+}) {
   const { service, reload } = props
   const { enqueueSnackbar } = useSnackbar()
 

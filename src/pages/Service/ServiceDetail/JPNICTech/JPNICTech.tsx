@@ -27,7 +27,7 @@ export function ServiceJPNICTechBase(props: {
   jpnicAdmin: JPNICData | undefined
   jpnicTech: JPNICData[] | undefined
   reload: Dispatch<SetStateAction<boolean>>
-}): any {
+}) {
   const { jpnicAdmin, jpnicTech, serviceID, reload } = props
 
   if (jpnicTech === undefined) {
@@ -58,7 +58,7 @@ export function ServiceJPNICTech(props: {
   jpnicAdmin: JPNICData | undefined
   jpnicTech: JPNICData[]
   reload: Dispatch<SetStateAction<boolean>>
-}): any {
+}) {
   const { jpnicAdmin, jpnicTech, serviceID, reload } = props
 
   return (
@@ -102,7 +102,7 @@ export function ServiceJPNICTechRow(props: {
   serviceID: number
   jpnic: JPNICData
   reload: Dispatch<SetStateAction<boolean>>
-}): any {
+}) {
   const { jpnic, serviceID, reload } = props
   const [open, setOpen] = React.useState(false)
 

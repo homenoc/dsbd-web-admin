@@ -16,6 +16,10 @@ import ServiceAdd from './pages/Add/ServiceAdd'
 import ConnectionAdd from './pages/Add/ConnectionAdd'
 import NotFound from './pages/Etc/404'
 import UserDetail from './pages/User/UserDetail/UserDetail'
+import NoticeAdd from './pages/Notice/NoticeAdd'
+import NoticeDetail from './pages/Notice/NoticeDetail'
+import ConnectionDetail from "./pages/Connection/ConnectionDetail/ConnectionDetail";
+import ServiceDetail from "./pages/Service/ServiceDetail/ServiceDetail";
 
 export default class App extends React.Component {
   render() {
@@ -27,6 +31,8 @@ export default class App extends React.Component {
           <Route path="/login" element={<SignIn />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/dashboard/notice" element={<Notice />} />
+          <Route path="/dashboard/notice/add" element={<NoticeAdd />} />
+          <Route path="/dashboard/notice/:id" element={<NoticeDetail />} />
           <Route path="/dashboard/group" element={<Group />} />
           <Route path="/dashboard/group/:id" element={<GroupDetail />} />
           <Route
@@ -40,7 +46,9 @@ export default class App extends React.Component {
           <Route path="/dashboard/support" element={<Support />} />
           <Route path="/dashboard/support/:id" element={<SupportDetail />} />
           <Route path="/dashboard/service" element={<Service />} />
+          <Route path="/dashboard/service/:id" element={<ServiceDetail />} />
           <Route path="/dashboard/connection" element={<Connection />} />
+          <Route path="/dashboard/connection/:id" element={<ConnectionDetail />} />
           <Route path="/dashboard/user" element={<User />} />
           <Route path="/dashboard/user/:id" element={<UserDetail />} />
           <Route path="/dashboard/token" element={<Token />} />

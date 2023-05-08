@@ -24,8 +24,8 @@ export default function UserDetail() {
   const [user, setUser] = useState(DefaultUserDetailData)
   const navigate = useNavigate()
   const { enqueueSnackbar } = useSnackbar()
-  let id: string | undefined
-  ;({ id } = useParams())
+  const { id } = useParams()
+
   useEffect(() => {
     Get(id!).then((res) => {
       if (res.error === '') {

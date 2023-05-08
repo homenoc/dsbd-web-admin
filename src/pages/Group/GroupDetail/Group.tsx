@@ -11,7 +11,6 @@ import {
   InputLabel,
   MenuItem,
   PropTypes,
-  TextField,
   Typography,
 } from '@mui/material'
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
@@ -42,7 +41,7 @@ import { TemplateState } from '../../../api/Recoil'
 import { StyledSelect1, StyledTextFieldShort } from '../../Add/style'
 import { GetPayment, PostSubscribe } from '../../../api/Payment'
 
-function ChipAgree(props: { agree: boolean }) {
+function ChipAgree(props:{ agree: boolean }) {
   const { agree } = props
   if (agree) {
     return <Chip size="small" color="primary" label="規約に同意する" />
@@ -54,7 +53,7 @@ export function GroupProfileInfo(props: {
   data: GroupDetailData
   setOpenMailSendDialog: Dispatch<SetStateAction<boolean>>
   setReload: Dispatch<SetStateAction<boolean>>
-}): any {
+}) {
   const { data, setOpenMailSendDialog, setReload } = props
   const [lockPersonalInformation, setLockPersonalInformation] =
     React.useState(true)
@@ -285,7 +284,7 @@ export function GroupProfileInfo(props: {
             <FormControl sx={{ width: '100%' }}>
               <StyledDivRoot1>
                 <StyledDivLargeHeading>Agree</StyledDivLargeHeading>
-                <ChipAgree agree={data.agree} />
+                <ChipAgree key={"agree"} agree={data.agree} />
                 <StyledDivLargeHeading>Question</StyledDivLargeHeading>
                 <StyledDivText>{data.question}</StyledDivText>
                 <StyledDivLargeHeading>Contract</StyledDivLargeHeading>
@@ -461,7 +460,7 @@ export function GroupMainMenu(props: {
   data: GroupDetailData
   autoMail: Dispatch<SetStateAction<string>>
   reload: Dispatch<SetStateAction<boolean>>
-}): any {
+}) {
   const { data, autoMail, reload } = props
 
   return (
@@ -487,7 +486,7 @@ export function GroupMainMenu(props: {
 export function GroupStatus(props: {
   data: GroupDetailData
   reload: boolean
-}): any {
+}) {
   const { data, reload } = props
   const [createDate, setCreateDate] = useState('')
   const [updateDate, setUpdateDate] = useState('')

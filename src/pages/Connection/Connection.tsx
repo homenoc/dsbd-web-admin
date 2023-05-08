@@ -13,12 +13,12 @@ import {
   FormControl,
   FormControlLabel,
   Radio,
-  RadioGroup, Stack,
-  Typography
-} from "@mui/material";
+  RadioGroup,
+  Stack,
+  Typography,
+} from '@mui/material'
 import { GetAll } from '../../api/Connection'
 import { useSnackbar } from 'notistack'
-import ConnectionGetDialogs from './ConnectionDetail/ConnectionDialog'
 import {
   ConnectionDetailData,
   DefaultConnectionDetailDataArray,
@@ -26,8 +26,8 @@ import {
 import { GetTemplate } from '../../api/Group'
 import { useRecoilState } from 'recoil'
 import { TemplateState } from '../../api/Recoil'
-import ServiceGetDialogs from "../Service/ServiceDetail/ServiceDialog";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom'
+import { GenServiceCode } from '../../components/Tool'
 
 export default function Connection() {
   const navigate = useNavigate()
@@ -65,18 +65,6 @@ export default function Connection() {
     }
   }, [])
 
-  const serviceCode = (connection: ConnectionDetailData) => {
-    return (
-      connection.service?.group_id +
-      '-' +
-      connection.service?.service_type +
-      ('000' + connection.service?.service_number).slice(-3) +
-      '-' +
-      connection.connection_type +
-      ('000' + connection.connection_number).slice(-3)
-    )
-  }
-
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(Number(event.target.value))
   }
@@ -97,13 +85,17 @@ export default function Connection() {
       tmp = initConnections
     } else {
       tmp = initConnections.filter((connection: ConnectionDetailData) => {
-        return serviceCode(connection)
+        return GenServiceCode(connection)
           .toLowerCase()
           .includes(search.toLowerCase())
       })
     }
     setConnections(tmp)
   }
+  const clickGroupPage = (id: number) => navigate('/dashboard/group/' + id)
+  const clickServicePage = (id: number) => navigate('/dashboard/service/' + id)
+  const clickConnectionPage = (id: number) =>
+    navigate('/dashboard/connection/' + id)
 
   return (
     <Dashboard title="Connection List">
@@ -145,7 +137,7 @@ export default function Connection() {
                 ID: {connection.ID}
               </StyledTypographyTitle>
               <Typography variant="h5" component="h2">
-                {serviceCode(connection)}
+                {GenServiceCode(connection)}
               </Typography>
               <br />
               {/*Group: {service.gr?.org}({service.group?.org_en})*/}
@@ -153,18 +145,28 @@ export default function Connection() {
             <CardActions>
               <Stack direction="row" spacing={1}>
                 {connection.service !== undefined && (
-                  <ConnectionGetDialogs
-                    key={'connection_get_dialog'}
-                    connection={connection}
-                    reload={setReload}
-                    service={connection.service}
-                  />
+                  <Button
+                    size="small"
+                    variant="outlined"
+                    onClick={() => clickConnectionPage(connection.ID)}
+                  >
+                    Detail
+                  </Button>
                 )}
                 <Button
                   size="small"
                   variant="outlined"
+                  disabled={connection.service?.group_id === undefined}
+                  onClick={() => clickServicePage(connection.service?.ID ?? 0)}
+                >
+                  Service
+                </Button>
+                <Button
+                  size="small"
+                  variant="outlined"
+                  disabled={connection.service?.group_id === undefined}
                   onClick={() =>
-                    navigate('/dashboard/group/' + connection.service?.group_id)
+                    clickGroupPage(connection.service?.group_id ?? 0)
                   }
                 >
                   Group

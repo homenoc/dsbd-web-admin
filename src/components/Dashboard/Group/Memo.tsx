@@ -26,7 +26,7 @@ import {
 export function MemoGroup(props: {
   data: GroupDetailData[] | undefined
   setReload: Dispatch<SetStateAction<boolean>>
-}): any {
+}) {
   const { data, setReload } = props
 
   return (

@@ -28,7 +28,7 @@ import { StyledButton1, StyledCardRoot1, StyledDivMemo } from '../../../style'
 export function GroupMemo(props: {
   data: GroupDetailData
   reload: Dispatch<SetStateAction<boolean>>
-}): any {
+}) {
   const [detailOpenMemoDialog, setDetailOpenMemoDialog] = React.useState(false)
   const [openAddMemoDialog, setAddOpenMemoDialog] = React.useState(false)
   const [memoData, setMemoData] = React.useState<MemoData>()

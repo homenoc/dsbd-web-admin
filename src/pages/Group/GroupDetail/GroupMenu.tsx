@@ -9,7 +9,7 @@ export function GroupStatusButton(props: {
   data: GroupDetailData
   autoMail: Dispatch<SetStateAction<string>>
   reload: Dispatch<SetStateAction<boolean>>
-}): any {
+}) {
   const { data, autoMail, reload } = props
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
 
@@ -87,7 +87,7 @@ export function GroupStatusButton(props: {
 export function GroupLockButton(props: {
   data: GroupDetailData
   reload: Dispatch<SetStateAction<boolean>>
-}): any {
+}) {
   const { data, reload } = props
   const { enqueueSnackbar } = useSnackbar()
 

@@ -30,6 +30,7 @@ import {
 import { Post } from '../../api/Connection'
 import { useRecoilValue } from 'recoil'
 import { TemplateState } from '../../api/Recoil'
+import { GenServiceCodeOnlyService } from '../../components/Tool'
 
 export default function ConnectionAdd() {
   const { enqueueSnackbar } = useSnackbar()
@@ -260,10 +261,7 @@ export default function ConnectionAdd() {
                   ?.filter((tmp) => tmp.add_allow)
                   .map((row, index) => (
                     <MenuItem key={'service_code_' + index} value={row.ID}>
-                      {groupID +
-                        '-' +
-                        row.service_type +
-                        ('000' + row.service_number).slice(-3)}
+                      {GenServiceCodeOnlyService(row)}
                     </MenuItem>
                   ))}
               </Select>

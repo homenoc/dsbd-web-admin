@@ -18,15 +18,15 @@ import {
   DeleteDialog,
   EnableDialog,
 } from '../../../pages/Group/GroupDetail/Connection'
-import ConnectionGetDialogs from '../../../pages/Connection/ConnectionDetail/ConnectionDialog'
 import { useNavigate } from 'react-router-dom'
 import { StyledTable1, StyledTypographyHeading } from '../../../style'
+import { GenServiceCode } from '../../Tool'
 
 export default function Connection(props: {
   data: ConnectionDetailData[] | undefined
   template: TemplateData | undefined
   setReload: Dispatch<SetStateAction<boolean>>
-}): any {
+}) {
   const { data, template, setReload } = props
 
   return (
@@ -75,29 +75,10 @@ export function StatusTable(props: {
     setPage(0)
   }
 
-  const GroupDetailPage = (groupID: number | undefined) => {
-    if (groupID !== undefined) {
-      navigate('/dashboard/group/' + groupID)
-    }
-  }
-
-  const getServiceCode = (
-    groupID: number | undefined,
-    serviceType: string | undefined,
-    serviceNum: number | undefined,
-    connectionType: string,
-    connectionNum: number
-  ) => {
-    return (
-      groupID +
-      '-' +
-      serviceType +
-      ('000' + serviceNum).slice(-3) +
-      '-' +
-      connectionType +
-      ('000' + connectionNum).slice(-3)
-    )
-  }
+  const clickGroupPage = (groupID: number | undefined) =>
+    navigate('/dashboard/group/' + groupID)
+  const clickConnectionPage = (id: number) =>
+    navigate('/dashboard/connection/' + id)
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -121,14 +102,7 @@ export function StatusTable(props: {
             ).map((row) => (
               <TableRow key={'service_detail_' + row.ID}>
                 <TableCell style={{ width: 300 }} component="th" scope="row">
-                  {row.ID}:{' '}
-                  {getServiceCode(
-                    row.service?.group_id,
-                    row.service?.service_type,
-                    row.service?.service_number,
-                    row.connection_type,
-                    row.connection_number
-                  )}
+                  {row.ID}: {GenServiceCode(row)}
                 </TableCell>
                 <TableCell style={{ width: 300 }} align="right">
                   {row.CreatedAt}
@@ -144,12 +118,13 @@ export function StatusTable(props: {
                 <TableCell style={{ width: 300 }} align="right">
                   <Box display="flex" justifyContent="flex-end">
                     {row.service !== undefined && (
-                      <ConnectionGetDialogs
-                        key={'connection_get_dialog_' + row.ID}
-                        connection={row}
-                        service={row.service}
-                        reload={setReload}
-                      />
+                      <Button
+                        size="small"
+                        variant="outlined"
+                        onClick={() => clickConnectionPage(row.ID)}
+                      >
+                        Detail
+                      </Button>
                     )}
                     &nbsp;
                     {/* eslint-disable-next-line react/jsx-no-undef */}
@@ -168,7 +143,8 @@ export function StatusTable(props: {
                     <Button
                       size="small"
                       variant="outlined"
-                      onClick={() => GroupDetailPage(row.service?.group_id)}
+                      disabled={row.service?.group_id === undefined}
+                      onClick={() => clickGroupPage(row.service?.group_id)}
                     >
                       Group
                     </Button>

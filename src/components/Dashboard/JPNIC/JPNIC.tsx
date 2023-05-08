@@ -32,7 +32,7 @@ export function JPNICDetail(props: {
   jpnic: JPNICData
   jpnicAdmin: boolean
   reload: Dispatch<SetStateAction<boolean>>
-}): any {
+}) {
   const { jpnic, jpnicAdmin, serviceID, reload } = props
   const [lockInfo, setLockInfo] = React.useState(true)
   const [jpnicCopy, setJPNICCopy] = useState(jpnic)
@@ -399,7 +399,7 @@ export function JPNICTechAdd(props: {
   serviceID: number
   jpnicAdmin: JPNICData | undefined
   reload: Dispatch<SetStateAction<boolean>>
-}): any {
+}) {
   const { jpnicAdmin, serviceID, reload } = props
   const [jpnic, setJPNIC] = useState(DefaultServiceJPNICData)
   const [open, setOpen] = useState(false)

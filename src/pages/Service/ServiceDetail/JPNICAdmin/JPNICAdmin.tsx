@@ -8,7 +8,7 @@ export function ServiceJPNICAdminBase(props: {
   serviceID: number
   jpnic: JPNICData | undefined
   reload: Dispatch<SetStateAction<boolean>>
-}): any {
+}) {
   const { jpnic, serviceID, reload } = props
 
   if (jpnic === undefined) {

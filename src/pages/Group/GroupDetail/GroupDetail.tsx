@@ -7,12 +7,12 @@ import { CircularProgress, Grid } from '@mui/material'
 import { DefaultGroupDetailData } from '../../../interface'
 import Ticket from '../../../components/Dashboard/Ticket/Ticket'
 import Request from '../../../components/Dashboard/Request/Request'
-import Service from './Service'
 import { GroupProfileInfo, GroupMainMenu, GroupStatus } from './Group'
 import { useSnackbar } from 'notistack'
 import { GroupMemo } from './Memo'
 import { MailAutoSendDialogs, MailSendDialogs } from '../Mail'
 import { StyledDivRoot1 } from '../../../style'
+import { Service } from "./Service";
 
 function getTitle(
   id: number,
@@ -37,8 +37,7 @@ export default function GroupDetail() {
   const [openMailSendDialog, setOpenMailSendDialog] = useState(false)
   const [openMailAutoSendDialog, setOpenMailAutoSendDialog] = useState('')
   const [sendAutoEmail, setSendAutoEmail] = useState('')
-  let id: string | undefined
-  ;({ id } = useParams())
+  const { id } = useParams()
 
   useEffect(() => {
     if (reload) {
@@ -106,7 +105,7 @@ export default function GroupDetail() {
           <Grid item xs={12}>
             <Service
               key={'service'}
-              data={group}
+              services={group.services}
               autoMail={setOpenMailAutoSendDialog}
               reload={setReload}
             />

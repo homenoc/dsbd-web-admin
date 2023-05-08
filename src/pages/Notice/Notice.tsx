@@ -10,6 +10,7 @@ import {
   Button,
   CardActions,
   CardContent,
+  Chip,
   FormControl,
   FormControlLabel,
   Radio,
@@ -19,17 +20,18 @@ import {
 import { Delete, GetAll } from '../../api/Notice'
 import { DefaultNoticeDataArray, NoticeData } from '../../interface'
 import { useSnackbar } from 'notistack'
-import NoticeAddDialogs from './NoticeAdd/NoticeAdd'
-import NoticeDetailDialogs from './NoticeDetail/NoticeDetail'
 import { useRecoilValue } from 'recoil'
 import { TemplateState } from '../../api/Recoil'
 import { ReactMarkdown } from 'react-markdown/lib/react-markdown'
 import remarkGfm from 'remark-gfm'
+import { useNavigate } from 'react-router-dom'
+import { getStringFromDate } from '../../components/Tool'
 
 export default function Notice() {
   const [tickets, setTickets] = useState(DefaultNoticeDataArray)
   const [initTickets, setInitTickets] = useState(DefaultNoticeDataArray)
   const template = useRecoilValue(TemplateState)
+  const navigate = useNavigate()
   const [reload, setReload] = useState(true)
   const { enqueueSnackbar } = useSnackbar()
   const [value, setValue] = React.useState(2)
@@ -80,7 +82,7 @@ export default function Notice() {
     setTickets(tmp)
   }
 
-  const checkDate = (startTime: string, endTime: string) => {
+  const checkDate = (startTime: string, endTime: string | undefined) => {
     if (value === 1) {
       return toDate(startTime) > now
     }
@@ -90,28 +92,20 @@ export default function Notice() {
     return now > toDate(endTime)
   }
 
-  const getStringFromDate = (before: string): string => {
-    let str = '無期限'
-    if (!before.match(/9999-12-31/)) {
-      const date = new Date(Date.parse(before))
-      str =
-        date.getFullYear() +
-        '-' +
-        ('0' + (1 + date.getMonth())).slice(-2) +
-        '-' +
-        ('0' + date.getDate()).slice(-2) +
-        ' ' +
-        ('0' + date.getHours()).slice(-2) +
-        ':' +
-        ('0' + date.getMinutes()).slice(-2) +
-        ':' +
-        ('0' + date.getSeconds()).slice(-2)
-    }
-    return str
-  }
+  const clickAddPage = () => navigate('/dashboard/notice/add')
+  const clickDetailPage = (id: number) => navigate('/dashboard/notice/' + id)
 
   return (
     <Dashboard title="Notice Info">
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => clickAddPage()}
+      >
+        通知の追加
+      </Button>
+      <br />
+      <br />
       <StyledPaperRootInput>
         <StyledInputBase
           placeholder="Search…"
@@ -121,11 +115,6 @@ export default function Notice() {
           }}
         />
       </StyledPaperRootInput>
-      <NoticeAddDialogs
-        key={'notice_add_dialog'}
-        setReload={setReload}
-        reload={reload}
-      />
       <FormControl component="fieldset">
         <RadioGroup
           row
@@ -156,25 +145,34 @@ export default function Notice() {
                 ID: {notice.ID} ({getStringFromDate(notice.start_time)} -{' '}
                 {getStringFromDate(notice.end_time)})
               </StyledTypographyTitle>
+              {notice.important && (
+                <Chip size="small" color="primary" label="重要" />
+              )}
+              &nbsp;&nbsp;
+              {notice.info && (
+                <Chip size="small" color="primary" label="情報" />
+              )}
+              &nbsp;&nbsp;
+              {notice.fault && (
+                <Chip size="small" color="secondary" label="障害" />
+              )}
+              <br />
               <Typography variant="h5" component="h2">
                 {notice.title}
               </Typography>
-              <br />
-              <ReactMarkdown
-                skipHtml={true}
-                remarkPlugins={[remarkGfm]}
-              >
+              <ReactMarkdown skipHtml={true} remarkPlugins={[remarkGfm]}>
                 {notice.data}
               </ReactMarkdown>
             </CardContent>
             <CardActions>
-              <NoticeDetailDialogs
-                key={'notice_detail_dialogs'}
-                setReload={setReload}
-                template={template}
-                reloadTemplate={true}
-                noticeData={notice}
-              />
+              <Button
+                color="primary"
+                size="small"
+                variant="outlined"
+                onClick={() => clickDetailPage(notice.ID)}
+              >
+                Detail
+              </Button>
               <Button
                 color="secondary"
                 size="small"

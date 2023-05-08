@@ -139,12 +139,17 @@ export default function Support() {
               作成者: {ticket.user?.name}
             </CardContent>
             <CardActions>
-              <Button size="small" onClick={() => clickDetailPage(ticket.ID)}>
+              <Button
+                size="small"
+                variant="outlined"
+                onClick={() => clickDetailPage(ticket.ID)}
+              >
                 Detail
               </Button>
               {ticket.solved && (
                 <Button
                   size="small"
+                  variant="outlined"
                   color="secondary"
                   onClick={() => clickSolvedStatus(ticket.ID, false)}
                 >
@@ -154,6 +159,7 @@ export default function Support() {
               {!ticket.solved && (
                 <Button
                   size="small"
+                  variant="outlined"
                   color="secondary"
                   onClick={() => clickSolvedStatus(ticket.ID, true)}
                 >

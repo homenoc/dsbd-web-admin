@@ -18,15 +18,15 @@ import {
   Typography,
 } from '@mui/material'
 import { ConnectionDetailData, ServiceDetailData } from '../../../interface'
-import ConnectionGetDialogs from '../../Connection/ConnectionDetail/ConnectionDialog'
 import { GetConnectionWithTemplate } from '../../../api/Tool'
+import { useNavigate } from 'react-router-dom'
+import { GenServiceCode } from '../../../components/Tool'
 
 export function RowConnectionCheck(props: {
   service: ServiceDetailData
-  groupID: number
   reload: Dispatch<SetStateAction<boolean>>
 }) {
-  const { service, groupID, reload } = props
+  const { service, reload } = props
 
   if (service.connections === undefined) {
     return (
@@ -56,7 +56,6 @@ export function RowConnectionCheck(props: {
               key={rowConnection.ID}
               service={service}
               connection={rowConnection}
-              groupID={groupID}
               reload={reload}
             />
           ))}
@@ -69,18 +68,13 @@ export function RowConnectionCheck(props: {
 function RowConnection(props: {
   service: ServiceDetailData
   connection: ConnectionDetailData
-  groupID: number
   reload: Dispatch<SetStateAction<boolean>>
 }) {
-  const { service, connection, groupID, reload } = props
-  const serviceCode =
-    groupID +
-    '-' +
-    service.service_type +
-    ('000' + service.service_number).slice(-3) +
-    '-' +
-    connection.connection_type +
-    ('000' + connection.connection_number).slice(-3)
+  const navigate = useNavigate()
+  const { service, connection, reload } = props
+  const serviceCode = GenServiceCode(connection)
+  const clickConnectionPage = (id: number) =>
+    navigate('/dashboard/connection/' + id)
 
   return (
     <TableRow key={connection.ID}>
@@ -104,12 +98,13 @@ function RowConnection(props: {
       </TableCell>
       <TableCell align="right">
         <Box display="flex" justifyContent="flex-end">
-          <ConnectionGetDialogs
-            key={'connection_get_dialog'}
-            connection={connection}
-            service={service}
-            reload={reload}
-          />
+          <Button
+            size="small"
+            variant="outlined"
+            onClick={() => clickConnectionPage(connection.ID)}
+          >
+            Detail
+          </Button>
           &nbsp;
           <DeleteDialog
             key={'connection_delete_alert_dialog_' + connection.ID}
@@ -224,7 +219,12 @@ export function EnableDialog(props: {
 
   return (
     <div>
-      <Button size="small" variant="outlined" onClick={handleClickOpen}>
+      <Button
+        size="small"
+        variant="outlined"
+        color={connection.enable ? 'secondary' : 'primary'}
+        onClick={handleClickOpen}
+      >
         {connection.enable && 'Disable'}
         {!connection.enable && 'Enable'}
       </Button>

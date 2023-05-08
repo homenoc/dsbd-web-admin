@@ -1,12 +1,8 @@
-import React, { Dispatch, SetStateAction, useState } from 'react'
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import {
   Button,
   CardContent,
   Chip,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
   FormControl,
   Grid,
   InputLabel,
@@ -16,7 +12,7 @@ import {
 import {
   BGPRouterDetailData,
   ConnectionDetailData,
-  ServiceDetailData,
+  DefaultConnectionDetailData,
   TunnelEndPointRouterIPTemplateData,
 } from '../../../interface'
 import classes from './ConnectionDialog.module.scss'
@@ -38,86 +34,62 @@ import {
 } from '../../../api/Tool'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { TemplateState } from '../../../api/Recoil'
-import { Put } from '../../../api/Connection'
+import Dashboard from '../../../components/Dashboard/Dashboard'
+import { Get, Put } from '../../../api/Connection'
+import { useParams } from 'react-router-dom'
+import { GenServiceCode } from '../../../components/Tool'
 
-export default function ConnectionGetDialogs(props: {
-  service: ServiceDetailData
-  connection: ConnectionDetailData
-  reload: Dispatch<SetStateAction<boolean>>
-}) {
-  const { service, connection, reload } = props
-  const [open, setOpen] = React.useState(false)
+export default function ConnectionDetail() {
+  const template = useRecoilValue(TemplateState)
+  const [reload, setReload] = useState(true)
+  const [connection, setConnection] = useState(DefaultConnectionDetailData)
+  const { enqueueSnackbar } = useSnackbar()
+  const { id } = useParams()
 
-  const handleClickOpen = () => {
-    setOpen(true)
-  }
-  const handleClose = () => {
-    setOpen(false)
-  }
+  useEffect(() => {
+    if (reload) {
+      Get(Number(id)).then((res) => {
+        if (res.error !== '') {
+          enqueueSnackbar('' + res.error, { variant: 'error' })
+          return
+        }
+        setConnection(res.data)
+        setReload(false)
+      })
+    }
+  }, [template, reload])
 
   return (
-    <div>
-      <Button size="small" variant="outlined" onClick={handleClickOpen}>
-        Detail
-      </Button>
-      <Dialog
-        onClose={handleClose}
-        fullScreen={true}
-        aria-labelledby="customized-dialog-title"
-        open={open}
-        PaperProps={{
-          style: {
-            backgroundColor: '#2b2a2a',
-          },
-        }}
-      >
-        <DialogTitle id="customized-dialog-title">
-          Connection Detail
-        </DialogTitle>
-        <DialogContent dividers>
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6} lg={3}>
-              <ConnectionStatus
-                key={'connectionStatus'}
-                connection={connection}
-                service={service}
-              />
-            </Grid>
-            <Grid item xs={12} md={6} lg={3}>
-              <ConnectionEtc key={'connectionETC'} connection={connection} />
-            </Grid>
-            <Grid item xs={12} lg={6}>
-              <ConnectionOpen
-                key={'connection_open'}
-                connection={connection}
-                service={service}
-                setReload={reload}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <ConnectionUserDisplay
-                key={'connection_user_display'}
-                service={service}
-                connection={connection}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <ConnectionEtc2
-                key={'connection_etc2'}
-                service={service}
-                connection={connection}
-                setReload={reload}
-              />
-            </Grid>
-          </Grid>
-        </DialogContent>
-        <DialogActions>
-          <Button autoFocus onClick={handleClose} color="secondary">
-            Close
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </div>
+    <Dashboard title="Connection Detail">
+      <Grid container spacing={3}>
+        <Grid item xs={12} md={6} lg={3}>
+          <ConnectionStatus key={'connectionStatus'} connection={connection} />
+        </Grid>
+        <Grid item xs={12} md={6} lg={3}>
+          <ConnectionEtc key={'connectionETC'} connection={connection} />
+        </Grid>
+        <Grid item xs={12} lg={6}>
+          <ConnectionOpen
+            key={'connection_open'}
+            connection={connection}
+            setReload={setReload}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <ConnectionUserDisplay
+            key={'connection_user_display'}
+            connection={connection}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <ConnectionEtc2
+            key={'connection_etc2'}
+            connection={connection}
+            setReload={setReload}
+          />
+        </Grid>
+      </Grid>
+    </Dashboard>
   )
 }
 
@@ -125,7 +97,7 @@ export function ConnectionOpenButton(props: {
   connection: ConnectionDetailData
   lock: boolean
   reload: Dispatch<SetStateAction<boolean>>
-}): any {
+}) {
   const { connection, lock, reload } = props
   const { enqueueSnackbar } = useSnackbar()
 
@@ -170,11 +142,10 @@ export function ConnectionOpenButton(props: {
 }
 
 export function ConnectionOpen(props: {
-  service: ServiceDetailData
   connection: ConnectionDetailData
   setReload: Dispatch<SetStateAction<boolean>>
 }) {
-  const { service, connection, setReload } = props
+  const { connection, setReload } = props
   const [template] = useRecoilState(TemplateState)
   const [connectionCopy, setConnectionCopy] = useState(connection)
   const [lock, setLock] = React.useState(true)
@@ -195,7 +166,6 @@ export function ConnectionOpen(props: {
           <ConnectionOpenL3User
             key={'connection_open_l3_user'}
             connection={connectionCopy}
-            service={service}
             setConnection={setConnectionCopy}
             lock={lock}
           />
@@ -318,18 +288,18 @@ export function ConnectionOpenVPN(props: {
 }
 
 export function ConnectionOpenL3User(props: {
-  service: ServiceDetailData
   connection: ConnectionDetailData
   setConnection: Dispatch<SetStateAction<ConnectionDetailData>>
   lock: boolean
 }) {
-  const { service, connection, setConnection, lock } = props
+  const { connection, setConnection, lock } = props
   const template = useRecoilValue(TemplateState)
 
   if (
-    service === undefined ||
-    !template.services?.find((ser) => ser.type === service.service_type)
-      ?.need_route
+    connection.service === undefined ||
+    !template.services?.find(
+      (ser) => ser.type === connection.service?.service_type
+    )?.need_route
   ) {
     return null
   }
@@ -392,19 +362,9 @@ export function ConnectionOpenL3User(props: {
   )
 }
 
-export function ConnectionStatus(props: {
-  service: ServiceDetailData
-  connection: ConnectionDetailData
-}): any {
-  const { service, connection } = props
-  const serviceCode =
-    service.group_id +
-    '-' +
-    service.service_type +
-    ('000' + service.service_number).slice(-3) +
-    '-' +
-    connection.connection_type +
-    ('000' + connection.connection_number).slice(-3)
+export function ConnectionStatus(props: { connection: ConnectionDetailData }) {
+  const { connection } = props
+  const serviceCode = GenServiceCode(connection)
   const createDate = '作成日: ' + connection.CreatedAt
   const updateDate = '更新日: ' + connection.UpdatedAt
 
@@ -456,9 +416,7 @@ export function ConnectionStatus(props: {
   )
 }
 
-export function ConnectionEtc(props: {
-  connection: ConnectionDetailData
-}): any {
+export function ConnectionEtc(props: { connection: ConnectionDetailData }) {
   const { connection } = props
 
   return (
@@ -506,10 +464,9 @@ export function ConnectionMonitorDisplay(props: { monitor: boolean }) {
 }
 
 export function ConnectionUserDisplay(props: {
-  service: ServiceDetailData
   connection: ConnectionDetailData
 }) {
-  const { service, connection } = props
+  const { connection } = props
 
   const distinctionIPAssign = (our: boolean) => {
     if (our) {
@@ -549,8 +506,8 @@ export function ConnectionUserDisplay(props: {
               <tr>
                 <th>当団体からのIPアドレスの割当</th>
                 {distinctionIPAssign(
-                  GetServiceWithTemplate(service.service_type)?.need_jpnic ??
-                    false
+                  GetServiceWithTemplate(connection.service?.service_type ?? '')
+                    ?.need_jpnic ?? false
                 )}
               </tr>
             </thead>
@@ -607,10 +564,9 @@ export function ConnectionUserDisplay(props: {
 }
 
 export function ConnectionEtc2(props: {
-  service: ServiceDetailData
   connection: ConnectionDetailData
   setReload: Dispatch<SetStateAction<boolean>>
-}): any {
+}) {
   const { connection, setReload } = props
   const [lock, setLockInfo] = React.useState(true)
   const [connectionCopy, setConnectionCopy] = useState(connection)

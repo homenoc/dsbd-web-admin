@@ -117,7 +117,7 @@ export default function User() {
                 variant="outlined"
                 onClick={() => navigate('/dashboard/user/' + user.ID)}
               >
-                Group
+                Detail
               </Button>
               {/*<Button size="small" onClick={() => clickDetailPage(notice.ID)}>Detail</Button>*/}
             </CardActions>

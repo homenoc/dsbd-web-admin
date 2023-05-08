@@ -20,7 +20,7 @@ import { StyledTable2, StyledTypographyHeading } from '../../../style'
 export function Group(props: {
   data: GroupDetailData[] | undefined
   setReload: Dispatch<SetStateAction<boolean>>
-}): any {
+}) {
   const { data, setReload } = props
   const nowDate = new Date()
 

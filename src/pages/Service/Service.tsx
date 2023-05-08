@@ -24,9 +24,12 @@ import {
   ServiceDetailData,
 } from '../../interface'
 import { useSnackbar } from 'notistack'
-import ServiceGetDialogs from './ServiceDetail/ServiceDialog'
 import { GetTemplate } from '../../api/Group'
 import { useNavigate } from 'react-router-dom'
+import {
+  GenServiceCode,
+  GenServiceCodeOnlyService,
+} from '../../components/Tool'
 
 export default function Service() {
   const navigate = useNavigate()
@@ -52,7 +55,7 @@ export default function Service() {
         }
       })
     }
-  }, [])
+  }, [reload, template])
 
   useEffect(() => {
     GetTemplate().then((res) => {
@@ -63,14 +66,6 @@ export default function Service() {
       }
     })
   }, [])
-
-  const serviceCode = (
-    groupID: number,
-    type: string,
-    serviceNumber: number
-  ) => {
-    return groupID + '-' + type + ('000' + serviceNumber).slice(-3)
-  }
 
   const checkConnection = (service: ServiceDetailData) => {
     if (value === 1) {
@@ -92,16 +87,15 @@ export default function Service() {
       tmp = initServices
     } else {
       tmp = initServices.filter((service: ServiceDetailData) => {
-        const code =
-          service.group_id +
-          '-' +
-          service.service_type +
-          ('000' + service.service_number).slice(-3)
+        const code = GenServiceCodeOnlyService(service)
         return code.toLowerCase().includes(search.toLowerCase())
       })
     }
     setServices(tmp)
   }
+
+  const clickGroupPage = (id: number) => navigate('/dashboard/group/' + id)
+  const clickServicePage = (id: number) => navigate('/dashboard/service/' + id)
 
   return (
     <Dashboard title="Service List">
@@ -143,26 +137,23 @@ export default function Service() {
                 ID: {service.ID}
               </StyledTypographyTitle>
               <Typography variant="h5" component="h2">
-                {serviceCode(
-                  service.group_id,
-                  service.service_type,
-                  service.service_number
-                )}
+                {GenServiceCodeOnlyService(service)}
               </Typography>
             </CardContent>
             <CardActions>
               <Stack direction="row" spacing={1}>
-                <ServiceGetDialogs
-                  key={service.ID + 'Dialog'}
-                  service={service}
-                  reload={setReload}
-                />
                 <Button
                   size="small"
                   variant="outlined"
-                  onClick={() =>
-                    navigate('/dashboard/group/' + service.group_id)
-                  }
+                  onClick={() => clickServicePage(service.ID)}
+                >
+                  Detail
+                </Button>
+                <Button
+                  size="small"
+                  variant="outlined"
+                  disabled={service.group_id === undefined}
+                  onClick={() => clickGroupPage(service.group_id)}
                 >
                   Group
                 </Button>

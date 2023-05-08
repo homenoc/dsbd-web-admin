@@ -66,9 +66,7 @@ export default function Group() {
     setGroups(tmp)
   }
 
-  function clickDetailPage(id: number) {
-    navigate('/dashboard/group/' + id)
-  }
+  const clickDetailPage = (id: number) => navigate('/dashboard/group/' + id)
 
   return (
     <Dashboard title="Group Info">
@@ -112,12 +110,13 @@ export default function Group() {
               <Typography variant="h5" component="h2">
                 {group.org} ({group.org_en})
               </Typography>
-              {/*<Typography className={classes.pos} color="textSecondary">*/}
-              {/*    {group.user}*/}
-              {/*</Typography>*/}
             </CardContent>
             <CardActions>
-              <Button size="small" onClick={() => clickDetailPage(group.ID)}>
+              <Button
+                size="small"
+                variant="outlined"
+                onClick={() => clickDetailPage(group.ID)}
+              >
                 Detail
               </Button>
             </CardActions>

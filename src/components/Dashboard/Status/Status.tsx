@@ -44,7 +44,7 @@ export function GroupStatusStr(data: GroupDetailData): string {
   return str
 }
 
-export function GroupStudent(props: { student: boolean; date: string }): any {
+export function GroupStudent(props: { student: boolean; date: string }) {
   const { student, date } = props
   if (student) {
     const tmp = date.split('T')

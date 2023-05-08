@@ -3,7 +3,7 @@ export interface NoticeData {
   CreatedAt: string
   UpdatedAt: string
   start_time: string
-  end_time: string
+  end_time: string | undefined
   everyone: boolean
   fault: boolean
   important: boolean
@@ -727,7 +727,7 @@ export const DefaultServiceDetailData: ServiceDetailData = {
   avg_upstream: 0,
   max_downstream: 0,
   max_upstream: 0,
-  max_bandwidth_as: "",
+  max_bandwidth_as: '',
   service_type: '',
   service_number: 0,
   service_comment: '',
