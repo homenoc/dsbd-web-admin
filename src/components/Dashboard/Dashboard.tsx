@@ -45,7 +45,7 @@ import { useRecoilState } from 'recoil'
 import { TemplateState } from '../../api/Recoil'
 import { GetTemplate } from '../../api/Group'
 import { useSnackbar } from 'notistack'
-import useMediaQuery from '@mui/material/useMediaQuery';
+import useMediaQuery from '@mui/material/useMediaQuery'
 
 const drawerWidth = 240
 
@@ -120,19 +120,17 @@ interface DashboardProps {
 export default function Dashboard(props: DashboardProps) {
   // Menu Bar
   // useMediaQuery("(min-width:800px)")でmobileかどうかを判定
-  const [open, setOpen] = React.useState(useMediaQuery("(min-width:600px)"))
+  const [open, setOpen] = React.useState(useMediaQuery('(min-width:600px)'))
 
   // 画面サイズが変わったときにopenを変更
   // closeが強制されているときは、openをfalseにする
-  const isMobile = !useMediaQuery("(min-width:600px)");
+  const isMobile = !useMediaQuery('(min-width:600px)')
   useEffect(() => {
-    if(props.forceDrawerClosed){
+    if (props.forceDrawerClosed) {
       setOpen(false)
-    }
-    else if(isMobile){
+    } else if (isMobile) {
       setOpen(false)
-    }
-    else{
+    } else {
       setOpen(true)
     }
   }, [isMobile, props.forceDrawerClosed])
@@ -214,7 +212,7 @@ export default function Dashboard(props: DashboardProps) {
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant="h6" noWrap component="div">
+            <Typography component="h1" variant="h6">
               AS59105 Admin Page
             </Typography>
             <Box sx={{ flexGrow: 1 }} />
@@ -305,13 +303,13 @@ export default function Dashboard(props: DashboardProps) {
           </List>
         </Drawer>
         {!loading && (
-          <Container component="main" sx={{ mt: 10, minWidth: "calc(100% - 240px)", ...props.sx }}>
-            <Typography variant="h5" component="h3">
+          <Box component="main" sx={{ flexGrow: 1, p: 3, ...props.sx }}>
+            <StyledDivDashboardToolBarIcon />
+            <Typography sx={{ m: 1 }} variant="h5" color="inherit">
               {props.title}
             </Typography>
-            <br />
             {props.children}
-          </Container>
+          </Box>
         )}
       </Box>
     </ThemeProvider>

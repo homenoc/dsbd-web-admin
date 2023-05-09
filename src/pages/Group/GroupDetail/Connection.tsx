@@ -20,7 +20,7 @@ import {
 import { ConnectionDetailData, ServiceDetailData } from '../../../interface'
 import { GetConnectionWithTemplate } from '../../../api/Tool'
 import { useNavigate } from 'react-router-dom'
-import { GenServiceCode } from '../../../components/Tool'
+import { GenServiceCodeFromService } from '../../../components/Tool'
 
 export function RowConnectionCheck(props: {
   service: ServiceDetailData
@@ -50,75 +50,75 @@ export function RowConnectionCheck(props: {
             <TableCell align="right">Action</TableCell>
           </TableRow>
         </TableHead>
-        <TableBody>
-          {service.connections.map((rowConnection: ConnectionDetailData) => (
-            <RowConnection
-              key={rowConnection.ID}
-              connection={rowConnection}
-              serviceCode={GenServiceCode(rowConnection)}
-              setReload={setReload}
-            />
-          ))}
-        </TableBody>
+        <RowConnection
+          key={'connection_table'}
+          service={service}
+          setReload={setReload}
+        />
       </Table>
     </div>
   )
 }
 
 export function RowConnection(props: {
-  connection: ConnectionDetailData
-  serviceCode: string
+  service: ServiceDetailData
   setReload: Dispatch<SetStateAction<boolean>>
 }) {
   const navigate = useNavigate()
-  const { connection, serviceCode, setReload } = props
+  const { service, setReload } = props
   const clickConnectionPage = (id: number) =>
     navigate('/dashboard/connection/' + id)
+  const serviceCode = (connection: ConnectionDetailData) =>
+    GenServiceCodeFromService(service, connection)
 
   return (
-    <TableRow key={connection.ID}>
-      <TableCell component="th" scope="row" align="left">
-        {connection.ID}
-      </TableCell>
-      <TableCell align="left">{serviceCode}</TableCell>
-      <TableCell align="left">
-        {GetConnectionWithTemplate(connection.connection_type)!.name}
-      </TableCell>
-      <TableCell align="left">
-        {!connection.enable && (
-          <Chip size="small" color="secondary" label="無効" />
-        )}
-        {connection.enable && connection.open && (
-          <Chip size="small" color="primary" label="開通" />
-        )}
-        {connection.enable && !connection.open && (
-          <Chip size="small" color="secondary" label="未開通" />
-        )}
-      </TableCell>
-      <TableCell align="right">
-        <Box display="flex" justifyContent="flex-end">
-          <Button
-            size="small"
-            variant="outlined"
-            onClick={() => clickConnectionPage(connection.ID)}
-          >
-            Detail
-          </Button>
-          &nbsp;
-          <DeleteDialog
-            key={'connection_delete_alert_dialog_' + connection.ID}
-            id={connection.ID}
-            setReload={setReload}
-          />
-          &nbsp;
-          <EnableDialog
-            key={'connection_enable_alert_dialog_' + connection.ID}
-            connection={connection}
-            setReload={setReload}
-          />
-        </Box>
-      </TableCell>
-    </TableRow>
+    <TableBody>
+      {service.connections?.map((connection: ConnectionDetailData) => (
+        <TableRow key={connection.ID}>
+          <TableCell component="th" scope="row" align="left">
+            {connection.ID}
+          </TableCell>
+          <TableCell align="left">{serviceCode(connection)}</TableCell>
+          <TableCell align="left">
+            {GetConnectionWithTemplate(connection.connection_type)?.name}
+          </TableCell>
+          <TableCell align="left">
+            {!connection.enable && (
+              <Chip size="small" color="secondary" label="無効" />
+            )}
+            {connection.enable && connection.open && (
+              <Chip size="small" color="primary" label="開通" />
+            )}
+            {connection.enable && !connection.open && (
+              <Chip size="small" color="secondary" label="未開通" />
+            )}
+          </TableCell>
+          <TableCell align="right">
+            <Box display="flex" justifyContent="flex-end">
+              <Button
+                size="small"
+                variant="outlined"
+                onClick={() => clickConnectionPage(connection.ID)}
+              >
+                Detail
+              </Button>
+              &nbsp;
+              <DeleteDialog
+                key={'connection_delete_alert_dialog_' + connection.ID}
+                id={connection.ID}
+                setReload={setReload}
+              />
+              &nbsp;
+              <EnableDialog
+                key={'connection_enable_alert_dialog_' + connection.ID}
+                connection={connection}
+                setReload={setReload}
+              />
+            </Box>
+          </TableCell>
+        </TableRow>
+      ))}
+    </TableBody>
   )
 }
 

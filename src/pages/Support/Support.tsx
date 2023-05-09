@@ -134,7 +134,12 @@ export default function Support() {
               )}
               <br />
               <br />
-              Group: {ticket.group?.org}({ticket.group?.org_en})
+              {ticket.group_id != null && (
+                <>
+                  Group: {ticket.group?.org} ({ticket.group?.org_en})
+                </>
+              )}
+              {ticket.group_id == null && <>Group: 割当なし</>}
               <br />
               作成者: {ticket.user?.name}
             </CardContent>

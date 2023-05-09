@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { DefaultChatDataArray } from '../../../interface'
 import {
-  StyledDivContainer,
-  StyledPaper,
-  StyledPaperMessageBody,
-} from './styles'
+  DefaultUserDetailData,
+  TicketDetailData,
+  UserDetailData,
+} from '../../../interface'
+import { StyledPaperMessage } from '../styles'
 import { restfulApiConfig } from '../../../api/Config'
 import useWebSocket from 'react-use-websocket'
 import { MessageLeft, MessageRight } from './Message'
@@ -29,54 +29,48 @@ export default function SupportDetail() {
       onOpen: () =>
         enqueueSnackbar('WebSocket接続確立', { variant: 'success' }),
       onClose: () => enqueueSnackbar('WebSocket切断', { variant: 'error' }),
-      shouldReconnect: (closeEvent) => true,
+      shouldReconnect: () => true,
     }
   )
   const { enqueueSnackbar } = useSnackbar()
-  const [baseChatData, setBaseChatData] = useState(DefaultChatDataArray)
+  const [ticket, setTicket] = useState<TicketDetailData>()
   const [inputChatData, setInputChatData] = useState('')
   const [sendPush, setSendPush] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    setBaseChatData([])
     Get(Number(id)).then((res) => {
-      if (res.error === '') {
-        setBaseChatData([])
-        const tmpChat = []
-
-        for (const tmp of res.data.chat) {
-          let userName = '管理者'
-          if (!tmp.admin) {
-            userName = tmp.user.name
-          }
-          tmpChat.push({
-            admin: tmp.admin,
-            data: tmp.data,
-            time: tmp.CreatedAt,
-            user_name: userName,
-          })
-        }
-        setBaseChatData(tmpChat)
-        ref.current?.scrollIntoView()
-      } else {
+      if (res.error !== '') {
         enqueueSnackbar('' + res.error, { variant: 'error' })
+        return
       }
+      setTicket(res.data)
+      ref.current?.scrollIntoView()
     })
   }, [])
 
   useEffect(() => {
     if (lastMessage !== null) {
       const obj = JSON.parse(lastMessage?.data)
-      setBaseChatData((tmpChat) => [
-        ...tmpChat,
-        {
-          admin: obj.admin,
-          data: obj.message,
-          time: obj.time,
-          user_name: obj.username,
-        },
-      ])
+      const user: UserDetailData = DefaultUserDetailData
+      user.name = obj.username
+      if (ticket?.chat != null) {
+        setTicket({
+          ...ticket,
+          chat: [
+            ...ticket.chat,
+            {
+              CreatedAt: obj.time,
+              ID: 0,
+              UpdatedAt: obj.time,
+              admin: obj.admin,
+              data: obj.message,
+              user_id: obj.user_id,
+              user,
+            },
+          ],
+        })
+      }
       if (obj.admin) {
         enqueueSnackbar('送信しました。', { variant: 'success' })
       } else {
@@ -99,33 +93,46 @@ export default function SupportDetail() {
   }, [sendPush])
 
   return (
-    <DashboardComponent sx={{ padding: "7px" }} forceDrawerClosed={true}>
-      <StyledPaperMessageBody id="style-1">
-        <b>このチャットはMarkdownに準拠しております。</b>
-        {baseChatData.map((chat, index) =>
-          chat.admin ? (
-            <MessageRight
-              key={index}
-              message={chat.data}
-              timestamp={chat.time}
-            />
-          ) : (
-            <MessageLeft
-              key={index}
-              message={chat.data}
-              timestamp={chat.time}
-              displayName={chat.user_name}
-            />
-          )
-        )}
-        <div ref={ref} />
-      </StyledPaperMessageBody>
-      <TextInput
-        key={'textInput'}
-        inputChat={inputChatData}
-        setInputChat={setInputChatData}
-        setSendPush={setSendPush}
-      />
-    </DashboardComponent>
+    <>
+      {ticket?.chat === undefined && (
+        <DashboardComponent>
+          <h2>データがありません</h2>
+        </DashboardComponent>
+      )}
+      {ticket?.chat != null && (
+        <DashboardComponent
+          title={id + ': ' + ticket?.title}
+          sx={{ padding: '7px' }}
+          forceDrawerClosed={true}
+        >
+          <StyledPaperMessage id="style-1">
+            <b>このチャットはMarkdownに準拠しております。</b>
+            {ticket?.chat.map((chat, index) =>
+              chat.admin ? (
+                <MessageRight
+                  key={index}
+                  message={chat.data}
+                  timestamp={chat.CreatedAt}
+                />
+              ) : (
+                <MessageLeft
+                  key={index}
+                  message={chat.data}
+                  timestamp={chat.CreatedAt}
+                  displayName={chat.user?.name}
+                />
+              )
+            )}
+            <div ref={ref} />
+          </StyledPaperMessage>
+          <TextInput
+            key={'textInput'}
+            inputChat={inputChatData}
+            setInputChat={setInputChatData}
+            setSendPush={setSendPush}
+          />
+        </DashboardComponent>
+      )}
+    </>
   )
 }

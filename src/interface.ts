@@ -436,9 +436,12 @@ export interface ConnectionAddData {
 }
 
 export interface ChatData {
-  time: string
+  CreatedAt: string
+  ID: number
+  UpdatedAt: string
   data: string
-  user_name: string
+  user_id: number
+  user?: UserDetailData
   admin: boolean
 }
 
@@ -663,9 +666,11 @@ export const DefaultServiceAddIPv4PlanData: ServiceAddIPv4PlanData = {
 }
 
 export const DefaultChatData: ChatData = {
-  time: '',
+  CreatedAt: '',
+  ID: 0,
+  UpdatedAt: '',
   data: '',
-  user_name: '',
+  user_id: 0,
   admin: false,
 }
 

@@ -1,19 +1,14 @@
-import { ConnectionDetailData, ServiceDetailData } from '../../../interface'
+import { ServiceDetailData } from '../../../interface'
 import React, { Dispatch, SetStateAction } from 'react'
 import {
   Card,
   Table,
-  TableBody,
   TableCell,
   TableHead,
   TableRow,
   Typography,
 } from '@mui/material'
 import { RowConnection } from '../../Group/GroupDetail/Connection'
-import {
-  GenServiceCode,
-  GenServiceCodeFromService,
-} from '../../../components/Tool'
 
 export function ConnectionList(props: {
   service: ServiceDetailData
@@ -35,16 +30,11 @@ export function ConnectionList(props: {
             <TableCell align="right">Action</TableCell>
           </TableRow>
         </TableHead>
-        <TableBody>
-          {service.connections?.map((connection: ConnectionDetailData) => (
-            <RowConnection
-              key={'connection_' + connection.ID}
-              connection={connection}
-              serviceCode={GenServiceCodeFromService(service, connection)}
-              setReload={setReload}
-            />
-          ))}
-        </TableBody>
+        <RowConnection
+          key={'table_connection'}
+          service={service}
+          setReload={setReload}
+        />
       </Table>
     </Card>
   )

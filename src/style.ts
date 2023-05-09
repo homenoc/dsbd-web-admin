@@ -45,9 +45,9 @@ export const StyledWrapForm = styled('form')(({ theme }) => ({
   width: '100%',
   margin: `${theme.spacing(0)} auto`,
   height: '150px',
-  backgroundColor: "#000000",
+  backgroundColor: '#000000',
   borderRadius: '10px',
-  borderTop: "1px solid #5c5c5c",
+  borderTop: '1px solid #5c5c5c',
 }))
 
 export const StyledWrapText = styled(TextField)(() => ({
