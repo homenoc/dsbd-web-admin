@@ -49,6 +49,12 @@ export default function NoticeAdd() {
   const { enqueueSnackbar } = useSnackbar()
 
   useEffect(() => {
+    if (email && !openMailSendDialog) {
+      navigate('/dashboard/notice')
+    }
+  }, [openMailSendDialog])
+
+  useEffect(() => {
     if (template !== undefined) {
       if (template.user !== undefined) {
         const templateTmp: OptionType[] = []
@@ -154,13 +160,12 @@ export default function NoticeAdd() {
 
     // eslint-disable-next-line no-console
     console.log('request', request)
-    setOpenMailSendDialog(true)
+    setEmail(getEMail())
 
     Post(request).then((res) => {
       if (res.error === '') {
         enqueueSnackbar('Request Success', { variant: 'success' })
         setOpenMailSendDialog(true)
-        navigate('/dashboard/notice')
       } else {
         enqueueSnackbar(String(res.error), { variant: 'error' })
       }
