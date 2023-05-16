@@ -256,7 +256,7 @@ export default function Dashboard(props: DashboardProps) {
               <ListItemIcon>
                 <ChatIcon />
               </ListItemIcon>
-              <ListItemText primary="Chat" />
+              <ListItemText primary="Ticket/Chat" />
             </ListItemButton>
             <ListItemButton onClick={handleClick}>
               <ListItemIcon>

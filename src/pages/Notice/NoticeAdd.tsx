@@ -225,7 +225,7 @@ export default function NoticeAdd() {
   }
 
   return (
-    <Dashboard title="Notice Info">
+    <Dashboard title="Notice Add">
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <FormHelperText error>

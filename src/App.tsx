@@ -18,8 +18,9 @@ import NotFound from './pages/Etc/404'
 import UserDetail from './pages/User/UserDetail/UserDetail'
 import NoticeAdd from './pages/Notice/NoticeAdd'
 import NoticeDetail from './pages/Notice/NoticeDetail'
-import ConnectionDetail from "./pages/Connection/ConnectionDetail/ConnectionDetail";
-import ServiceDetail from "./pages/Service/ServiceDetail/ServiceDetail";
+import ConnectionDetail from './pages/Connection/ConnectionDetail/ConnectionDetail'
+import ServiceDetail from './pages/Service/ServiceDetail/ServiceDetail'
+import SupportAdd from './pages/Support/SupportAdd'
 
 export default class App extends React.Component {
   render() {
@@ -44,11 +45,15 @@ export default class App extends React.Component {
             element={<ConnectionAdd />}
           />
           <Route path="/dashboard/support" element={<Support />} />
+          <Route path="/dashboard/support/add" element={<SupportAdd />} />
           <Route path="/dashboard/support/:id" element={<SupportDetail />} />
           <Route path="/dashboard/service" element={<Service />} />
           <Route path="/dashboard/service/:id" element={<ServiceDetail />} />
           <Route path="/dashboard/connection" element={<Connection />} />
-          <Route path="/dashboard/connection/:id" element={<ConnectionDetail />} />
+          <Route
+            path="/dashboard/connection/:id"
+            element={<ConnectionDetail />}
+          />
           <Route path="/dashboard/user" element={<User />} />
           <Route path="/dashboard/user/:id" element={<UserDetail />} />
           <Route path="/dashboard/token" element={<Token />} />

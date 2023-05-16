@@ -22,7 +22,6 @@ import { useNavigate } from 'react-router-dom'
 import { DefaultTicketDataArray, TicketDetailData } from '../../interface'
 import { useSnackbar } from 'notistack'
 import { Solved } from '../../components/Dashboard/Solved/Open'
-import { SupportAddDialog } from './SupportAddDialog'
 
 export default function Support() {
   const [tickets, setTickets] = useState(DefaultTicketDataArray)
@@ -70,14 +69,19 @@ export default function Support() {
       setReload(true)
     })
   }
-
-  const clickDetailPage = (id: number) => {
-    navigate('/dashboard/support/' + id)
-  }
+  const clickAddPage = () => navigate('/dashboard/support/add')
+  const clickDetailPage = (id: number) => navigate('/dashboard/support/' + id)
 
   return (
     <Dashboard title="Ticket Info">
-      <SupportAddDialog setReload={setReload} />
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => clickAddPage()}
+      >
+        チケットの追加
+      </Button>
+      <br />
       <br />
       <StyledPaperRootInput>
         <StyledInputBase
