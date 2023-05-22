@@ -169,30 +169,14 @@ export default function Dashboard(props: DashboardProps) {
 
   const navigate = useNavigate()
 
-  const DashboardPage = () => {
-    navigate('/dashboard')
-  }
-  const NoticePage = () => {
-    navigate('/dashboard/notice')
-  }
-  const GroupPage = () => {
-    navigate('/dashboard/group')
-  }
-  const SupportPage = () => {
-    navigate('/dashboard/support')
-  }
-  const ServicePage = () => {
-    navigate('/dashboard/service')
-  }
-  const ConnectionPage = () => {
-    navigate('/dashboard/connection')
-  }
-  const UserPage = () => {
-    navigate('/dashboard/user')
-  }
-  const TokenPage = () => {
-    navigate('/dashboard/token')
-  }
+  const DashboardPage = () => navigate('/dashboard')
+  const NoticePage = () => navigate('/dashboard/notice')
+  const GroupPage = () => navigate('/dashboard/group')
+  const SupportPage = () => navigate('/dashboard/support')
+  const ServicePage = () => navigate('/dashboard/service')
+  const ConnectionPage = () => navigate('/dashboard/connection')
+  const UserPage = () => navigate('/dashboard/user')
+  const TokenPage = () => navigate('/dashboard/token')
 
   return (
     <ThemeProvider theme={muiColorTheme}>
@@ -244,7 +228,7 @@ export default function Dashboard(props: DashboardProps) {
               <ListItemIcon>
                 <NotificationsIcon />
               </ListItemIcon>
-              <ListItemText primary="Notice" />
+              <ListItemText primary="Payment" />
             </ListItemButton>
             <ListItemButton onClick={GroupPage}>
               <ListItemIcon>

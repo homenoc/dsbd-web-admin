@@ -131,17 +131,62 @@ export function GroupLockButton(props: {
   )
 }
 
-export function GroupAbolition(): any {
+export function GroupAbolition(props: {
+  data: GroupDetailData
+  setReload: Dispatch<SetStateAction<boolean>>
+}): any {
+  const { data, setReload } = props
+  const { enqueueSnackbar } = useSnackbar()
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget)
   }
+  const handleClose = () => setAnchorEl(null)
+  const handleClickExpire = (expired_status: number) => {
+    data.expired_status = expired_status
 
-  const handleClose = () => {
-    setAnchorEl(null)
+    Put(data.ID, data).then((res) => {
+      if (res.error === '') {
+        enqueueSnackbar('Request Success', { variant: 'success' })
+      } else {
+        enqueueSnackbar(String(res.error), { variant: 'error' })
+      }
+
+      setReload(true)
+    })
+    handleClose()
   }
 
+  const clickActive = () => {
+    data.expired_status = 0
+
+    Put(data.ID, data).then((res) => {
+      if (res.error === '') {
+        enqueueSnackbar('Request Success', { variant: 'success' })
+      } else {
+        enqueueSnackbar(String(res.error), { variant: 'error' })
+      }
+
+      setReload(true)
+    })
+  }
+
+  if (data.expired_status !== 0) {
+    return (
+      <div>
+        <StyledButton1
+          aria-controls="simple-menu"
+          aria-haspopup="true"
+          onClick={clickActive}
+          color={'primary'}
+          variant="outlined"
+        >
+          Active処理
+        </StyledButton1>
+      </div>
+    )
+  }
   return (
     <div>
       <StyledButton1
@@ -160,9 +205,11 @@ export function GroupAbolition(): any {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose}>審査落ち</MenuItem>
-        <MenuItem onClick={handleClose}>ユーザより廃止</MenuItem>
-        <MenuItem onClick={handleClose}>運営委員より廃止</MenuItem>
+        <MenuItem onClick={() => handleClickExpire(1)}>審査落ち</MenuItem>
+        <MenuItem onClick={() => handleClickExpire(2)}>ユーザより廃止</MenuItem>
+        <MenuItem onClick={() => handleClickExpire(3)}>
+          運営委員より廃止
+        </MenuItem>
       </Menu>
     </div>
   )

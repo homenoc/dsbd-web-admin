@@ -39,9 +39,14 @@ import { useNavigate } from 'react-router-dom'
 import { useRecoilValue } from 'recoil'
 import { TemplateState } from '../../../api/Recoil'
 import { StyledSelect1, StyledTextFieldShort } from '../../Add/style'
-import { GetPayment, PostSubscribe } from '../../../api/Payment'
+import {
+  GetCustomerDashboard,
+  GetPayment,
+  GetSubscribeDashboard,
+  PostSubscribe,
+} from '../../../api/Payment'
 
-function ChipAgree(props:{ agree: boolean }) {
+function ChipAgree(props: { agree: boolean }) {
   const { agree } = props
   if (agree) {
     return <Chip size="small" color="primary" label="規約に同意する" />
@@ -120,6 +125,26 @@ export function GroupProfileInfo(props: {
       }
 
       setReload(true)
+    })
+  }
+
+  const customerDashboard = () => {
+    GetCustomerDashboard(data.ID).then((res) => {
+      if (res.error === '') {
+        window.open(res.data, '_blank')
+      } else {
+        enqueueSnackbar(String(res.error), { variant: 'error' })
+      }
+    })
+  }
+
+  const subscribeDashboard = () => {
+    GetSubscribeDashboard(data.ID).then((res) => {
+      if (res.error === '') {
+        window.open(res.data, '_blank')
+      } else {
+        enqueueSnackbar(String(res.error), { variant: 'error' })
+      }
     })
   }
 
@@ -282,7 +307,7 @@ export function GroupProfileInfo(props: {
             <FormControl sx={{ width: '100%' }}>
               <StyledDivRoot1>
                 <StyledDivLargeHeading>Agree</StyledDivLargeHeading>
-                <ChipAgree key={"agree"} agree={data.agree} />
+                <ChipAgree key={'agree'} agree={data.agree} />
                 <StyledDivLargeHeading>Question</StyledDivLargeHeading>
                 <StyledDivText>{data.question}</StyledDivText>
                 <StyledDivLargeHeading>Contract</StyledDivLargeHeading>
@@ -397,6 +422,24 @@ export function GroupProfileInfo(props: {
                     Subscribe管理
                   </StyledButtonSpaceRight>
                 </Grid>
+                <Grid item xs={12}>
+                  <StyledButtonSpaceRight
+                    size="small"
+                    variant="contained"
+                    color="primary"
+                    onClick={() => customerDashboard()}
+                  >
+                    cus(stripe)
+                  </StyledButtonSpaceRight>
+                  <StyledButtonSpaceRight
+                    size="small"
+                    variant="contained"
+                    color="primary"
+                    onClick={() => subscribeDashboard()}
+                  >
+                    sub(stripe)
+                  </StyledButtonSpaceRight>
+                </Grid>
               </Grid>
             </StyledFormControlFormShort>
           </AccordionDetails>
@@ -475,7 +518,11 @@ export function GroupMainMenu(props: {
           data={data}
           setReload={setReload}
         />
-        <GroupAbolition key={'group_abolition'} />
+        <GroupAbolition
+          key={'group_abolition'}
+          data={data}
+          setReload={setReload}
+        />
       </CardContent>
     </StyledCardRoot1>
   )
@@ -615,6 +662,15 @@ export function GroupStatus(props: {
       <CardContent>
         <Grid container spacing={3}>
           <Grid item xs={12}>
+            {data.expired_status === 1 && (
+              <Chip size="small" color="secondary" label={'ユーザより廃止'} />
+            )}
+            {data.expired_status === 2 && (
+              <Chip size="small" color="secondary" label={'運営委員より廃止'} />
+            )}
+            {data.expired_status === 3 && (
+              <Chip size="small" color="secondary" label={'審査落ち'} />
+            )}
             <h4>Status</h4>
             <Chip size="small" color="primary" label={GroupStatusStr(data)} />
             <h4>Membership</h4>
