@@ -663,13 +663,13 @@ export function GroupStatus(props: {
         <Grid container spacing={3}>
           <Grid item xs={12}>
             {data.expired_status === 1 && (
-              <Chip size="small" color="secondary" label={'ユーザより廃止'} />
+              <Chip size="small" color="secondary" label={'審査落ち'} />
             )}
             {data.expired_status === 2 && (
-              <Chip size="small" color="secondary" label={'運営委員より廃止'} />
+              <Chip size="small" color="secondary" label={'ユーザより廃止'} />
             )}
             {data.expired_status === 3 && (
-              <Chip size="small" color="secondary" label={'審査落ち'} />
+              <Chip size="small" color="secondary" label={'運営委員より廃止\n'} />
             )}
             <h4>Status</h4>
             <Chip size="small" color="primary" label={GroupStatusStr(data)} />
