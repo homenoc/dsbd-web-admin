@@ -38,16 +38,14 @@ export default function SupportAdd() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (template !== undefined) {
-      GetTemplate().then((res) => {
-        if (res.error === '') {
-          setTemplate(res.data)
-        } else {
-          enqueueSnackbar('' + res.error, { variant: 'error' })
-        }
-      })
-    }
-  }, [template])
+    GetTemplate().then((res) => {
+      if (res.error === '') {
+        setTemplate(res.data)
+      } else {
+        enqueueSnackbar('' + res.error, { variant: 'error' })
+      }
+    })
+  }, [])
 
   useEffect(() => {
     if (name !== '' && !openMailAutoSendDialog) {

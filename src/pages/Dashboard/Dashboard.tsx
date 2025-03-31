@@ -36,6 +36,8 @@ export default function Dashboard() {
   const [expired_status3IsChecked, setExpired_status3IsChecked] = useState(false);
   const [member_type90IsChecked, setMember_type90IsChecked] = useState(false);
   const [member_type99IsChecked, setMember_type99IsChecked] = useState(false);
+  const [hasEnabledServiceIsChecked, setHasEnabledServiceIsChecked] = useState(true);
+  const [hasEnabledConnectionIsChecked, setHasEnabledConnectionIsChecked] = useState(true);
   const [groupDialogIsOpen, setGroupDialogIsOpen] = useState(false);
 
   useEffect(() => {
@@ -190,8 +192,19 @@ export default function Dashboard() {
               if (!expired_status1IsChecked && item.expired_status === 1) {return false}
               if (!expired_status2IsChecked && item.expired_status === 2) {return false}
               if (!expired_status3IsChecked && item.expired_status === 3) {return false}
-              if (!member_type90IsChecked && item.member_type === 90) return false
-              if (!member_type99IsChecked && item.member_type === 99) return false
+              if (!member_type90IsChecked && item.member_type === 90) {return false}
+              if (!member_type99IsChecked && item.member_type === 99) {return false}
+              if (hasEnabledServiceIsChecked){
+                if (service?.filter((s) => s.group_id === item.ID && s.enable).length === 0) {
+                  return false
+                }
+              }
+              if (hasEnabledConnectionIsChecked){
+                if (connection?.filter((c) => c.service?.group_id === item.ID && c.enable).length === 0) {
+                  return false
+                }
+              }
+              
               return true
             })}
             setReload={setReload}
@@ -220,6 +233,14 @@ export default function Dashboard() {
             control={<Checkbox checked={member_type99IsChecked} onChange={() => setMember_type99IsChecked(!member_type99IsChecked)}/>}
             label="member_type: 99"
           />
+          <FormControlLabel
+            control={<Checkbox checked={hasEnabledServiceIsChecked} onChange={() => setHasEnabledServiceIsChecked(!hasEnabledServiceIsChecked)}/>}
+            label="有効なサービスありのグループのみを表示"
+          />
+          <FormControlLabel
+            control={<Checkbox checked={hasEnabledConnectionIsChecked} onChange={() => setHasEnabledConnectionIsChecked(!hasEnabledConnectionIsChecked)}/>}
+            label="有効なコネクションありのグループのみを表示"
+          />
           <Button onClick={() => setGroupDialogIsOpen(!groupDialogIsOpen)} >(メール送信用)メールアドレス一覧表示</Button>
           {
             groupDialogIsOpen
@@ -229,8 +250,18 @@ export default function Dashboard() {
                   if (!expired_status1IsChecked && item.expired_status === 1) { return false }
                   if (!expired_status2IsChecked && item.expired_status === 2) { return false }
                   if (!expired_status3IsChecked && item.expired_status === 3) { return false }
-                  if (!member_type90IsChecked && item.member_type === 90) return false
-                  if (!member_type99IsChecked && item.member_type === 99) return false
+                  if (!member_type90IsChecked && item.member_type === 90) {return false}
+                  if (!member_type99IsChecked && item.member_type === 99) {return false}
+                  if (hasEnabledServiceIsChecked){
+                    if (service?.filter((s) => s.group_id === item.ID && s.enable).length === 0) {
+                      return false
+                    }
+                  }
+                  if (hasEnabledConnectionIsChecked){
+                    if (connection?.filter((c) => c.service?.group_id === item.ID && c.enable).length === 0) {
+                      return false
+                    }
+                  }
 
                   if (item.member_expired === '' || item.member_expired === null) { return true }
                   if (new Date() < new Date(item.member_expired.split('T')[0])) { return false }
