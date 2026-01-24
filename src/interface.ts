@@ -45,6 +45,8 @@ export interface UserDetailData {
   notice?: NoticeData[]
   pass: string
   tokens?: TokenDetailData[]
+  antisocial_check?: boolean | null // null = 未同意, true = 同意済み
+  antisocial_check_at?: string | null // 反社チェック同意日時
 }
 
 export interface TokenDetailData {
@@ -801,6 +803,7 @@ export const DefaultUserDetailData: UserDetailData = {
   notice: undefined,
   pass: '',
   tokens: undefined,
+  antisocial_check: null,
 }
 export const DefaultUserDetailDataArray: UserDetailData[] = [
   DefaultUserDetailData,

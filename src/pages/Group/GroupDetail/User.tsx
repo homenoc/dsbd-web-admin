@@ -81,13 +81,18 @@ export function StatusTable(props: { user: UserDetailData[] }) {
                 <TableCell style={{ width: 300 }} align="right">
                   {row.email}
                 </TableCell>
-                <TableCell style={{ width: 160 }} align="right">
+                <TableCell style={{ width: 250 }} align="right">
                   {row.mail_verify && (
-                    <Chip size="small" color="primary" label="確認済" />
+                    <Chip size="small" color="primary" label="確認済" sx={{ mr: 0.5 }} />
                   )}
                   {!row.mail_verify && (
-                    <Chip size="small" color="secondary" label="未確認" />
+                    <Chip size="small" color="secondary" label="未確認" sx={{ mr: 0.5 }} />
                   )}
+                  <Chip
+                    size="small"
+                    color={row.antisocial_check === true ? 'success' : 'warning'}
+                    label={row.antisocial_check === true ? '反社チェック済' : '反社未チェック'}
+                  />
                 </TableCell>
                 <TableCell style={{ width: 100 }} align="right">
                   <Button

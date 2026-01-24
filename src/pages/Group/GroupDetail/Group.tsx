@@ -45,6 +45,7 @@ import {
   GetSubscribeDashboard,
   PostSubscribe,
 } from '../../../api/Payment'
+import { format } from 'date-fns';
 
 function ChipAgree(props: { agree: boolean }) {
   const { agree } = props
@@ -91,13 +92,7 @@ export function GroupProfileInfo(props: {
   const membershipUpdate = () => {
     let dateStr = null
     if (memberExpiredDate != null) {
-      dateStr =
-        memberExpiredDate.getFullYear() +
-        '-' +
-        ('00' + (memberExpiredDate.getMonth() + 1)).slice(-2) +
-        '-' +
-        ('00' + memberExpiredDate.getDate()).slice(-2) +
-        'T00:00:00+09:00'
+      dateStr = format(memberExpiredDate, "yyyy-MM-dd'T'HH:mm:ss+09:00");
     }
     const req = {
       coupon_id: paymentCoupon,

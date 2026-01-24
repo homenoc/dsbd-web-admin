@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
+import { format, parseISO } from 'date-fns'
 import Dashboard from '../../../components/Dashboard/Dashboard'
 import {
   Button,
   CardContent,
+  Chip,
   CircularProgress,
   Grid,
   Paper,
@@ -125,6 +127,38 @@ export default function UserDetail() {
                         </TableCell>
                         <TableCell align="right" scope="row">
                           {user.level}
+                        </TableCell>
+                      </TableRow>
+                      <TableRow
+                        key={'antisocial_check'}
+                        sx={{
+                          '&:last-child td, &:last-child th': { border: 0 },
+                        }}
+                      >
+                        <TableCell component="th" scope="row">
+                          反社チェック
+                        </TableCell>
+                        <TableCell align="right" scope="row">
+                          <Chip
+                            size="small"
+                            label={user.antisocial_check === true ? '同意済み' : '未同意'}
+                            color={user.antisocial_check === true ? 'success' : 'warning'}
+                          />
+                        </TableCell>
+                      </TableRow>
+                      <TableRow
+                        key={'antisocial_check_at'}
+                        sx={{
+                          '&:last-child td, &:last-child th': { border: 0 },
+                        }}
+                      >
+                        <TableCell component="th" scope="row">
+                          反社チェック日時
+                        </TableCell>
+                        <TableCell align="right" scope="row">
+                          {user.antisocial_check_at
+                            ? format(parseISO(user.antisocial_check_at), 'yyyy/MM/dd HH:mm:ss')
+                            : '-'}
                         </TableCell>
                       </TableRow>
                     </TableBody>

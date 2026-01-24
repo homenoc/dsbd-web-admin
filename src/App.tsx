@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import './App.css'
 import SignIn from './pages/Login/SignIn'
 import Group from './pages/Group/Group'
@@ -28,7 +28,7 @@ export default class App extends React.Component {
       <BrowserRouter>
         <Routes>
           <Route path="*" element={<NotFound />} />
-          <Route path="/" element={<SignIn />} /> {}
+          <Route path="/" element={<Navigate replace to="/dashboard" />} /> {}
           <Route path="/login" element={<SignIn />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/dashboard/notice" element={<Notice />} />

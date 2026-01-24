@@ -165,18 +165,17 @@ export function ServiceIPRow(props: {
   setReload: Dispatch<SetStateAction<boolean>>
   template: TemplateData
 }) {
-  const { ip, serviceID, setReload, template } = props
+  const { ip: originalIP, serviceID, setReload, template } = props
   const [open, setOpen] = React.useState(false)
   const [lockInfo, setLockInfo] = React.useState(true)
-  const [ipCopy, setIPCopy] = useState(ip)
-  const [deleteIP, setDeleteIP] = useState(false)
+  const [ip, setIP] = useState(originalIP)
   const { enqueueSnackbar } = useSnackbar()
 
   const clickLockInfo = () => {
     setLockInfo(!lockInfo)
   }
   const resetAction = () => {
-    setIPCopy(ip)
+    setIP(originalIP)
     setLockInfo(true)
   }
 
@@ -193,19 +192,16 @@ export function ServiceIPRow(props: {
     })
   }
 
-  useEffect(() => {
-    if (deleteIP) {
-      DeleteIP(ip.ID).then((res) => {
-        if (res.error === '') {
-          enqueueSnackbar('Request Success', { variant: 'success' })
-        } else {
-          enqueueSnackbar(String(res.error), { variant: 'error' })
-        }
-        setReload(true)
-      })
-      setDeleteIP(false)
-    }
-  }, [deleteIP])
+  const deleteIP = () => {
+    DeleteIP(ip.ID).then((res) => {
+      if (res.error === '') {
+        enqueueSnackbar('Request Success', { variant: 'success' })
+      } else {
+        enqueueSnackbar(String(res.error), { variant: 'error' })
+      }
+      setReload(true)
+    })
+  }
 
   return (
     <React.Fragment>
@@ -243,7 +239,7 @@ export function ServiceIPRow(props: {
                   }}
                   variant="outlined"
                   onChange={(event) => {
-                    setIPCopy({ ...ipCopy, name: event.target.value })
+                    setIP({ ...ip, name: event.target.value })
                   }}
                 />
                 <StyledTextFieldShort
@@ -256,7 +252,7 @@ export function ServiceIPRow(props: {
                   }}
                   variant="outlined"
                   onChange={(event) => {
-                    setIPCopy({ ...ipCopy, ip: event.target.value })
+                    setIP({ ...ip, ip: event.target.value })
                   }}
                 />
               </StyledRootForm>
@@ -278,7 +274,7 @@ export function ServiceIPRow(props: {
                     Reset
                   </Button>
                   <IPOpenButton
-                    ip={ipCopy}
+                    ip={ip}
                     lockInfo={lockInfo}
                     setLockInfo={setLockInfo}
                     setReload={setReload}
@@ -291,7 +287,7 @@ export function ServiceIPRow(props: {
                 <Grid item xs={12} sm={4}>
                   <DeleteAlertDialog
                     key={'ip_delete_alert_dialog_' + ip.ID}
-                    setDeleteProcess={setDeleteIP}
+                    setDeleteProcess={deleteIP}
                   />
                 </Grid>
               </Grid>

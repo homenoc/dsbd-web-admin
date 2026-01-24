@@ -10,6 +10,7 @@ import {
   Button,
   CardActions,
   CardContent,
+  Chip,
   FormControl,
   FormControlLabel,
   Radio,
@@ -110,6 +111,18 @@ export default function User() {
                 {user.name} ({user.name_en})
               </Typography>
               <br />
+              <Chip
+                size="small"
+                label={user.expired_status === 0 ? '有効' : '無効'}
+                color={user.expired_status === 0 ? 'success' : 'error'}
+                sx={{ mr: 1 }}
+              />
+              <Chip
+                size="small"
+                label={user.antisocial_check === true ? '反社チェック済' : '反社未チェック'}
+                color={user.antisocial_check === true ? 'success' : 'warning'}
+                sx={{ mr: 1 }}
+              />
             </CardContent>
             <CardActions>
               <Button
