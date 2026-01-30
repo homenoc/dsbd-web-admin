@@ -182,9 +182,22 @@ export default function NoticeAdd() {
     // Mail用
     let emails = ''
 
+    // 全体に通知の場合は全ユーザーのメールアドレスを取得
+    if (isEveryone) {
+      const allUsers = template.user?.filter((d) => d.level < 3)
+      if (allUsers !== undefined) {
+        for (const user of allUsers) {
+          if (emails.indexOf(user.email) === -1) {
+            emails += ',' + user.email
+          }
+        }
+      }
+      return emails.slice(1)
+    }
+
     for (const tmpUserID of inputUserID) {
       const u = template.user?.filter((d) => d.ID === tmpUserID)
-      if (u !== undefined) {
+      if (u !== undefined && u.length > 0) {
         if (emails.indexOf(u[0].email) === -1) {
           emails += ',' + u[0].email
         }
@@ -194,9 +207,11 @@ export default function NoticeAdd() {
       const tmpUser = template.user?.filter(
         (d) => d.group_id === tmpGroupID && d.level < 3
       )
-      if (tmpUser !== undefined) {
-        if (emails.indexOf(tmpUser[0].email) === -1) {
-          emails += ',' + tmpUser[0].email
+      if (tmpUser !== undefined && tmpUser.length > 0) {
+        for (const user of tmpUser) {
+          if (emails.indexOf(user.email) === -1) {
+            emails += ',' + user.email
+          }
         }
       }
     }
@@ -213,9 +228,11 @@ export default function NoticeAdd() {
           const tmpUser = template.user?.filter(
             (d) => d.group_id === tmpConnection.service?.group_id && d.level < 3
           )
-          if (tmpUser !== undefined) {
-            if (emails.indexOf(tmpUser[0].email) === -1) {
-              emails += ',' + tmpUser[0].email
+          if (tmpUser !== undefined && tmpUser.length > 0) {
+            for (const user of tmpUser) {
+              if (emails.indexOf(user.email) === -1) {
+                emails += ',' + user.email
+              }
             }
           }
         }
