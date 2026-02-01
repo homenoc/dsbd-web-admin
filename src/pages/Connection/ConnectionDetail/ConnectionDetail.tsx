@@ -432,6 +432,26 @@ export function ConnectionStatus(props: { connection: ConnectionDetailData }) {
               />
             )}
           </Grid>
+          {connection.ix && (
+            <Grid item xs={12}>
+              <h3>IX接続</h3>
+              <StyledChip2 size="small" color="primary" label={connection.ix} />
+              {connection.ix_peer_type && (
+                <Chip
+                  size="small"
+                  color="primary"
+                  label={connection.ix_peer_type}
+                />
+              )}
+              {connection.ix_peer_type === 'PI/CUG' && connection.ix_vlan_id && (
+                <Chip
+                  size="small"
+                  color="secondary"
+                  label={`VLAN: ${connection.ix_vlan_id}`}
+                />
+              )}
+            </Grid>
+          )}
           <Grid item xs={12}>
             <h3>Date</h3>
             <StyledChip1 size="small" color="primary" label={createDate} />
@@ -567,18 +587,42 @@ export function ConnectionUserDisplay(props: {
                     ?.name ?? ''}
                 </td>
               </tr>
-              <tr>
-                <th>接続NOC</th>
-                <td colSpan={2}>{getNOCName()}</td>
-              </tr>
-              <tr>
-                <th>トンネル終端アドレス（貴団体側）</th>
-                <td colSpan={2}>{connection.term_ip}</td>
-              </tr>
-              <tr>
-                <th>トンネル終端アドレス（当団体側）</th>
-                <td colSpan={2}>{connection.tunnel_endpoint_router_ip?.ip}</td>
-              </tr>
+              {connection.connection_type !== 'IXP' && (
+                <tr>
+                  <th>接続NOC</th>
+                  <td colSpan={2}>{getNOCName()}</td>
+                </tr>
+              )}
+              {connection.ix && (
+                <>
+                  <tr>
+                    <th>IX</th>
+                    <td colSpan={2}>{connection.ix}</td>
+                  </tr>
+                  <tr>
+                    <th>ピアリングタイプ</th>
+                    <td colSpan={2}>{connection.ix_peer_type}</td>
+                  </tr>
+                  {connection.ix_peer_type === 'PI/CUG' && connection.ix_vlan_id && (
+                    <tr>
+                      <th>VLAN-ID</th>
+                      <td colSpan={2}>{connection.ix_vlan_id}</td>
+                    </tr>
+                  )}
+                </>
+              )}
+              {connection.connection_type !== 'IXP' && (
+                <>
+                  <tr>
+                    <th>トンネル終端アドレス（貴団体側）</th>
+                    <td colSpan={2}>{connection.term_ip}</td>
+                  </tr>
+                  <tr>
+                    <th>トンネル終端アドレス（当団体側）</th>
+                    <td colSpan={2}>{connection.tunnel_endpoint_router_ip?.ip}</td>
+                  </tr>
+                </>
+              )}
               <tr>
                 <th colSpan={3}>当団体との間の境界アドレス</th>
               </tr>
@@ -856,6 +900,88 @@ export function ConnectionEtc2(props: {
                   無効
                 </MenuItem>
               </Select>
+            </FormControl>
+          </Grid>
+          <br />
+          <Grid item xs={12}>
+            <h4>IX接続情報</h4>
+          </Grid>
+          <Grid item xs={4}>
+            <FormControl fullWidth>
+              <InputLabel id={'ix_label'}>IX</InputLabel>
+              <Select
+                labelId="ix_label"
+                id="ix"
+                aria-label="ix"
+                onChange={(event) => {
+                  setConnectionCopy({
+                    ...connectionCopy,
+                    ix: event.target.value,
+                  })
+                }}
+                value={connectionCopy.ix ?? ''}
+                inputProps={{
+                  readOnly: lock,
+                }}
+              >
+                <MenuItem key={'ix_none'} value={''}>
+                  None
+                </MenuItem>
+                {template.ix?.map((ixTemplate, index) => (
+                  <MenuItem key={'ix_' + index} value={ixTemplate.name}>
+                    {ixTemplate.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={4}>
+            <FormControl fullWidth>
+              <InputLabel id={'ix_peer_type_label'}>ピアリングタイプ</InputLabel>
+              <Select
+                labelId="ix_peer_type_label"
+                id="ix_peer_type"
+                aria-label="ix_peer_type"
+                onChange={(event) => {
+                  setConnectionCopy({
+                    ...connectionCopy,
+                    ix_peer_type: event.target.value,
+                  })
+                }}
+                value={connectionCopy.ix_peer_type ?? ''}
+                inputProps={{
+                  readOnly: lock,
+                }}
+              >
+                <MenuItem key={'ix_peer_type_none'} value={''}>
+                  None
+                </MenuItem>
+                <MenuItem key={'ix_peer_type_public'} value={'パブリック'}>
+                  パブリック
+                </MenuItem>
+                <MenuItem key={'ix_peer_type_pc_cug'} value={'PI/CUG'}>
+                  PI/CUG
+                </MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={4}>
+            <FormControl fullWidth>
+              <StyledTextFieldMedium
+                label="IX VLAN-ID"
+                id="ix_vlan_id"
+                InputProps={{
+                  readOnly: lock,
+                }}
+                variant="outlined"
+                onChange={(event) => {
+                  setConnectionCopy({
+                    ...connectionCopy,
+                    ix_vlan_id: event.target.value,
+                  })
+                }}
+                value={connectionCopy.ix_vlan_id ?? ''}
+              />
             </FormControl>
           </Grid>
           <Grid item xs={12}>

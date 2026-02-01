@@ -228,7 +228,7 @@ export default function Dashboard(props: DashboardProps) {
               <ListItemIcon>
                 <NotificationsIcon />
               </ListItemIcon>
-              <ListItemText primary="Payment" />
+              <ListItemText primary="Notification" />
             </ListItemButton>
             <ListItemButton onClick={GroupPage}>
               <ListItemIcon>

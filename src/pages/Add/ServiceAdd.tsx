@@ -275,15 +275,17 @@ export default function ServiceAdd() {
           .moreThan(0, '正しいAS番号を入力してください'),
     }),
     // is_ipv4
-    route_v4: Yup.string().when({
-      is: isIpv4,
-      then: (value) =>
-        value
-          .required('ネットワーク名を入力してください')
-          .min(1, 'Network Name must be at least 1 characters')
-          .max(12, 'Network Name must not exceed 12 characters')
-          .matches(v4NetworkNameRegExp, '文字形式に誤りがあります。'),
-    }),
+    route_v4: Yup.string()
+      .test(
+        'route_v4_required',
+        'Network Name is required',
+        (value) => !isIpv4 || (value !== undefined && value !== '')
+      )
+      .test(
+        'route_v4_format',
+        'Use only uppercase letters, numbers, and hyphens (max 12 characters)',
+        (value) => !isIpv4 || !value || (value.length <= 12 && v4NetworkNameRegExp.test(value))
+      ),
     // L2, L3 Static, L3 BGP, CoLocation
     plan: Yup.array().when('service_type', {
       is: (value: string) => isIpv4 && isNeedJPNIC(value),
@@ -299,15 +301,17 @@ export default function ServiceAdd() {
     }),
 
     // is_ipv6
-    route_v6: Yup.string().when({
-      is: isIpv6,
-      then: (value) =>
-        value
-          .required('ネットワーク名を入力してください')
-          .min(1, 'Network Name must be at least 1 characters')
-          .max(12, 'Network Name must not exceed 12 characters')
-          .matches(v6NetworkNameRegExp, '文字形式に誤りがあります。'),
-    }),
+    route_v6: Yup.string()
+      .test(
+        'route_v6_required',
+        'Network Name is required',
+        (value) => !isIpv6 || (value !== undefined && value !== '')
+      )
+      .test(
+        'route_v6_format',
+        'Use only uppercase letters, numbers, and hyphens (max 12 characters)',
+        (value) => !isIpv6 || !value || (value.length <= 12 && v6NetworkNameRegExp.test(value))
+      ),
   })
 
   const {
@@ -680,7 +684,7 @@ export default function ServiceAdd() {
                 {isIpv4 && getBool(isNeedJPNIC(serviceType)) && (
                   <div>
                     <p>
-                      (英大文字, 数字, "-" (ハイフン) のみを用いて12文字以上)
+                      (英大文字, 数字, "-" (ハイフン) のみを用いて12文字以内)
                     </p>
                     <Box sx={{ minWidth: 20 }}>
                       <Select
@@ -719,6 +723,7 @@ export default function ServiceAdd() {
                       variant="outlined"
                       {...register('route_v4')}
                       error={!!errors.route_v4}
+                      helperText={errors.route_v4?.message}
                     />
                   </div>
                 )}
@@ -738,7 +743,7 @@ export default function ServiceAdd() {
                 {isIpv6 && getBool(isNeedJPNIC(serviceType)) && (
                   <div>
                     <p>
-                      (英大文字, 数字, "-" (ハイフン) のみを用いて12文字以上)
+                      (英大文字, 数字, "-" (ハイフン) のみを用いて12文字以内)
                     </p>
                     <Box sx={{ minWidth: 20 }}>
                       <Select
@@ -765,6 +770,7 @@ export default function ServiceAdd() {
                       variant="outlined"
                       {...register('route_v6')}
                       error={!!errors.route_v6}
+                      helperText={errors.route_v6?.message}
                     />
                   </div>
                 )}
