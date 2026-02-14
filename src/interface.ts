@@ -199,6 +199,7 @@ export interface ConnectionDetailData {
   link_v6_our: string
   link_v6_your: string
   term_ip: string
+  rfc8950: boolean
   enable: boolean
   open: boolean
   monitor: boolean
@@ -445,6 +446,7 @@ export interface ConnectionAddData {
   noc_id: number
   term_ip: string
   monitor: boolean
+  rfc8950?: boolean
   ix?: string
   ix_peer_type?: string
   ix_vlan_id?: string
@@ -779,6 +781,7 @@ export const DefaultConnectionDetailData: ConnectionDetailData = {
   link_v6_our: '',
   link_v6_your: '',
   term_ip: '',
+  rfc8950: false,
   open: false,
   enable: false,
   monitor: false,

@@ -96,6 +96,7 @@ export default function ConnectionAdd() {
     }),
     monitor: Yup.bool(),
     comment: Yup.string(),
+    rfc8950: Yup.bool(),
 
     connection_comment: Yup.string().when('connection_type', {
       is: (value: string) => isNeedComment(value),
@@ -160,13 +161,19 @@ export default function ConnectionAdd() {
       then: (value) => value.required('VLAN-IDを入力してください'),
     }),
     link_v4_your: Yup.string().when(
-      ['connection_type', 'ipv4_route', 'ix_peer_type'],
+      ['connection_type', 'ipv4_route', 'ix_peer_type', 'rfc8950'],
       {
-        is: (connectionType: string, ipv4Route: string, peerType: string) =>
+        is: (
+          connectionType: string,
+          ipv4Route: string,
+          peerType: string,
+          rfc8950: boolean
+        ) =>
           isIXConnection(connectionType) &&
           ipv4Route &&
           ipv4Route !== '' &&
-          peerType !== 'PI/CUG',
+          peerType !== 'PI/CUG' &&
+          !rfc8950,
         then: (value) => value.required('IPv4アドレスを入力してください'),
       }
     ),
@@ -205,6 +212,7 @@ export default function ConnectionAdd() {
       term_ip: '',
       monitor: false,
       comment: '',
+      rfc8950: true,
       ix: '',
       ix_peer_type: '',
       ix_vlan_id: '',
@@ -218,12 +226,14 @@ export default function ConnectionAdd() {
   const ipv6Route = watch('ipv6_route')
   const ntt = watch('ntt')
   const ixPeerType = watch('ix_peer_type')
+  const rfc8950 = watch('rfc8950')
 
   const onSubmit = (data: any) => {
     const request: any = {
       connection_type: data.connection_type,
       monitor: data.monitor,
       comment: data.comment,
+      rfc8950: data.rfc8950 === true,
     }
     if (data.preferred_ap) {
       request.preferred_ap = data.preferred_ap
@@ -260,7 +270,7 @@ export default function ConnectionAdd() {
     if (data.ix_vlan_id) {
       request.ix_vlan_id = data.ix_vlan_id
     }
-    if (data.link_v4_your) {
+    if (data.link_v4_your && !data.rfc8950) {
       request.link_v4_your = data.link_v4_your
     }
     if (data.link_v6_your) {
@@ -475,13 +485,39 @@ export default function ConnectionAdd() {
               </FormControl>
             </Grid>
           )}
+          {connectionType !== '' && (
+            <Grid item xs={12}>
+              <FormControl component="fieldset">
+                <FormLabel component="legend">2.1. RFC8950の利用</FormLabel>
+                <div>
+                  RFC8950利用の場合は、IPv6ピアにてIPv4の経路交換も行います。
+                </div>
+                <FormControlLabel
+                  control={
+                    <Controller
+                      control={control}
+                      name="rfc8950"
+                      render={({ field: { onChange, value } }) => (
+                        <Checkbox
+                          color="primary"
+                          checked={value}
+                          onChange={(event) => onChange(event.target.checked)}
+                        />
+                      )}
+                    />
+                  }
+                  label={<Typography>RFC8950を利用する</Typography>}
+                />
+              </FormControl>
+            </Grid>
+          )}
           {isNeedComment(connectionType) && (
             <Grid item xs={12}>
               <FormControl
                 component="fieldset"
                 error={errors?.hasOwnProperty('comment')}
               >
-                <FormLabel component="legend">2.1. その他</FormLabel>
+                <FormLabel component="legend">2.2. その他</FormLabel>
                 <div>
                   {' '}
                   直接接続を選択された方は以下のフォームに詳しい情報(ラック情報など)をご記入ください。
@@ -509,7 +545,7 @@ export default function ConnectionAdd() {
                 error={errors?.hasOwnProperty('ix')}
               >
                 <FormLabel component="legend">
-                  2.2. 接続するIXを選択してください
+                  2.3. 接続するIXを選択してください
                 </FormLabel>
                 <FormHelperText error>
                   {errors?.ix && errors.ix?.message}
@@ -541,7 +577,7 @@ export default function ConnectionAdd() {
                 error={errors?.hasOwnProperty('ix_peer_type')}
               >
                 <FormLabel component="legend">
-                  2.3. ピアリングタイプを選択してください
+                  2.4. ピアリングタイプを選択してください
                 </FormLabel>
                 <FormHelperText error>
                   {errors?.ix_peer_type && errors.ix_peer_type?.message}
@@ -577,7 +613,7 @@ export default function ConnectionAdd() {
                 component="fieldset"
                 error={errors?.hasOwnProperty('ix_vlan_id')}
               >
-                <FormLabel component="legend">2.4. VLAN-ID</FormLabel>
+                <FormLabel component="legend">2.5. VLAN-ID</FormLabel>
                 <div>PI/CUGのVLAN-IDを入力してください</div>
                 <FormHelperText error>
                   {errors?.ix_vlan_id && errors.ix_vlan_id?.message}
@@ -602,19 +638,23 @@ export default function ConnectionAdd() {
                 }
               >
                 <FormLabel component="legend">
-                  2.5. IX接続アドレス（貴団体側）
+                  2.6. IX接続アドレス（貴団体側）
                 </FormLabel>
                 <div>IX接続で使用する貴団体側のIPアドレスを入力してください</div>
-                <FormHelperText error>
-                  {errors?.link_v4_your && errors.link_v4_your?.message}
-                </FormHelperText>
-                <StyledTextFieldLong
-                  key={'link_v4_your'}
-                  label="IPv4アドレス"
-                  variant="outlined"
-                  {...register(`link_v4_your`, { required: true })}
-                  error={!!errors.link_v4_your}
-                />
+                {!rfc8950 && (
+                  <>
+                    <FormHelperText error>
+                      {errors?.link_v4_your && errors.link_v4_your?.message}
+                    </FormHelperText>
+                    <StyledTextFieldLong
+                      key={'link_v4_your'}
+                      label="IPv4アドレス"
+                      variant="outlined"
+                      {...register(`link_v4_your`, { required: true })}
+                      error={!!errors.link_v4_your}
+                    />
+                  </>
+                )}
                 <FormHelperText error>
                   {errors?.link_v6_your && errors.link_v6_your?.message}
                 </FormHelperText>
@@ -625,6 +665,11 @@ export default function ConnectionAdd() {
                   {...register(`link_v6_your`, { required: true })}
                   error={!!errors.link_v6_your}
                 />
+                {rfc8950 && (
+                  <FormHelperText>
+                    RFC8950のためIPv4アドレスは入力不要です。
+                  </FormHelperText>
+                )}
               </FormControl>
             </Grid>
           )}

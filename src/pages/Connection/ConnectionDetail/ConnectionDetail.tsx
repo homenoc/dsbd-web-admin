@@ -3,7 +3,9 @@ import {
   Button,
   CardContent,
   Chip,
+  Checkbox,
   FormControl,
+  FormControlLabel,
   Grid,
   InputLabel,
   MenuItem,
@@ -192,6 +194,22 @@ export function ConnectionOpen(props: {
             setConnection={setConnection}
             lock={lock}
           />
+          <FormControlLabel
+            control={
+              <Checkbox
+                color="primary"
+                checked={connection.rfc8950}
+                onChange={(event) => {
+                  setConnection((prev) => ({
+                    ...prev,
+                    rfc8950: event.target.checked,
+                  }))
+                }}
+                disabled={lock}
+              />
+            }
+            label="RFC8950利用"
+          />
           <StyledFormControlFormMedium variant="outlined">
             <InputLabel id="bgp_router_input">BGP Router</InputLabel>
             <Select
@@ -321,6 +339,7 @@ export function ConnectionOpenL3User(props: {
 }) {
   const { connection, setConnection, lock } = props
   const template = useRecoilValue(TemplateState)
+  const ipv4ReadOnly = lock || connection.rfc8950
 
   if (
     connection.service === undefined ||
@@ -337,7 +356,7 @@ export function ConnectionOpenL3User(props: {
         id="l3_ipv4_admin"
         label="L3 IPv4(HomeNOC側)"
         InputProps={{
-          readOnly: lock,
+          readOnly: ipv4ReadOnly,
         }}
         value={connection.link_v4_our ?? ''}
         variant="outlined"
@@ -350,7 +369,7 @@ export function ConnectionOpenL3User(props: {
         id="l3_ipv4_user"
         label="L3 IPv4(ユーザ側)"
         InputProps={{
-          readOnly: lock,
+          readOnly: ipv4ReadOnly,
         }}
         value={connection.link_v4_your ?? ''}
         variant="outlined"
@@ -358,6 +377,9 @@ export function ConnectionOpenL3User(props: {
           setConnection({ ...connection, link_v4_your: event.target.value })
         }}
       />
+      {connection.rfc8950 && (
+        <p>RFC8950利用のためIPv4境界アドレスは設定不要です。</p>
+      )}
       <br />
       <StyledTextFieldMedium
         required
@@ -624,6 +646,10 @@ export function ConnectionUserDisplay(props: {
                 </>
               )}
               <tr>
+                <th>RFC8950利用</th>
+                <td colSpan={2}>{connection.rfc8950 ? 'あり' : 'なし'}</td>
+              </tr>
+              <tr>
                 <th colSpan={3}>当団体との間の境界アドレス</th>
               </tr>
               <tr>
@@ -633,12 +659,20 @@ export function ConnectionUserDisplay(props: {
               </tr>
               <tr>
                 <th>当団体側</th>
-                <td>{connection.link_v4_our}</td>
+                <td>
+                  {connection.rfc8950
+                    ? 'RFC8950利用のため無し'
+                    : connection.link_v4_our}
+                </td>
                 <td>{connection.link_v6_our}</td>
               </tr>
               <tr>
                 <th>貴団体側</th>
-                <td>{connection.link_v4_your}</td>
+                <td>
+                  {connection.rfc8950
+                    ? 'RFC8950利用のため無し'
+                    : connection.link_v4_your}
+                </td>
                 <td>{connection.link_v6_your}</td>
               </tr>
             </thead>
