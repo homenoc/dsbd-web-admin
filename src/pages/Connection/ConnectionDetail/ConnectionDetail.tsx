@@ -149,16 +149,16 @@ export function ConnectionOpen(props: {
   connection: ConnectionDetailData
   setReload: Dispatch<SetStateAction<boolean>>
 }) {
-  const { connection, setReload } = props
+  const { connection: original_connection, setReload } = props
   const [template] = useRecoilState(TemplateState)
-  const [connectionCopy, setConnectionCopy] = useState(connection)
+  const [connection, setConnection] = useState(original_connection)
   const [lock, setLock] = React.useState(true)
 
   const clickLockInfo = () => {
     setLock(!lock)
   }
   const resetAction = () => {
-    setConnectionCopy(connection)
+    setConnection(original_connection)
     setLock(true)
   }
   const updateInfo = () => {
@@ -182,14 +182,14 @@ export function ConnectionOpen(props: {
           <br />
           <ConnectionOpenL3User
             key={'connection_open_l3_user'}
-            connection={connectionCopy}
-            setConnection={setConnectionCopy}
+            connection={connection}
+            setConnection={setConnection}
             lock={lock}
           />
           <ConnectionOpenVPN
             key={'Open_VPN'}
-            connection={connectionCopy}
-            setConnection={setConnectionCopy}
+            connection={connection}
+            setConnection={setConnection}
             lock={lock}
           />
           <StyledFormControlFormMedium variant="outlined">
@@ -198,10 +198,10 @@ export function ConnectionOpen(props: {
               labelId="bgp_router_hostname"
               id="bgp_router_hostname"
               label="BGP Router"
-              value={connectionCopy.bgp_router_id ?? 0}
+              value={connection.bgp_router_id ?? 0}
               onChange={(event) =>
-                setConnectionCopy({
-                  ...connectionCopy,
+                setConnection({
+                  ...connection,
                   bgp_router_id: Number(event.target.value),
                 })
               }
@@ -227,10 +227,10 @@ export function ConnectionOpen(props: {
               labelId="tunnel_endpoint_router_ip"
               id="tunnel_endpoint_router_ip"
               label="Tunnel EndPoint Router IP"
-              value={connectionCopy.tunnel_endpoint_router_ip_id ?? 0}
+              value={connection.tunnel_endpoint_router_ip_id ?? 0}
               onChange={(event) =>
-                setConnectionCopy({
-                  ...connectionCopy,
+                setConnection({
+                  ...connection,
                   tunnel_endpoint_router_ip_id: Number(event.target.value),
                 })
               }
@@ -273,7 +273,7 @@ export function ConnectionOpen(props: {
             </Button>
             <ConnectionOpenButton
               key={'connection_open_button'}
-              connection={connectionCopy}
+              connection={connection}
               lock={lock}
               setReload={setReload}
             />
@@ -653,9 +653,9 @@ export function ConnectionEtc2(props: {
   connection: ConnectionDetailData
   setReload: Dispatch<SetStateAction<boolean>>
 }) {
-  const { connection, setReload } = props
+  const { connection: original_connection, setReload } = props
   const [lock, setLockInfo] = React.useState(true)
-  const [connectionCopy, setConnectionCopy] = useState(connection)
+  const [connection, setConnection] = useState(original_connection)
   const { enqueueSnackbar } = useSnackbar()
   const template = useRecoilValue(TemplateState)
 
@@ -663,13 +663,13 @@ export function ConnectionEtc2(props: {
     setLockInfo(!lock)
   }
   const resetAction = () => {
-    setConnectionCopy(connection)
+    setConnection(original_connection)
     setLockInfo(true)
   }
 
   // Update Group Information
   const updateInfo = () => {
-    Put(connection.ID, connectionCopy).then((res) => {
+    Put(connection.ID, connection).then((res) => {
       if (res.error === '') {
         enqueueSnackbar('Request Success', { variant: 'success' })
         setLockInfo(true)
@@ -712,12 +712,12 @@ export function ConnectionEtc2(props: {
                 id="connection_type"
                 aria-label="gender"
                 onChange={(event) => {
-                  setConnectionCopy({
-                    ...connectionCopy,
+                  setConnection({
+                    ...connection,
                     connection_type: event.target.value,
                   })
                 }}
-                value={connectionCopy.connection_type}
+                value={connection.connection_type}
                 inputProps={{
                   readOnly: lock,
                 }}
@@ -745,12 +745,12 @@ export function ConnectionEtc2(props: {
                 label="IPv4 BGP広報経路"
                 aria-label="gender"
                 onChange={(event) => {
-                  setConnectionCopy({
-                    ...connectionCopy,
+                  setConnection({
+                    ...connection,
                     ipv4_route: event.target.value,
                   })
                 }}
-                value={connectionCopy.ipv4_route ?? ''}
+                value={connection.ipv4_route ?? ''}
                 inputProps={{
                   readOnly: lock,
                 }}
@@ -777,12 +777,12 @@ export function ConnectionEtc2(props: {
                 label="IPv6 BGP広報経路"
                 aria-label="gender"
                 onChange={(event) => {
-                  setConnectionCopy({
-                    ...connectionCopy,
+                  setConnection({
+                    ...connection,
                     ipv6_route: event.target.value,
                   })
                 }}
-                value={connectionCopy.ipv6_route ?? ''}
+                value={connection.ipv6_route ?? ''}
                 inputProps={{
                   readOnly: lock,
                 }}
@@ -809,12 +809,12 @@ export function ConnectionEtc2(props: {
                 }}
                 variant="outlined"
                 onChange={(event) => {
-                  setConnectionCopy({
-                    ...connectionCopy,
+                  setConnection({
+                    ...connection,
                     address: event.target.value,
                   })
                 }}
-                value={connectionCopy.address ?? ''}
+                value={connection.address ?? ''}
               />
             </FormControl>
           </Grid>
@@ -826,12 +826,12 @@ export function ConnectionEtc2(props: {
                 id="preferred_ap"
                 aria-label="gender"
                 onChange={(event) => {
-                  setConnectionCopy({
-                    ...connectionCopy,
+                  setConnection({
+                    ...connection,
                     preferred_ap: event.target.value,
                   })
                 }}
-                value={connectionCopy.preferred_ap ?? ''}
+                value={connection.preferred_ap ?? ''}
                 inputProps={{
                   readOnly: lock,
                 }}
@@ -853,12 +853,12 @@ export function ConnectionEtc2(props: {
                 id="ntt"
                 aria-label="gender"
                 onChange={(event) => {
-                  setConnectionCopy({
-                    ...connectionCopy,
+                  setConnection({
+                    ...connection,
                     ntt: event.target.value,
                   })
                 }}
-                value={connectionCopy.ntt ?? ''}
+                value={connection.ntt ?? ''}
                 inputProps={{
                   readOnly: lock,
                 }}
@@ -883,12 +883,12 @@ export function ConnectionEtc2(props: {
                 id="monitor"
                 aria-label="gender"
                 onChange={(event) => {
-                  setConnectionCopy({
-                    ...connectionCopy,
+                  setConnection({
+                    ...connection,
                     monitor: Number(event.target.value) === 1,
                   })
                 }}
-                value={connectionCopy.monitor ? 1 : 0}
+                value={connection.monitor ? 1 : 0}
                 inputProps={{
                   readOnly: lock,
                 }}
@@ -914,12 +914,12 @@ export function ConnectionEtc2(props: {
                 id="ix"
                 aria-label="ix"
                 onChange={(event) => {
-                  setConnectionCopy({
-                    ...connectionCopy,
+                  setConnection({
+                    ...connection,
                     ix: event.target.value,
                   })
                 }}
-                value={connectionCopy.ix ?? ''}
+                value={connection.ix ?? ''}
                 inputProps={{
                   readOnly: lock,
                 }}
@@ -943,12 +943,12 @@ export function ConnectionEtc2(props: {
                 id="ix_peer_type"
                 aria-label="ix_peer_type"
                 onChange={(event) => {
-                  setConnectionCopy({
-                    ...connectionCopy,
+                  setConnection({
+                    ...connection,
                     ix_peer_type: event.target.value,
                   })
                 }}
-                value={connectionCopy.ix_peer_type ?? ''}
+                value={connection.ix_peer_type ?? ''}
                 inputProps={{
                   readOnly: lock,
                 }}
@@ -975,12 +975,12 @@ export function ConnectionEtc2(props: {
                 }}
                 variant="outlined"
                 onChange={(event) => {
-                  setConnectionCopy({
-                    ...connectionCopy,
+                  setConnection({
+                    ...connection,
                     ix_vlan_id: event.target.value,
                   })
                 }}
-                value={connectionCopy.ix_vlan_id ?? ''}
+                value={connection.ix_vlan_id ?? ''}
               />
             </FormControl>
           </Grid>
