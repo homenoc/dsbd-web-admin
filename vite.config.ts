@@ -16,6 +16,9 @@ export default defineConfig({
     react(),
     tsconfigPaths(),
     VitePWA({
+      workbox: {
+        maximumFileSizeToCacheInBytes: 3 * 1024 * 1024, // 3 MiB
+      },
       includeAssets: [
         'favicon.ico',
         'logo192.png',

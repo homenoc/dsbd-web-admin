@@ -19,7 +19,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import { useRecoilValue } from 'recoil'
 import { TemplateState } from '../../api/Recoil'
 import { GetAll as ConnectionGetAll } from '../../api/Connection'
-import { ReactMarkdown } from 'react-markdown/lib/react-markdown'
+import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import Dashboard from '../../components/Dashboard/Dashboard'
 import * as Yup from 'yup'
@@ -244,7 +244,7 @@ export default function NoticeAdd() {
   return (
     <Dashboard title="Notice Add">
       <Grid container spacing={3}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <FormHelperText error>
             {errors?.title && errors.title?.message}
           </FormHelperText>
@@ -263,7 +263,7 @@ export default function NoticeAdd() {
             error={!!errors.title}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <FormHelperText error>
             {errors?.body && errors.body?.message}
           </FormHelperText>
@@ -285,17 +285,17 @@ export default function NoticeAdd() {
           <br />
           <br />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <h2>プレビュー ↓</h2>
           <ReactMarkdown skipHtml={true} remarkPlugins={[remarkGfm]}>
             {body}
           </ReactMarkdown>
           プレビュー ↑
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <h2>通知期間</h2>
         </Grid>
-        <Grid item xs={6}>
+        <Grid size={6}>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <Controller
               name="start_time"
@@ -313,7 +313,7 @@ export default function NoticeAdd() {
           </LocalizationProvider>
         </Grid>
         <br />
-        <Grid item xs={6}>
+        <Grid size={6}>
           <FormControlLabel
             control={
               <Checkbox
@@ -344,8 +344,8 @@ export default function NoticeAdd() {
             </LocalizationProvider>
           )}
         </Grid>
-        <Grid item xs={6}></Grid>
-        <Grid item xs={12}>
+        <Grid size={6}></Grid>
+        <Grid size={12}>
           <h2>通知先</h2>
           <FormControlLabel
             control={
@@ -420,7 +420,7 @@ export default function NoticeAdd() {
             </div>
           )}
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <h2>Option</h2>
           <FormControlLabel
             control={
@@ -471,8 +471,8 @@ export default function NoticeAdd() {
             labelPlacement="top"
           />
         </Grid>
-        <Grid item xs={6}></Grid>
-        <Grid item xs={6}></Grid>
+        <Grid size={6}></Grid>
+        <Grid size={6}></Grid>
       </Grid>
       <Box mt={3}>
         <Stack spacing={1} direction="row">

@@ -82,10 +82,10 @@ export default function GroupDetail() {
         </StyledDivRoot1>
       ) : (
         <Grid container spacing={3}>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
             <GroupStatus key={'group_status'} data={group} setReload={reload} />
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
             <GroupMemo key={'group_memo'} data={group} setReload={setReload} />
             <GroupMainMenu
               key={'group_main_menu'}
@@ -94,7 +94,7 @@ export default function GroupDetail() {
               setReload={setReload}
             />
           </Grid>
-          <Grid item xs={12} sm={12} md={6}>
+          <Grid size={{ xs: 12, sm: 12, md: 6 }}>
             <GroupProfileInfo
               key={'group_profile_info'}
               data={group}
@@ -102,7 +102,7 @@ export default function GroupDetail() {
               setReload={setReload}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Service
               key={'service'}
               services={group.services}
@@ -110,20 +110,20 @@ export default function GroupDetail() {
               setReload={setReload}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Ticket key={'ticket'} data={group.tickets} setReload={setReload} />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Request
               key={'request'}
               data={group.tickets}
               setReload={setReload}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Users key={'users'} data={group} />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <MailAutoSendDialogs
               setOpen={setOpenMailAutoSendDialog}
               mails={sendAutoEmail}

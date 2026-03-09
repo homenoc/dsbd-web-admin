@@ -148,7 +148,7 @@ export function MemoAddDialogs(props: {
         <DialogTitle id="customized-dialog-title">Memoの追加</DialogTitle>
         <DialogContent dividers>
           <Grid container spacing={3}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <TextField
                 id="title"
                 label="Memo Title"
@@ -162,7 +162,7 @@ export function MemoAddDialogs(props: {
               />
             </Grid>
             <br />
-            <Grid item xs={12}>
+            <Grid size={12}>
               <TextField
                 id="message"
                 label="Memo Message"
@@ -177,7 +177,7 @@ export function MemoAddDialogs(props: {
               />
             </Grid>
             <br />
-            <Grid item xs={12}>
+            <Grid size={12}>
               <FormControl component="fieldset">
                 <FormLabel component="legend">Type</FormLabel>
                 <RadioGroup
@@ -245,7 +245,7 @@ export function MemoDetailDialogs(props: {
         <DialogTitle id="customized-dialog-title">{data.title}</DialogTitle>
         <DialogContent dividers>
           <Grid container spacing={3}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               {data.message}
               <br />
             </Grid>
