@@ -60,7 +60,12 @@ export default function Group() {
       tmp = initGroups
     } else {
       tmp = initGroups.filter((grp: GroupDetailData) => {
-        return grp.org_en.toLowerCase().includes(search.toLowerCase())
+        const s = search.toLowerCase()
+        return (
+          grp.org.toLowerCase().includes(s) ||
+          grp.org_en.toLowerCase().includes(s) ||
+          String(grp.ID).includes(s)
+        )
       })
     }
     setGroups(tmp)

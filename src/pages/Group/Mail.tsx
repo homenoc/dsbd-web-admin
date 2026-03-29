@@ -89,7 +89,7 @@ export function MailAutoSendDialogs(props: {
       <DialogTitle id="mail-auto-send-dialog-title">Mail送信</DialogTitle>
       <DialogContent dividers>
         <Grid container spacing={3}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <TextField
               id="to"
               label="To"
@@ -101,7 +101,7 @@ export function MailAutoSendDialogs(props: {
             />
           </Grid>
           <br />
-          <Grid item xs={12}>
+          <Grid size={12}>
             <TextField
               id="title"
               label="Mail Subject"
@@ -115,7 +115,7 @@ export function MailAutoSendDialogs(props: {
             />
           </Grid>
           <br />
-          <Grid item xs={12}>
+          <Grid size={12}>
             <TextField
               id="message"
               label="Mail Body"
@@ -161,17 +161,19 @@ export function MailSendDialogs(props: {
     // data.group_id = baseData.ID
     const mailArray = mails.split(',')
     for (const mail of mailArray) {
-      Post({
-        to_mail: mail,
-        subject: data.subject,
-        content: data.content,
-      }).then((res) => {
-        if (res.error === '') {
-          enqueueSnackbar('Request Success', { variant: 'success' })
-        } else {
-          enqueueSnackbar(res.error, { variant: 'error' })
-        }
-      })
+      if (mail !== '') {
+        Post({
+          to_mail: mail,
+          subject: data.subject,
+          content: data.content,
+        }).then((res) => {
+          if (res.error === '') {
+            enqueueSnackbar('Request Success', { variant: 'success' })
+          } else {
+            enqueueSnackbar(res.error, { variant: 'error' })
+          }
+        })
+      }
     }
     setOpen(false)
   }
@@ -211,7 +213,7 @@ export function MailSendDialogs(props: {
       <DialogTitle id="mail-auto-send-dialog-title">Mail送信</DialogTitle>
       <DialogContent dividers>
         <Grid container spacing={3}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Select
               labelId="mail-template-label"
               id="mail-template-select"
@@ -225,7 +227,7 @@ export function MailSendDialogs(props: {
               ))}
             </Select>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <TextField
               id="to"
               label="To"
@@ -237,7 +239,7 @@ export function MailSendDialogs(props: {
             />
           </Grid>
           <br />
-          <Grid item xs={12}>
+          <Grid size={12}>
             <TextField
               id="title"
               label="Mail Subject"
@@ -251,7 +253,7 @@ export function MailSendDialogs(props: {
             />
           </Grid>
           <br />
-          <Grid item xs={12}>
+          <Grid size={12}>
             <TextField
               id="message"
               label="Mail Body"
@@ -354,7 +356,7 @@ export function MailAutoNoticeSendDialogs(props: {
       <DialogTitle id="mail-auto-send-dialog-title">Mail送信</DialogTitle>
       <DialogContent dividers>
         <Grid container spacing={3}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <TextField
               id="to"
               label="To"
@@ -366,7 +368,7 @@ export function MailAutoNoticeSendDialogs(props: {
             />
           </Grid>
           <br />
-          <Grid item xs={12}>
+          <Grid size={12}>
             <TextField
               id="title"
               label="Mail Subject"
@@ -380,7 +382,7 @@ export function MailAutoNoticeSendDialogs(props: {
             />
           </Grid>
           <br />
-          <Grid item xs={12}>
+          <Grid size={12}>
             <TextField
               id="message"
               label="Mail Body"

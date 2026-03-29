@@ -140,7 +140,7 @@ export function AddAssignIPDialog(props: {
         </DialogTitle>
         <DialogContent dividers>
           <Grid container spacing={3}>
-            <Grid item xs={6}>
+            <Grid size={6}>
               <div>
                 <FormLabel component="legend">IPアドレスの追加</FormLabel>
                 <br />
@@ -248,7 +248,7 @@ export function AddAssignIPDialog(props: {
                 <br />
               </div>
             </Grid>
-            <Grid item xs={6}>
+            <Grid size={6}>
               <AddJPNICIPv4Plan
                 data={data}
                 setData={setData}

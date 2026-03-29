@@ -371,7 +371,7 @@ export function GroupProfileInfo(props: {
               </FormControl>
               <br />
               <Grid container spacing={3}>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <StyledButtonSpaceRight
                     size="small"
                     variant="contained"
@@ -389,7 +389,7 @@ export function GroupProfileInfo(props: {
                     解約
                   </StyledButtonSpaceRight>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <StyledButtonSpaceRight
                     size="small"
                     variant="contained"
@@ -407,7 +407,7 @@ export function GroupProfileInfo(props: {
                     支払い(Monthly)
                   </StyledButtonSpaceRight>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <StyledButtonSpaceRight
                     size="small"
                     variant="contained"
@@ -417,7 +417,7 @@ export function GroupProfileInfo(props: {
                     Subscribe管理
                   </StyledButtonSpaceRight>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <StyledButtonSpaceRight
                     size="small"
                     variant="contained"
@@ -656,7 +656,7 @@ export function GroupStatus(props: {
     <StyledCardRoot1>
       <CardContent>
         <Grid container spacing={3}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             {data.expired_status === 1 && (
               <Chip size="small" color="secondary" label={'審査落ち'} />
             )}
