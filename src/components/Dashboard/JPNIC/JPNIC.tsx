@@ -361,7 +361,11 @@ export function JPNICDetail(props: {
         />
       </StyledRootForm>
       <Grid container spacing={2}>
-        <Grid item xs={12} sm={8}>
+        <Grid
+          size={{
+            xs: 12,
+            sm: 8
+          }}>
           <Button
             size="small"
             color="secondary"
@@ -383,7 +387,11 @@ export function JPNICDetail(props: {
           </Button>
         </Grid>
         {!jpnicAdmin && (
-          <Grid item xs={12} sm={4}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 4
+            }}>
             <DeleteAlertDialog
               key={'delete_alert_dialog_' + jpnicCopy.ID}
               setDeleteProcess={setDeleteJPNICTech}
@@ -392,7 +400,7 @@ export function JPNICDetail(props: {
         )}
       </Grid>
     </StyledDivRoot2>
-  )
+  );
 }
 
 export function JPNICTechAdd(props: {
@@ -435,10 +443,12 @@ export function JPNICTechAdd(props: {
         fullScreen={true}
         aria-labelledby="customized-dialog-title"
         open={open}
-        PaperProps={{
-          style: {
-            backgroundColor: '#2b2a2a',
-          },
+        slotProps={{
+          paper: {
+            style: {
+              backgroundColor: '#2b2a2a',
+            },
+          }
         }}
       >
         <DialogTitle id="customized-dialog-title">
@@ -657,5 +667,5 @@ export function JPNICTechAdd(props: {
         </DialogActions>
       </Dialog>
     </StyledRootForm>
-  )
+  );
 }

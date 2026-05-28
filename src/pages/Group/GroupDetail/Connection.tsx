@@ -94,7 +94,11 @@ export function RowConnection(props: {
             )}
           </TableCell>
           <TableCell align="right">
-            <Box display="flex" justifyContent="flex-end">
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "flex-end"
+              }}>
               <Button
                 size="small"
                 variant="outlined"
@@ -119,7 +123,7 @@ export function RowConnection(props: {
         </TableRow>
       ))}
     </TableBody>
-  )
+  );
 }
 
 export function DeleteDialog(props: {

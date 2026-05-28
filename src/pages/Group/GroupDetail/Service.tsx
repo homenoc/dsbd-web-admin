@@ -95,7 +95,11 @@ function RowService(props: {
         </TableCell>
         <TableCell align="left">{service.asn}</TableCell>
         <TableCell align="right">
-          <Box display="flex" justifyContent="flex-end">
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "flex-end"
+            }}>
             {!service.pass && (
               <ExaminationDialog
                 key={'service_examination_dialog_' + service.ID}
@@ -130,7 +134,9 @@ function RowService(props: {
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={7}>
           <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box margin={1}>
+            <Box sx={{
+              margin: 1
+            }}>
               <RowConnectionCheck
                 key={service.ID + 'Connection'}
                 service={service}
@@ -141,7 +147,7 @@ function RowService(props: {
         </TableCell>
       </TableRow>
     </React.Fragment>
-  )
+  );
 }
 
 export function ExaminationDialog(props: {

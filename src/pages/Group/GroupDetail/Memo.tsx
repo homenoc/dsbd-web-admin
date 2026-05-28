@@ -139,45 +139,51 @@ export function MemoAddDialogs(props: {
         onClose={() => setOpen(false)}
         aria-labelledby="customized-dialog-title"
         open={open}
-        PaperProps={{
-          style: {
-            backgroundColor: '#2b2a2a',
-          },
+        slotProps={{
+          paper: {
+            style: {
+              backgroundColor: '#2b2a2a',
+            },
+          }
         }}
       >
         <DialogTitle id="customized-dialog-title">Memoの追加</DialogTitle>
         <DialogContent dividers>
           <Grid container spacing={3}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <TextField
                 id="title"
                 label="Memo Title"
                 type="search"
                 variant="outlined"
-                inputProps={{ maxLength: 10 }}
                 value={data.title}
                 onChange={(event) => {
                   setData({ ...data, title: event.target.value })
                 }}
+                slotProps={{
+                  htmlInput: { maxLength: 10 }
+                }}
               />
             </Grid>
             <br />
-            <Grid item xs={12}>
+            <Grid size={12}>
               <TextField
                 id="message"
                 label="Memo Message"
                 multiline
                 rows={4}
-                inputProps={{ maxLength: 200 }}
                 variant="outlined"
                 value={data.message}
                 onChange={(event) => {
                   setData({ ...data, message: event.target.value })
                 }}
+                slotProps={{
+                  htmlInput: { maxLength: 200 }
+                }}
               />
             </Grid>
             <br />
-            <Grid item xs={12}>
+            <Grid size={12}>
               <FormControl component="fieldset">
                 <FormLabel component="legend">Type</FormLabel>
                 <RadioGroup
@@ -220,7 +226,7 @@ export function MemoAddDialogs(props: {
         </DialogActions>
       </Dialog>
     </div>
-  )
+  );
 }
 
 export function MemoDetailDialogs(props: {
@@ -236,16 +242,18 @@ export function MemoDetailDialogs(props: {
         onClose={() => setOpen(false)}
         aria-labelledby="customized-dialog-title"
         open={open}
-        PaperProps={{
-          style: {
-            backgroundColor: '#2b2a2a',
-          },
+        slotProps={{
+          paper: {
+            style: {
+              backgroundColor: '#2b2a2a',
+            },
+          }
         }}
       >
         <DialogTitle id="customized-dialog-title">{data.title}</DialogTitle>
         <DialogContent dividers>
           <Grid container spacing={3}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               {data.message}
               <br />
             </Grid>
@@ -258,5 +266,5 @@ export function MemoDetailDialogs(props: {
         </DialogActions>
       </Dialog>
     </div>
-  )
+  );
 }

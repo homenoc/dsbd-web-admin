@@ -27,7 +27,6 @@ import { useSnackbar } from 'notistack'
 import { GetTemplate } from '../../api/Group'
 import { useNavigate } from 'react-router-dom'
 import {
-  GenServiceCode,
   GenServiceCodeOnlyService,
 } from '../../components/Tool'
 

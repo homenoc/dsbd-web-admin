@@ -58,24 +58,47 @@ export default function ServiceDetail() {
   return (
     <Dashboard title="Service Dialog">
       <Grid container spacing={3}>
-        <Grid item xs={12} sm={6} md={4} lg={3}>
+        <Grid
+          size={{
+            xs: 12,
+            sm: 6,
+            md: 4,
+            lg: 3
+          }}>
           <ServiceStatus key={'ServiceStatus'} service={service} />
         </Grid>
-        <Grid item xs={12} sm={6} md={4} lg={3}>
+        <Grid
+          size={{
+            xs: 12,
+            sm: 6,
+            md: 4,
+            lg: 3
+          }}>
           <ServiceOpen
             key={'ServiceOpen'}
             service={service}
             setReload={setReload}
           />
         </Grid>
-        <Grid item xs={12} sm={6} md={4} lg={3}>
+        <Grid
+          size={{
+            xs: 12,
+            sm: 6,
+            md: 4,
+            lg: 3
+          }}>
           <ServiceMainMenu
             key={'ServiceMainMenu'}
             service={service}
             setReload={setReload}
           />
         </Grid>
-        <Grid item xs={12} sm={6} lg={3}>
+        <Grid
+          size={{
+            xs: 12,
+            sm: 6,
+            lg: 3
+          }}>
           <StyledCardRoot1>
             <CardContent>
               <h3>Help</h3>
@@ -92,14 +115,14 @@ export default function ServiceDetail() {
             </CardContent>
           </StyledCardRoot1>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <div className={cssModule.contract}>
             <ServiceEtc1 key={'ServiceEtc1'} service={service} />
           </div>
         </Grid>
         {template.services?.find((ser) => ser.type === service.service_type)
           ?.need_jpnic && (
-          <Grid item xs={6}>
+          <Grid size={6}>
             <ServiceIPBase
               key={'ServiceIPBase'}
               ip={service.ip}
@@ -108,12 +131,12 @@ export default function ServiceDetail() {
             />
           </Grid>
         )}
-        <Grid item xs={12}>
+        <Grid size={12}>
           <ServiceEtc2 key={'ServiceEtc2'} service={service} />
         </Grid>
         {template.services?.find((ser) => ser.type === service.service_type)
           ?.need_jpnic && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <ServiceJPNICBase
               key={'ServiceJPNICBase'}
               service={service}
@@ -123,7 +146,7 @@ export default function ServiceDetail() {
         )}
         {template.services?.find((ser) => ser.type === service.service_type)
           ?.need_jpnic && (
-          <Grid item xs={6}>
+          <Grid size={6}>
             <ServiceJPNICAdminBase
               key={'ServiceJPNICAdminBase'}
               serviceID={service.ID}
@@ -134,7 +157,7 @@ export default function ServiceDetail() {
         )}
         {template.services?.find((ser) => ser.type === service.service_type)
           ?.need_jpnic && (
-          <Grid item xs={6}>
+          <Grid size={6}>
             <ServiceJPNICTechBase
               key={'ServiceJPNICTechBase'}
               serviceID={service.ID}
@@ -144,7 +167,7 @@ export default function ServiceDetail() {
             />
           </Grid>
         )}
-        <Grid item xs={12}>
+        <Grid size={12}>
           <ServiceBase
             key={'ServiceBase'}
             service={service}
@@ -154,18 +177,18 @@ export default function ServiceDetail() {
         <Grid>
           <div className={cssModule.contract}></div>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <ConnectionList
             key={'connection_list'}
             service={service}
             setReload={setReload}
           />
         </Grid>
-        <Grid item xs={12}></Grid>
-        <Grid item xs={12}></Grid>
+        <Grid size={12}></Grid>
+        <Grid size={12}></Grid>
       </Grid>
     </Dashboard>
-  )
+  );
 }
 
 export function ServiceStatus(props: { service: ServiceDetailData }) {
@@ -177,17 +200,17 @@ export function ServiceStatus(props: { service: ServiceDetailData }) {
     <StyledCardRoot1>
       <CardContent>
         <Grid container spacing={3}>
-          <Grid item xs={6}>
+          <Grid size={6}>
             <h3>Org</h3>
             {service.org}
           </Grid>
           <br />
-          <Grid item xs={6}>
+          <Grid size={6}>
             <h3>Org(English)</h3>
             {service.org_en}
           </Grid>
           <br />
-          <Grid item xs={12}>
+          <Grid size={12}>
             <h3>Date</h3>
             <StyledChip1 size="small" color="primary" label={createDate} />
             <Chip size="small" color="primary" label={updateDate} />
@@ -195,7 +218,7 @@ export function ServiceStatus(props: { service: ServiceDetailData }) {
         </Grid>
       </CardContent>
     </StyledCardRoot1>
-  )
+  );
 }
 
 export function ServiceMainMenu(props: {
@@ -400,23 +423,23 @@ export function ServiceEtc2(props: { service: ServiceDetailData }) {
         <h3>サービスその他情報</h3>
         <Grid container spacing={3}>
           {service.service_comment !== '' && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <h3>ServiceTypeの追加情報(ServiceComment)</h3>
               {service.service_comment}
             </Grid>
           )}
           {service.bgp_comment !== '' && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <h3>BGPの追加情報(BGPComment)</h3>
               {service.bgp_comment}
             </Grid>
           )}
-          <Grid item xs={12}>
+          <Grid size={12}>
             <h3>その他情報(Comment)</h3>
             {service.comment !== '' && <p>{service.comment}</p>}
             {service.comment === '' && <p>なし</p>}
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <table aria-colspan={2}>
               <thead>
                 <tr>
@@ -435,7 +458,7 @@ export function ServiceEtc2(props: { service: ServiceDetailData }) {
         </Grid>
       </CardContent>
     </Card>
-  )
+  );
 }
 
 export function ServiceJPNICBase(props: {
@@ -626,23 +649,23 @@ export function ServiceBase(props: {
   return (
     <Card>
       <CardContent>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <h3>その他情報</h3>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <h4>Comment</h4>
           {service.comment !== '' && <p>{service.comment}</p>}
           {service.comment === '' && <p>なし</p>}
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <h4>Comment(BGP接続)</h4>
           {service.bgp_comment !== '' && <p>{service.bgp_comment}</p>}
           {service.bgp_comment === '' && <p>なし</p>}
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <h3>情報編集</h3>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <FormControl fullWidth>
             <InputLabel id={'connection_type_label'}>
               サービスタイプ(注意)
@@ -674,7 +697,7 @@ export function ServiceBase(props: {
             </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Button
             size="small"
             color="secondary"
@@ -697,5 +720,5 @@ export function ServiceBase(props: {
         </Grid>
       </CardContent>
     </Card>
-  )
+  );
 }

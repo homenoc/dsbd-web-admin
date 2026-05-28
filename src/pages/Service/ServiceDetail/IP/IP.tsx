@@ -227,7 +227,9 @@ export function ServiceIPRow(props: {
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box margin={1}>
+            <Box sx={{
+              margin: 1
+            }}>
               <StyledRootForm noValidate autoComplete="off">
                 <StyledTextFieldShort
                   required
@@ -257,7 +259,11 @@ export function ServiceIPRow(props: {
                 />
               </StyledRootForm>
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={8}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 8
+                  }}>
                   <Button
                     size="small"
                     color="secondary"
@@ -284,7 +290,11 @@ export function ServiceIPRow(props: {
                     更新
                   </Button>
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 4
+                  }}>
                   <DeleteAlertDialog
                     key={'ip_delete_alert_dialog_' + ip.ID}
                     setDeleteProcess={deleteIP}
@@ -316,7 +326,7 @@ export function ServiceIPRow(props: {
         </TableCell>
       </TableRow>
     </React.Fragment>
-  )
+  );
 }
 
 export function ServiceIPPlanBase(props: {
@@ -419,7 +429,9 @@ export function ServiceIPPlanRow(props: {
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box margin={1}>
+            <Box sx={{
+              margin: 1
+            }}>
               <StyledRootForm noValidate autoComplete="off">
                 <StyledTextFieldShort
                   required
@@ -488,7 +500,11 @@ export function ServiceIPPlanRow(props: {
                 />
               </StyledRootForm>
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 6
+                  }}>
                   <Button
                     size="small"
                     color="secondary"
@@ -508,7 +524,11 @@ export function ServiceIPPlanRow(props: {
                     Apply
                   </Button>
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid
+                  size={{
+                    xs: 12,
+                    sm: 6
+                  }}>
                   <DeleteAlertDialog
                     key={'plan_delete_alert_dialog_' + plan.ID}
                     setDeleteProcess={setDeleteIPPlan}
@@ -520,5 +540,5 @@ export function ServiceIPPlanRow(props: {
         </TableCell>
       </TableRow>
     </React.Fragment>
-  )
+  );
 }

@@ -23,7 +23,6 @@ import { enqueueSnackbar, useSnackbar } from 'notistack'
 import { Update } from '../../../api/Connection'
 import { Open } from '../../../components/Dashboard/Open/Open'
 import {
-  StyledButton1,
   StyledCardRoot3,
   StyledChip1,
   StyledChip2,
@@ -66,26 +65,40 @@ export default function ConnectionDetail() {
   return (
     <Dashboard title="Connection Detail">
       <Grid container spacing={3}>
-        <Grid item xs={12} md={6} lg={3}>
+        <Grid
+          size={{
+            xs: 12,
+            md: 6,
+            lg: 3
+          }}>
           <ConnectionStatus key={'connectionStatus'} connection={connection} />
         </Grid>
-        <Grid item xs={12} md={6} lg={3}>
+        <Grid
+          size={{
+            xs: 12,
+            md: 6,
+            lg: 3
+          }}>
           <ConnectionEtc key={'connectionETC'} connection={connection} />
         </Grid>
-        <Grid item xs={12} lg={6}>
+        <Grid
+          size={{
+            xs: 12,
+            lg: 6
+          }}>
           <ConnectionOpen
             key={'connection_open'}
             connection={connection}
             setReload={setReload}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <ConnectionUserDisplay
             key={'connection_user_display'}
             connection={connection}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <ConnectionEtc2
             key={'connection_etc2'}
             connection={connection}
@@ -94,7 +107,7 @@ export default function ConnectionDetail() {
         </Grid>
       </Grid>
     </Dashboard>
-  )
+  );
 }
 
 export function ConnectionOpenButton(props: {
@@ -421,7 +434,7 @@ export function ConnectionStatus(props: { connection: ConnectionDetailData }) {
     <StyledCardRoot3>
       <CardContent>
         <Grid container spacing={3}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <h3>ServiceCode</h3>
             <StyledChip2 size="small" color="primary" label={serviceCode} />
             <h3>Service Type</h3>
@@ -434,7 +447,7 @@ export function ConnectionStatus(props: { connection: ConnectionDetailData }) {
               }
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid size={6}>
             <h3>BGP IPv4</h3>
             {connection.ipv4_route !== '' && (
               <Chip
@@ -444,7 +457,7 @@ export function ConnectionStatus(props: { connection: ConnectionDetailData }) {
               />
             )}
           </Grid>
-          <Grid item xs={6}>
+          <Grid size={6}>
             <h3>BGP IPv6</h3>
             {connection.ipv6_route !== '' && (
               <Chip
@@ -455,7 +468,7 @@ export function ConnectionStatus(props: { connection: ConnectionDetailData }) {
             )}
           </Grid>
           {connection.ix && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <h3>IX接続</h3>
               <StyledChip2 size="small" color="primary" label={connection.ix} />
               {connection.ix_peer_type && (
@@ -474,7 +487,7 @@ export function ConnectionStatus(props: { connection: ConnectionDetailData }) {
               )}
             </Grid>
           )}
-          <Grid item xs={12}>
+          <Grid size={12}>
             <h3>Date</h3>
             <StyledChip1 size="small" color="primary" label={createDate} />
             <Chip size="small" color="primary" label={updateDate} />
@@ -482,7 +495,7 @@ export function ConnectionStatus(props: { connection: ConnectionDetailData }) {
         </Grid>
       </CardContent>
     </StyledCardRoot3>
-  )
+  );
 }
 
 export function ConnectionEtc(props: { connection: ConnectionDetailData }) {
@@ -495,13 +508,13 @@ export function ConnectionEtc(props: { connection: ConnectionDetailData }) {
     <StyledCardRoot3>
       <CardContent>
         <Grid container spacing={3}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <h3>開通情報</h3>
             <Open open={connection.open} />
             <h3>インターネット接続性</h3>
             {connection.ntt}
           </Grid>
-          <Grid item xs={4}>
+          <Grid size={4}>
             <h3>希望接続</h3>
             <Chip
               size="small"
@@ -509,18 +522,18 @@ export function ConnectionEtc(props: { connection: ConnectionDetailData }) {
               label={connection.preferred_ap}
             />
           </Grid>
-          <Grid item xs={8}>
+          <Grid size={8}>
             <h3>設置場所</h3>
             {connection.address}
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <h3>監視要求</h3>
             <ConnectionMonitorDisplay
               key={'ConnectionMonitor'}
               monitor={connection.monitor}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Stack direction="row" spacing={1}>
               <Button
                 size={'small'}
@@ -535,7 +548,7 @@ export function ConnectionEtc(props: { connection: ConnectionDetailData }) {
         </Grid>
       </CardContent>
     </StyledCardRoot3>
-  )
+  );
 }
 
 export function ConnectionMonitorDisplay(props: { monitor: boolean }) {
@@ -723,20 +736,20 @@ export function ConnectionEtc2(props: {
         </Grid>
         <Grid container spacing={3}>
           {connection.connection_comment !== '' && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <h4>ラックなどの追加情報(Connection Type Comment)</h4>
               {connection.connection_comment}
             </Grid>
           )}
-          <Grid item xs={12}>
+          <Grid size={12}>
             <h4>Comment</h4>
             {connection.comment !== '' && <p>{connection.comment}</p>}
             {connection.comment === '' && <p>なし</p>}
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <h3>情報編集</h3>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <FormControl fullWidth>
               <InputLabel id={'connection_type_label'}>
                 接続タイプ(注意)
@@ -768,7 +781,7 @@ export function ConnectionEtc2(props: {
             </FormControl>
           </Grid>
           <br />
-          <Grid item xs={6}>
+          <Grid size={6}>
             <FormControl fullWidth>
               <InputLabel id="ipv4_route_select_labellabel">
                 IPv4 BGP広報経路
@@ -800,7 +813,7 @@ export function ConnectionEtc2(props: {
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={6}>
+          <Grid size={6}>
             <FormControl fullWidth>
               <InputLabel id="ipv6_route_select_labellabel">
                 IPv6 BGP広報経路
@@ -833,7 +846,7 @@ export function ConnectionEtc2(props: {
             </FormControl>
           </Grid>
           <br />
-          <Grid item xs={6}>
+          <Grid size={6}>
             <FormControl fullWidth>
               <StyledTextFieldMedium
                 label="終端先ユーザの都道府県市町村"
@@ -852,7 +865,7 @@ export function ConnectionEtc2(props: {
               />
             </FormControl>
           </Grid>
-          <Grid item xs={6}>
+          <Grid size={6}>
             <FormControl fullWidth>
               <InputLabel id={'preferred_ap_label'}>希望接続場所</InputLabel>
               <Select
@@ -879,7 +892,7 @@ export function ConnectionEtc2(props: {
             </FormControl>
           </Grid>
           <br />
-          <Grid item xs={12}>
+          <Grid size={12}>
             <FormControl fullWidth>
               <InputLabel id={'ntt_label'}>インターネット接続性</InputLabel>
               <Select
@@ -909,7 +922,7 @@ export function ConnectionEtc2(props: {
             </FormControl>
           </Grid>
           <br />
-          <Grid item xs={3}>
+          <Grid size={3}>
             <FormControl fullWidth>
               <InputLabel id={'monitor_label'}>監視の有無</InputLabel>
               <Select
@@ -937,10 +950,10 @@ export function ConnectionEtc2(props: {
             </FormControl>
           </Grid>
           <br />
-          <Grid item xs={12}>
+          <Grid size={12}>
             <h4>IX接続情報</h4>
           </Grid>
-          <Grid item xs={4}>
+          <Grid size={4}>
             <FormControl fullWidth>
               <InputLabel id={'ix_label'}>IX</InputLabel>
               <Select
@@ -969,7 +982,7 @@ export function ConnectionEtc2(props: {
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={4}>
+          <Grid size={4}>
             <FormControl fullWidth>
               <InputLabel id={'ix_peer_type_label'}>ピアリングタイプ</InputLabel>
               <Select
@@ -999,7 +1012,7 @@ export function ConnectionEtc2(props: {
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={4}>
+          <Grid size={4}>
             <FormControl fullWidth>
               <StyledTextFieldMedium
                 label="IX VLAN-ID"
@@ -1018,7 +1031,7 @@ export function ConnectionEtc2(props: {
               />
             </FormControl>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Button
               size="small"
               color="secondary"
@@ -1042,5 +1055,5 @@ export function ConnectionEtc2(props: {
         </Grid>
       </CardContent>
     </StyledCardRoot3>
-  )
+  );
 }

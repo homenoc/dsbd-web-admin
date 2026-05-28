@@ -48,7 +48,13 @@ export default function UserDetail() {
         </StyledDivRoot1>
       ) : (
         <Grid container spacing={3}>
-          <Grid item xs={12} sm={12} md={6} lg={4}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 12,
+              md: 6,
+              lg: 4
+            }}>
             <StyledCardRoot1>
               <CardContent>
                 <TableContainer component={Paper}>
@@ -167,7 +173,11 @@ export default function UserDetail() {
               </CardContent>
             </StyledCardRoot1>
           </Grid>
-          <Grid item xs={12} sm={9}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 9
+            }}>
             <StyledCardRoot1>
               <CardContent>
                 Operation
@@ -175,7 +185,11 @@ export default function UserDetail() {
               </CardContent>
             </StyledCardRoot1>
           </Grid>
-          <Grid item xs={12} sm={3}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 3
+            }}>
             <StyledCardRoot1>
               <CardContent>
                 Link
@@ -193,9 +207,9 @@ export default function UserDetail() {
               </CardContent>
             </StyledCardRoot1>
           </Grid>
-          <Grid item xs={12}></Grid>
+          <Grid size={12}></Grid>
         </Grid>
       )}
     </Dashboard>
-  )
+  );
 }

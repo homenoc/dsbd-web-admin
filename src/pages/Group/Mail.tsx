@@ -80,16 +80,18 @@ export function MailAutoSendDialogs(props: {
       fullWidth={true}
       aria-labelledby="customized-dialog-title"
       open={open !== ''}
-      PaperProps={{
-        style: {
-          backgroundColor: '#2b2a2a',
-        },
+      slotProps={{
+        paper: {
+          style: {
+            backgroundColor: '#2b2a2a',
+          },
+        }
       }}
     >
       <DialogTitle id="mail-auto-send-dialog-title">Mail送信</DialogTitle>
       <DialogContent dividers>
         <Grid container spacing={3}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <TextField
               id="to"
               label="To"
@@ -101,32 +103,36 @@ export function MailAutoSendDialogs(props: {
             />
           </Grid>
           <br />
-          <Grid item xs={12}>
+          <Grid size={12}>
             <TextField
               id="title"
               label="Mail Subject"
               variant="outlined"
-              inputProps={{ maxLength: 100 }}
               fullWidth={true}
               value={data.subject}
               onChange={(event) => {
                 setData({ ...data, subject: event.target.value })
               }}
+              slotProps={{
+                htmlInput: { maxLength: 100 }
+              }}
             />
           </Grid>
           <br />
-          <Grid item xs={12}>
+          <Grid size={12}>
             <TextField
               id="message"
               label="Mail Body"
               multiline
               rows={8}
               fullWidth={true}
-              inputProps={{ maxLength: 1000 }}
               variant="outlined"
               value={data.content}
               onChange={(event) => {
                 setData({ ...data, content: event.target.value })
+              }}
+              slotProps={{
+                htmlInput: { maxLength: 1000 }
               }}
             />
           </Grid>
@@ -141,7 +147,7 @@ export function MailAutoSendDialogs(props: {
         </Button>
       </DialogActions>
     </Dialog>
-  )
+  );
 }
 
 export function MailSendDialogs(props: {
@@ -154,7 +160,7 @@ export function MailSendDialogs(props: {
   const template = useRecoilValue(TemplateState)
   const [data, setData] = React.useState(DefaultMailSendData)
   const [processID, setProcessID] = React.useState('')
-  const [toMail, setToMail] = React.useState(mails)
+  const [, setToMail] = React.useState(mails)
   const { enqueueSnackbar } = useSnackbar()
 
   const request = () => {
@@ -202,16 +208,18 @@ export function MailSendDialogs(props: {
       fullWidth={true}
       aria-labelledby="customized-dialog-title"
       open={open}
-      PaperProps={{
-        style: {
-          backgroundColor: '#2b2a2a',
-        },
+      slotProps={{
+        paper: {
+          style: {
+            backgroundColor: '#2b2a2a',
+          },
+        }
       }}
     >
       <DialogTitle id="mail-auto-send-dialog-title">Mail送信</DialogTitle>
       <DialogContent dividers>
         <Grid container spacing={3}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Select
               labelId="mail-template-label"
               id="mail-template-select"
@@ -225,7 +233,7 @@ export function MailSendDialogs(props: {
               ))}
             </Select>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <TextField
               id="to"
               label="To"
@@ -237,32 +245,36 @@ export function MailSendDialogs(props: {
             />
           </Grid>
           <br />
-          <Grid item xs={12}>
+          <Grid size={12}>
             <TextField
               id="title"
               label="Mail Subject"
               variant="outlined"
-              inputProps={{ maxLength: 100 }}
               fullWidth={true}
               value={data.subject}
               onChange={(event) => {
                 setData({ ...data, subject: event.target.value })
               }}
+              slotProps={{
+                htmlInput: { maxLength: 100 }
+              }}
             />
           </Grid>
           <br />
-          <Grid item xs={12}>
+          <Grid size={12}>
             <TextField
               id="message"
               label="Mail Body"
               multiline
               rows={8}
               fullWidth={true}
-              inputProps={{ maxLength: 1000 }}
               variant="outlined"
               value={data.content}
               onChange={(event) => {
                 setData({ ...data, content: event.target.value })
+              }}
+              slotProps={{
+                htmlInput: { maxLength: 1000 }
               }}
             />
           </Grid>
@@ -277,7 +289,7 @@ export function MailSendDialogs(props: {
         </Button>
       </DialogActions>
     </Dialog>
-  )
+  );
 }
 
 export function MailAutoNoticeSendDialogs(props: {
@@ -345,16 +357,18 @@ export function MailAutoNoticeSendDialogs(props: {
       fullWidth={true}
       aria-labelledby="customized-dialog-title"
       open={open}
-      PaperProps={{
-        style: {
-          backgroundColor: '#2b2a2a',
-        },
+      slotProps={{
+        paper: {
+          style: {
+            backgroundColor: '#2b2a2a',
+          },
+        }
       }}
     >
       <DialogTitle id="mail-auto-send-dialog-title">Mail送信</DialogTitle>
       <DialogContent dividers>
         <Grid container spacing={3}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <TextField
               id="to"
               label="To"
@@ -366,32 +380,36 @@ export function MailAutoNoticeSendDialogs(props: {
             />
           </Grid>
           <br />
-          <Grid item xs={12}>
+          <Grid size={12}>
             <TextField
               id="title"
               label="Mail Subject"
               variant="outlined"
-              inputProps={{ maxLength: 100 }}
               fullWidth={true}
               value={data.subject}
               onChange={(event) => {
                 setData({ ...data, subject: event.target.value })
               }}
+              slotProps={{
+                htmlInput: { maxLength: 100 }
+              }}
             />
           </Grid>
           <br />
-          <Grid item xs={12}>
+          <Grid size={12}>
             <TextField
               id="message"
               label="Mail Body"
               multiline
               rows={8}
               fullWidth={true}
-              inputProps={{ maxLength: 1000 }}
               variant="outlined"
               value={data.content}
               onChange={(event) => {
                 setData({ ...data, content: event.target.value })
+              }}
+              slotProps={{
+                htmlInput: { maxLength: 1000 }
               }}
             />
           </Grid>
@@ -406,5 +424,5 @@ export function MailAutoNoticeSendDialogs(props: {
         </Button>
       </DialogActions>
     </Dialog>
-  )
+  );
 }

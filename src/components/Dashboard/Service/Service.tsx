@@ -115,7 +115,11 @@ export function StatusTable(props: {
                   )}
                 </TableCell>
                 <TableCell style={{ width: 300 }} align="right">
-                  <Box display="flex" justifyContent="flex-end">
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "flex-end"
+                    }}>
                     {!row.pass && (
                       <ExaminationDialog
                         key={'service_examination_dialog_' + index}
@@ -175,5 +179,5 @@ export function StatusTable(props: {
         />
       </FormControl>
     </Box>
-  )
+  );
 }

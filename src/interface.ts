@@ -1033,3 +1033,92 @@ export const DefaultJPNICReturnData: JPNICReturnData = {
   return_date: '',
   notify_e_mail: '',
 }
+
+export interface BGPRouterData {
+  ID: number
+  CreatedAt?: string
+  UpdatedAt?: string
+  noc_id: number
+  hostname: string
+  address: string
+  enable: boolean
+  comment: string
+}
+
+export const DefaultBGPRouterData: BGPRouterData = {
+  ID: 0,
+  noc_id: 0,
+  hostname: '',
+  address: '',
+  enable: false,
+  comment: '',
+}
+
+export const DefaultBGPRouterDataArray: BGPRouterData[] = []
+
+export interface TunnelEndPointRouterData {
+  ID: number
+  CreatedAt?: string
+  UpdatedAt?: string
+  noc_id: number
+  hostname: string
+  capacity: number
+  enable: boolean
+  comment: string
+  tunnel_endpoint_router_ip?: TunnelEndPointRouterIPData[]
+}
+
+export const DefaultTunnelEndPointRouterData: TunnelEndPointRouterData = {
+  ID: 0,
+  noc_id: 0,
+  hostname: '',
+  capacity: 0,
+  enable: false,
+  comment: '',
+}
+
+export const DefaultTunnelEndPointRouterDataArray: TunnelEndPointRouterData[] =
+  []
+
+export interface TunnelEndPointRouterIPData {
+  ID: number
+  CreatedAt?: string
+  UpdatedAt?: string
+  tunnel_endpoint_router_id: number
+  ip: string
+  enable: boolean
+  comment: string
+}
+
+export const DefaultTunnelEndPointRouterIPData: TunnelEndPointRouterIPData = {
+  ID: 0,
+  tunnel_endpoint_router_id: 0,
+  ip: '',
+  enable: false,
+  comment: '',
+}
+
+export const DefaultTunnelEndPointRouterIPDataArray: TunnelEndPointRouterIPData[] =
+  []
+
+export interface NocData {
+  ID: number
+  CreatedAt?: string
+  UpdatedAt?: string
+  name: string
+  location: string
+  bandwidth: string
+  enable: boolean
+  comment: string
+}
+
+export const DefaultNocData: NocData = {
+  ID: 0,
+  name: '',
+  location: '',
+  bandwidth: '',
+  enable: false,
+  comment: '',
+}
+
+export const DefaultNocDataArray: NocData[] = []

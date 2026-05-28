@@ -16,7 +16,6 @@ import {
 import {
   DefaultTemplateData,
   DefaultTicketAddData,
-  TemplateData,
 } from '../../interface'
 import Dashboard from '../../components/Dashboard/Dashboard'
 import { useSnackbar } from 'notistack'
@@ -83,7 +82,7 @@ export default function SupportAdd() {
   return (
     <Dashboard title="Support Add">
       <Grid container spacing={3}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <h3>ユーザチャットとグループチャットの違い</h3>
           <div>ユーザチャット: ログインユーザと1対1のチャットになります。</div>
           <div>
@@ -91,7 +90,7 @@ export default function SupportAdd() {
             ログインユーザのグループとのチャット（基本はこちらでお願いします。）
           </div>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <RadioGroup
             row
             aria-label="position"
@@ -176,7 +175,7 @@ export default function SupportAdd() {
             </FormControl>
           )}
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <StyledTextFieldVeryLong
             id="title"
             label="Title"
@@ -199,7 +198,7 @@ export default function SupportAdd() {
             variant="outlined"
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <h3>内容のプレビュー ↓</h3>
           <ReactMarkdown skipHtml={true} remarkPlugins={[remarkGfm]}>
             {data.data}
@@ -213,7 +212,9 @@ export default function SupportAdd() {
         open={openMailAutoSendDialog}
         org={name}
       />
-      <Box mt={3}>
+      <Box sx={{
+        mt: 3
+      }}>
         <Stack spacing={1} direction="row">
           <Button onClick={request} color="primary" variant="contained">
             登録
@@ -221,5 +222,5 @@ export default function SupportAdd() {
         </Stack>
       </Box>
     </Dashboard>
-  )
+  );
 }

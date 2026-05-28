@@ -20,9 +20,7 @@ import {
 import { Delete, GetAll } from '../../api/Notice'
 import { DefaultNoticeDataArray, NoticeData } from '../../interface'
 import { useSnackbar } from 'notistack'
-import { useRecoilValue } from 'recoil'
-import { TemplateState } from '../../api/Recoil'
-import { ReactMarkdown } from 'react-markdown/lib/react-markdown'
+import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { useNavigate } from 'react-router-dom'
 import { getStringFromDate } from '../../components/Tool'
@@ -30,7 +28,6 @@ import { getStringFromDate } from '../../components/Tool'
 export default function Notice() {
   const [tickets, setTickets] = useState(DefaultNoticeDataArray)
   const [initTickets, setInitTickets] = useState(DefaultNoticeDataArray)
-  const template = useRecoilValue(TemplateState)
   const navigate = useNavigate()
   const [reload, setReload] = useState(true)
   const { enqueueSnackbar } = useSnackbar()
