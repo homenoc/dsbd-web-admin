@@ -127,7 +127,9 @@ export function ServiceJPNICTechRow(props: {
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box margin={1}>
+            <Box sx={{
+              margin: 1
+            }}>
               <JPNICDetail
                 key={'jpnic_tech_detail_' + serviceID}
                 jpnicAdmin={false}
@@ -140,5 +142,5 @@ export function ServiceJPNICTechRow(props: {
         </TableCell>
       </TableRow>
     </React.Fragment>
-  )
+  );
 }

@@ -18,7 +18,6 @@ import {
   Theme,
   Box,
   Typography,
-  Container,
   ListItemButton,
 } from '@mui/material'
 import MuiDrawer from '@mui/material/Drawer'
@@ -136,7 +135,7 @@ export default function Dashboard(props: DashboardProps) {
   }, [isMobile, props.forceDrawerClosed])
 
   const [loading, setLoading] = React.useState(true)
-  const [template, setTemplate] = useRecoilState(TemplateState)
+  const [, setTemplate] = useRecoilState(TemplateState)
   const { enqueueSnackbar } = useSnackbar()
 
   useEffect(() => {
@@ -177,6 +176,7 @@ export default function Dashboard(props: DashboardProps) {
   const ConnectionPage = () => navigate('/dashboard/connection')
   const UserPage = () => navigate('/dashboard/user')
   const TokenPage = () => navigate('/dashboard/token')
+  const SettingPage = () => navigate('/dashboard/setting')
 
   return (
     <ThemeProvider theme={muiColorTheme}>
@@ -277,7 +277,7 @@ export default function Dashboard(props: DashboardProps) {
                 </ListItemButton>
               </List>
             </Collapse>
-            <ListItemButton>
+            <ListItemButton onClick={SettingPage}>
               <ListItemIcon>
                 <SettingsIcon />
               </ListItemIcon>
@@ -289,7 +289,12 @@ export default function Dashboard(props: DashboardProps) {
         {!loading && (
           <Box component="main" sx={{ flexGrow: 1, p: 3, ...props.sx }}>
             <StyledDivDashboardToolBarIcon />
-            <Typography sx={{ m: 1 }} variant="h5" color="inherit">
+            <Typography
+              variant="h5"
+              sx={{
+                color: "inherit",
+                m: 1
+              }}>
               {props.title}
             </Typography>
             {props.children}
@@ -297,7 +302,7 @@ export default function Dashboard(props: DashboardProps) {
         )}
       </Box>
     </ThemeProvider>
-  )
+  );
 }
 
 export function UserMenu() {
@@ -336,11 +341,13 @@ export function UserMenu() {
         keepMounted
         open={open}
         onClose={handleClose}
-        TransitionComponent={Fade}
+        slots={{
+          transition: Fade
+        }}
       >
         {/*<MenuItem onClick={handleClose}>Profile</MenuItem>*/}
         <MenuItem onClick={clickLogout}>Logout</MenuItem>
       </Menu>
     </StyledDivDashboardRoot>
-  )
+  );
 }

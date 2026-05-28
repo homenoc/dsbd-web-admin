@@ -21,6 +21,7 @@ import NoticeDetail from './pages/Notice/NoticeDetail'
 import ConnectionDetail from './pages/Connection/ConnectionDetail/ConnectionDetail'
 import ServiceDetail from './pages/Service/ServiceDetail/ServiceDetail'
 import SupportAdd from './pages/Support/SupportAdd'
+import Setting from './pages/Setting/Setting'
 
 export default class App extends React.Component {
   render() {
@@ -57,6 +58,7 @@ export default class App extends React.Component {
           <Route path="/dashboard/user" element={<User />} />
           <Route path="/dashboard/user/:id" element={<UserDetail />} />
           <Route path="/dashboard/token" element={<Token />} />
+          <Route path="/dashboard/setting" element={<Setting />} />
         </Routes>
       </BrowserRouter>
     )

@@ -452,7 +452,7 @@ export default function ServiceAdd() {
 
   const serviceType = watch('service_type')
 
-  const onSubmit = (data: any, e: any) => {
+  const onSubmit = (data: any) => {
     const start_date =
       data.start_date.getFullYear() +
       '-' +
@@ -608,7 +608,7 @@ export default function ServiceAdd() {
       <Fragment>
         <Grid container spacing={3}>
           <br />
-          <Grid item xs={12}>
+          <Grid size={12}>
             <FormControl
               component="fieldset"
               error={errors?.hasOwnProperty('service_type')}
@@ -645,7 +645,7 @@ export default function ServiceAdd() {
             </FormControl>
             <br />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <FormControl component="fieldset">
               <FormLabel>1.1.0. Abuse情報</FormLabel>
               <Typography variant="subtitle1" gutterBottom component="div">
@@ -664,7 +664,7 @@ export default function ServiceAdd() {
             </FormControl>
           </Grid>
           {getBool(isNeedJPNIC(serviceType)) && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <FormControl component="fieldset">
                 <FormLabel>
                   1.1.1. 割り当てを希望するIPアドレスをお知らせください
@@ -961,7 +961,7 @@ export default function ServiceAdd() {
             </Grid>
           )}
           {getBool(isGlobalAS()) && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <FormControl component="fieldset">
                 <FormLabel>1.1.1. AS番号</FormLabel>
                 <Typography variant="subtitle1" gutterBottom component="div">
@@ -983,7 +983,7 @@ export default function ServiceAdd() {
             </Grid>
           )}
           {getBool(isGlobalAS()) && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <FormControl component="fieldset">
                 <FormLabel>1.1.2. 広報する経路など</FormLabel>
                 <Typography variant="subtitle1" gutterBottom component="div">
@@ -1005,7 +1005,7 @@ export default function ServiceAdd() {
             </Grid>
           )}
           {getBool(isNeedJPNIC(serviceType)) && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <FormControl component="fieldset">
                 <FormLabel>1.2.1. 基本登録情報</FormLabel>
                 <div>JPNIC/HomeNOCに登録する情報を記入してください。</div>
@@ -1072,7 +1072,7 @@ export default function ServiceAdd() {
             </Grid>
           )}
           {getBool(isNeedJPNIC(serviceType)) && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <FormControl component="fieldset">
                 <FormLabel>1.2.2. 管理者連絡窓口</FormLabel>
                 <div>割り当てるIPアドレスの管理連絡窓口をご記入ください。</div>
@@ -1295,7 +1295,7 @@ export default function ServiceAdd() {
             </Grid>
           )}
           {getBool(isNeedJPNIC(serviceType)) && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <FormControl component="fieldset">
                 <FormLabel>1.2.3. 技術連絡担当者</FormLabel>
                 <div>割り当てるIPアドレスの管理連絡窓口をご記入ください</div>
@@ -1594,7 +1594,7 @@ export default function ServiceAdd() {
               </FormControl>
             </Grid>
           )}
-          <Grid item xs={12}>
+          <Grid size={12}>
             <FormControl component="fieldset">
               <FormLabel>2. 利用開始・終了日</FormLabel>
               <div>
@@ -1664,7 +1664,7 @@ export default function ServiceAdd() {
               )}
             </FormControl>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <FormControl component="fieldset">
               <FormLabel>3. ご利用帯域について教えてください。</FormLabel>
               <div>
@@ -1719,7 +1719,7 @@ export default function ServiceAdd() {
               </StyledRootForm>
             </FormControl>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <FormControl component="fieldset">
               <FormLabel>
                 3.1. 特定のASに対する大量の通信があるか教えてください
@@ -1757,7 +1757,7 @@ export default function ServiceAdd() {
               </StyledRootForm>
             </FormControl>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <FormControl component="fieldset">
               <FormLabel>4. その他</FormLabel>
               <Typography variant="subtitle1" gutterBottom component="div">
@@ -1777,12 +1777,14 @@ export default function ServiceAdd() {
         </Grid>
         <br />
         <br />
-        <Box mt={3}>
+        <Box sx={{
+          mt: 3
+        }}>
           <Button variant="contained" onClick={handleSubmit(onSubmit, onError)}>
             申請する
           </Button>
         </Box>
       </Fragment>
     </Dashboard>
-  )
+  );
 }

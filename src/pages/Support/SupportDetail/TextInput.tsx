@@ -10,7 +10,7 @@ import {
   Divider,
   Typography,
 } from '@mui/material'
-import { ReactMarkdown } from 'react-markdown/lib/react-markdown'
+import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 
 export const TextInput = (props: {

@@ -60,7 +60,7 @@ export default function NoticeDetail() {
   return (
     <Dashboard title="通知機能の追加">
       <Grid container spacing={3}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <StyledTextFieldWrapTitle
             id="title"
             label="Title"
@@ -78,7 +78,7 @@ export default function NoticeDetail() {
             variant="outlined"
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <StyledTextFieldWrap
             id="message"
             label="Message - Markdown準拠"
@@ -99,17 +99,17 @@ export default function NoticeDetail() {
           <br />
           <br />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <h2>プレビュー ↓</h2>
           <ReactMarkdown skipHtml={true} remarkPlugins={[remarkGfm]}>
             {data.data}
           </ReactMarkdown>
           プレビュー ↑
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <h2>通知期間</h2>
         </Grid>
-        <Grid item xs={6}>
+        <Grid size={6}>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DateTimePicker
               label="掲示開始日"
@@ -120,7 +120,7 @@ export default function NoticeDetail() {
             />
           </LocalizationProvider>
         </Grid>
-        <Grid item xs={6}>
+        <Grid size={6}>
           <FormControlLabel
             control={
               <Checkbox
@@ -145,14 +145,14 @@ export default function NoticeDetail() {
             </LocalizationProvider>
           )}
         </Grid>
-        <Grid item xs={6}></Grid>
-        <Grid item xs={12}>
+        <Grid size={6}></Grid>
+        <Grid size={12}>
           <h2>通知先</h2>
           <p>
             通知先を変更する場合は、該当通知を削除してから再追加してください。
           </p>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <h2>Option</h2>
           <FormControlLabel
             control={
@@ -200,5 +200,5 @@ export default function NoticeDetail() {
         更新
       </Button>
     </Dashboard>
-  )
+  );
 }

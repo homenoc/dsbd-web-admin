@@ -90,10 +90,12 @@ export default function Dashboard() {
     <DashboardComponent title="Dashboard">
       <Grid container spacing={3}>
         {!reload && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Card sx={{ minWidth: 200 }}>
               <CardContent>
-                <Stack direction={{ xs: "column", sm: "row"}} spacing={1} useFlexGap flexWrap="wrap">
+                <Stack direction={{ xs: "column", sm: "row"}} spacing={1} useFlexGap sx={{
+                  flexWrap: "wrap"
+                }}>
                   <Chip
                     color="primary"
                     style={{
@@ -150,21 +152,21 @@ export default function Dashboard() {
             </Card>
           </Grid>
         )}
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Ticket
             key={'ticket'}
             data={ticket?.filter((item: TicketDetailData) => !item.solved)}
             setReload={setReload}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Request
             key={'request'}
             data={request?.filter((item: TicketDetailData) => !item.solved)}
             setReload={setReload}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Service
             key={'service'}
             data={service?.filter(
@@ -174,7 +176,7 @@ export default function Dashboard() {
             setReload={setReload}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Connection
             key={'connection'}
             data={connection?.filter(
@@ -184,7 +186,7 @@ export default function Dashboard() {
             setReload={setReload}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Group
             key={'group'}
             data={template?.group?.filter((item) => {
@@ -278,7 +280,7 @@ export default function Dashboard() {
               ) : (<></>)
           }
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <MemoGroup
             key={'group_memo'}
             data={template?.group}
@@ -287,5 +289,5 @@ export default function Dashboard() {
         </Grid>
       </Grid>
     </DashboardComponent>
-  )
+  );
 }

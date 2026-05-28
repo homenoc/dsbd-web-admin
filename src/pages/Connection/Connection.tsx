@@ -34,7 +34,7 @@ export default function Connection() {
   const [connections, setConnections] = useState(
     DefaultConnectionDetailDataArray
   )
-  const [template, setTemplate] = useRecoilState(TemplateState)
+  const [, setTemplate] = useRecoilState(TemplateState)
   const [initConnections, setInitConnections] = useState(
     DefaultConnectionDetailDataArray
   )

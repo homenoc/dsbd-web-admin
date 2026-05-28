@@ -11,7 +11,7 @@ export function GroupStatusButton(props: {
   setReload: Dispatch<SetStateAction<boolean>>
 }) {
   const { data, autoMail, setReload } = props
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
+  const [, setAnchorEl] = React.useState<null | HTMLElement>(null)
 
   const handleClose = () => {
     setAnchorEl(null)

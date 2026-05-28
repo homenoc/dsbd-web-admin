@@ -311,7 +311,7 @@ export default function ConnectionAdd() {
     <DashboardComponent title="接続情報の追加">
       <Fragment>
         <Grid container spacing={3}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <FormControl
               component="fieldset"
               error={errors?.hasOwnProperty('service_code')}
@@ -346,7 +346,7 @@ export default function ConnectionAdd() {
             </FormControl>
           </Grid>
           {serviceID !== 0 && isNeedBGP() && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <FormLabel component="legend">
                 1.1. BGPで当団体から広報する経路種類を選択してください。
               </FormLabel>
@@ -407,7 +407,7 @@ export default function ConnectionAdd() {
             </Grid>
           )}
           {ipv4Route === 'etc' && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <FormControl
                 component="fieldset"
                 error={errors?.hasOwnProperty('term_ip')}
@@ -426,7 +426,7 @@ export default function ConnectionAdd() {
             </Grid>
           )}
           {ipv6Route === 'etc' && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <FormControl
                 component="fieldset"
                 error={errors?.hasOwnProperty('term_ip')}
@@ -445,7 +445,7 @@ export default function ConnectionAdd() {
             </Grid>
           )}
           {serviceType !== '' && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <FormControl
                 component="fieldset"
                 error={errors?.hasOwnProperty('connection_template_id')}
@@ -486,7 +486,7 @@ export default function ConnectionAdd() {
             </Grid>
           )}
           {connectionType !== '' && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <FormControl component="fieldset">
                 <FormLabel component="legend">2.1. RFC8950の利用</FormLabel>
                 <div>
@@ -512,7 +512,7 @@ export default function ConnectionAdd() {
             </Grid>
           )}
           {isNeedComment(connectionType) && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <FormControl
                 component="fieldset"
                 error={errors?.hasOwnProperty('comment')}
@@ -539,7 +539,7 @@ export default function ConnectionAdd() {
             </Grid>
           )}
           {isIXConnection(connectionType) && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <FormControl
                 component="fieldset"
                 error={errors?.hasOwnProperty('ix')}
@@ -571,7 +571,7 @@ export default function ConnectionAdd() {
             </Grid>
           )}
           {isIXConnection(connectionType) && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <FormControl
                 component="fieldset"
                 error={errors?.hasOwnProperty('ix_peer_type')}
@@ -608,7 +608,7 @@ export default function ConnectionAdd() {
             </Grid>
           )}
           {isIXConnection(connectionType) && ixPeerType === 'PI/CUG' && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <FormControl
                 component="fieldset"
                 error={errors?.hasOwnProperty('ix_vlan_id')}
@@ -629,7 +629,7 @@ export default function ConnectionAdd() {
             </Grid>
           )}
           {isIXConnection(connectionType) && ixPeerType !== 'PI/CUG' && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <FormControl
                 component="fieldset"
                 error={
@@ -674,7 +674,7 @@ export default function ConnectionAdd() {
             </Grid>
           )}
           {!isIXConnection(connectionType) && !isCrossConnect(connectionType) && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <FormControl
                 component="fieldset"
                 error={errors?.hasOwnProperty('preferred_ap')}
@@ -711,7 +711,7 @@ export default function ConnectionAdd() {
             </Grid>
           )}
           {isNeedInternet(connectionType) && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <FormControl
                 component="fieldset"
                 error={errors?.hasOwnProperty('address')}
@@ -736,7 +736,7 @@ export default function ConnectionAdd() {
             </Grid>
           )}
           {isNeedInternet(connectionType) && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <FormControl
                 component="fieldset"
                 error={errors?.hasOwnProperty('term_ip')}
@@ -761,7 +761,7 @@ export default function ConnectionAdd() {
             </Grid>
           )}
           {isNeedInternet(connectionType) && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <FormControl
                 component="fieldset"
                 error={errors?.hasOwnProperty('ntt_template_id')}
@@ -801,7 +801,7 @@ export default function ConnectionAdd() {
             </Grid>
           )}
           {ntt === 'etc' && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <FormControl
                 component="fieldset"
                 error={errors?.hasOwnProperty('term_ip')}
@@ -819,7 +819,7 @@ export default function ConnectionAdd() {
               </FormControl>
             </Grid>
           )}
-          <Grid item xs={12}>
+          <Grid size={12}>
             <FormControl
               component="fieldset"
               error={errors?.hasOwnProperty('monitor')}
@@ -853,7 +853,7 @@ export default function ConnectionAdd() {
               />
             </FormControl>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <FormControl component="fieldset">
               <FormLabel>5. その他</FormLabel>
               <Typography variant="subtitle1" gutterBottom component="div">
@@ -873,12 +873,14 @@ export default function ConnectionAdd() {
         </Grid>
         <br />
         <br />
-        <Box mt={3}>
+        <Box sx={{
+          mt: 3
+        }}>
           <Button variant="contained" onClick={handleSubmit(onSubmit, onError)}>
             申請する
           </Button>
         </Box>
       </Fragment>
     </DashboardComponent>
-  )
+  );
 }
