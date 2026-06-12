@@ -339,7 +339,6 @@ export function ConnectionOpenL3User(props: {
 }) {
   const { connection, setConnection, lock } = props
   const template = useRecoilValue(TemplateState)
-  const ipv4ReadOnly = lock || connection.rfc8950
 
   if (
     connection.service === undefined ||
@@ -351,34 +350,35 @@ export function ConnectionOpenL3User(props: {
   }
   return (
     <div>
-      <StyledTextFieldMedium
-        required
-        id="l3_ipv4_admin"
-        label="L3 IPv4(HomeNOC側)"
-        InputProps={{
-          readOnly: ipv4ReadOnly,
-        }}
-        value={connection.link_v4_our ?? ''}
-        variant="outlined"
-        onChange={(event) => {
-          setConnection({ ...connection, link_v4_our: event.target.value })
-        }}
-      />
-      <StyledTextFieldMedium
-        required
-        id="l3_ipv4_user"
-        label="L3 IPv4(ユーザ側)"
-        InputProps={{
-          readOnly: ipv4ReadOnly,
-        }}
-        value={connection.link_v4_your ?? ''}
-        variant="outlined"
-        onChange={(event) => {
-          setConnection({ ...connection, link_v4_your: event.target.value })
-        }}
-      />
-      {connection.rfc8950 && (
-        <p>RFC8950利用のためIPv4境界アドレスは設定不要です。</p>
+      {!connection.rfc8950 && (
+        <>
+          <StyledTextFieldMedium
+            required
+            id="l3_ipv4_admin"
+            label="L3 IPv4(HomeNOC側)"
+            InputProps={{
+              readOnly: lock,
+            }}
+            value={connection.link_v4_our ?? ''}
+            variant="outlined"
+            onChange={(event) => {
+              setConnection({ ...connection, link_v4_our: event.target.value })
+            }}
+          />
+          <StyledTextFieldMedium
+            required
+            id="l3_ipv4_user"
+            label="L3 IPv4(ユーザ側)"
+            InputProps={{
+              readOnly: lock,
+            }}
+            value={connection.link_v4_your ?? ''}
+            variant="outlined"
+            onChange={(event) => {
+              setConnection({ ...connection, link_v4_your: event.target.value })
+            }}
+          />
+        </>
       )}
       <br />
       <StyledTextFieldMedium

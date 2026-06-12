@@ -211,7 +211,7 @@ export function GroupProfileInfo(props: {
                     }}
                     variant="outlined"
                     onChange={(event) => {
-                      setGroup({ ...data, postcode: event.target.value })
+                      setGroup(prev => ({ ...prev, postcode: event.target.value }))
                     }}
                   />
                   <StyledTextFieldMedium
@@ -224,7 +224,7 @@ export function GroupProfileInfo(props: {
                     }}
                     variant="outlined"
                     onChange={(event) => {
-                      setGroup({ ...data, address: event.target.value })
+                      setGroup(prev => ({ ...prev, address: event.target.value }))
                     }}
                   />
                   <StyledTextFieldMedium
@@ -237,7 +237,7 @@ export function GroupProfileInfo(props: {
                     }}
                     variant="outlined"
                     onChange={(event) => {
-                      setGroup({ ...data, address_en: event.target.value })
+                      setGroup(prev => ({ ...prev, address_en: event.target.value }))
                     }}
                   />
                   <StyledTextFieldVeryShort1
@@ -250,7 +250,7 @@ export function GroupProfileInfo(props: {
                     }}
                     variant="outlined"
                     onChange={(event) => {
-                      setGroup({ ...data, tel: event.target.value })
+                      setGroup(prev => ({ ...prev, tel: event.target.value }))
                     }}
                   />
                   <StyledTextFieldVeryShort1
@@ -263,7 +263,7 @@ export function GroupProfileInfo(props: {
                     }}
                     variant="outlined"
                     onChange={(event) => {
-                      setGroup({ ...data, country: event.target.value })
+                      setGroup(prev => ({ ...prev, country: event.target.value }))
                     }}
                   />
                 </StyledRootForm>
